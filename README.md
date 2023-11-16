@@ -8,7 +8,7 @@
 
 ### Requirements ###
 
-Python版本需要不低于2.7。
+Python version >=2.7。
 
 ### Install ###
 
@@ -27,20 +27,20 @@ python setup.py install --user
 
 
 ### Usage ###
-步骤一：启动时初始化，配置 Configuration 全局默认参数
+1：config Configuration 
 ```python
 configuration = byteplussdkcore.Configuration()
-configuration.client_side_validation = True  # 客户端是否进行参数校验
-configuration.schema = "http"  # https or http
-configuration.debug = False  # 是否开启调试
+configuration.client_side_validation = True  
+configuration.schema = "http" 
+configuration.debug = False 
 configuration.logger_file = "sdk.log"
 
 byteplussdkcore.Configuration.set_default(configuration)
 ```
-步骤二：获取 Client
+2：get Client
 ```python
 def get_client(ak, sk, region):
-    # 包含默认属性
+
     configuration = byteplussdkcore.Configuration()
     configuration.ak = ak
     configuration.sk = sk
