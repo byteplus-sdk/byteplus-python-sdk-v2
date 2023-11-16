@@ -37,14 +37,3 @@ configuration.logger_file = "sdk.log"
 
 byteplussdkcore.Configuration.set_default(configuration)
 ```
-2：get Client
-```python
-def get_client(ak, sk, region):
-
-    configuration = byteplussdkcore.Configuration()
-    configuration.ak = ak
-    configuration.sk = sk
-    configuration.region = region
-    client = byteplussdkautoscaling.AUTOSCALINGApi(byteplussdkcore.ApiClient(configuration))
-    return client
-```
