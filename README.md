@@ -14,7 +14,7 @@ Python version >=2.7。
 
 Install via pip
 ```sh
-pip install byteplus-python-sdk
+pip install byteplus-python-sdk-v2
 ```
 
 Install via [Setuptools](http://pypi.python.org/pypi/setuptools).
