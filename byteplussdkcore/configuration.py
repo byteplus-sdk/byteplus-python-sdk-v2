@@ -34,7 +34,7 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
 
     def __init__(self):
         # Default Base url
-        self.host = "open.byteplusapi.com"
+        self.host = ""
         # Schema Support http or https
         self.schema = "http"
         # Temp file folder for downloading files
@@ -94,7 +94,7 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
         self.safe_chars_for_path_param = ''
 
         # Disable client side validation
-        self.client_side_validation = True
+        self.client_side_validation = False
 
     @property
     def logger_file(self):

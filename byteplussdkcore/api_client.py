@@ -19,6 +19,7 @@ from byteplussdkcore.configuration import Configuration
 from byteplussdkcore import rest
 from byteplussdkcore.metadata import ResponseMetadata
 from byteplussdkcore.signv4 import SignerV4
+from byteplussdkcore.endpoint import DefaultEndpointResolver
 
 
 class ApiClient(object):
@@ -170,15 +171,20 @@ class ApiClient(object):
 
         true_path = "/"
         service = resource_path.split("/")[3]
+        host = ""
+        if len(self.configuration.host) > 0:
+            host = self.configuration.host
+        else:
+            host = DefaultEndpointResolver.get_default_endpoint_by_service_info(service, self.configuration.region)
 
         # auth setting
         # notice: change query_params from tuple to dict
-        self.update_params_for_auth(host=self.configuration.host, path=true_path, method=method,
+        self.update_params_for_auth(host=host, path=true_path, method=method,
                                     headers=header_params, querys=query_params,
                                     auth_settings=auth_settings, body=body, service=service)
 
         # request url
-        url = self.configuration.schema + "://" + self.configuration.host + true_path
+        url = self.configuration.schema + "://" + host + true_path
 
         # perform request and return response
         response_data = self.request(
@@ -646,7 +652,7 @@ class ApiClient(object):
                 status=0,
                 reason=(
                     "Failed to parse `{0}` as datetime object"
-                        .format(string)
+                    .format(string)
                 )
             )
 
