@@ -94,7 +94,7 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
         self.safe_chars_for_path_param = ''
 
         # Disable client side validation
-        self.client_side_validation = False
+        self.client_side_validation = True
 
     @property
     def logger_file(self):
