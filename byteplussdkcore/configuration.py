@@ -34,9 +34,9 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
 
     def __init__(self):
         # Default Base url
-        self.host = "open.byteplusapi.com"
+        self.host = ""
         # Schema Support http or https
-        self.schema = "http"
+        self.schema = "https"
         # Temp file folder for downloading files
         self.temp_folder_path = None
 
@@ -219,5 +219,5 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
                "OS: {env}\n"\
                "Python Version: {pyversion}\n"\
                "Version of the API: 0.1.0\n"\
-               "SDK Package Version: 1.0.2".\
+               "SDK Package Version: 1.0.3".\
                format(env=sys.platform, pyversion=sys.version)
