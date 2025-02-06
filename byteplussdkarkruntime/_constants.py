@@ -3,7 +3,7 @@
 import httpx
 
 VERSION = "1.0.0"
-BASE_URL = "https://ark-stg.ap-southeast.bytepluses.com/api/v3"
+BASE_URL = "https://ark.ap-southeast.bytepluses.com/api/v3"
 
 RAW_RESPONSE_HEADER = "X-Stainless-Raw-Response"
 CLIENT_REQUEST_HEADER = "X-Client-Request-Id"
