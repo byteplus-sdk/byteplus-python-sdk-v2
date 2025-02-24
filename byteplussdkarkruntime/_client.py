@@ -303,9 +303,6 @@ class E2ECertificateManager(object):
 
         # api instance prepare
         import byteplussdkcore
-        self._api_instance_enabled = True
-        if ak is None or sk is None:
-            self._api_instance_enabled = False
         configuration = byteplussdkcore.Configuration()
         configuration.ak = ak
         configuration.sk = sk
@@ -318,6 +315,9 @@ class E2ECertificateManager(object):
         self.cert_path = os.environ.get("E2E_CERTIFICATE_PATH")
 
         # ark client prepare
+        self._ark_client_enabled = True
+        if api_key is None:
+            self._ark_client_enabled = False
         self.client = Ark(
             base_url=base_url,
             api_key=api_key,
@@ -384,10 +384,10 @@ class E2ECertificateManager(object):
             if cert_pem is None:
                 if self.cert_path is not None:
                     cert_pem = self._load_cert_by_cert_path()
-                elif self._api_instance_enabled:
-                    cert_pem = self._load_cert_by_ak_sk(ep)
-                else:
+                elif self._ark_client_enabled:
                     cert_pem = self._sync_load_cert_by_auth(ep)
+                else:
+                    cert_pem = self._load_cert_by_ak_sk(ep)
                 self._save_cert_to_file(ep, cert_pem)
             self._certificate_manager[ep] = key_agreement_client(
                 certificate_pem_string=cert_pem
