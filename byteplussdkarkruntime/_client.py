@@ -318,11 +318,11 @@ class E2ECertificateManager(object):
         self._ark_client_enabled = True
         if api_key is None:
             self._ark_client_enabled = False
-        self.client = Ark(
-            base_url=base_url,
-            api_key=api_key,
-            ak=ak, sk=sk,
-        )
+        else:
+            self.client = Ark(
+                base_url=base_url,
+                api_key=api_key,
+            )
         self._e2e_uri = "/e2e/get/certificate"
         self._x_session_token = {'X-Session-Token': self._e2e_uri}
 
