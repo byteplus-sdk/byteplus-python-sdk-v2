@@ -27,4 +27,9 @@ setup(
     description='Byteplus SDK for Python',
     license="Apache License 2.0",
     platforms='any',
+    extras_require={
+        "ark": [
+            "cryptography>=43.0.3, <43.0.4"
+        ]
+    },
 )
