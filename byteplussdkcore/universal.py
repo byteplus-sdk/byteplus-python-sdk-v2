@@ -1,7 +1,8 @@
 # coding: utf-8
 
-from byteplussdkcore import ApiClient
 import six
+
+from byteplussdkcore import ApiClient
 
 
 class UniversalInfo(object):
