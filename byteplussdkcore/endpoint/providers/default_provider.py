@@ -22,7 +22,7 @@ class ServiceEndpointInfo:
 
     @staticmethod
     def __is_cn_region(region):
-        return region.startswith('cn')
+        return region.startswith('cn-')
 
     def get_endpoint_for(self, region, enable_dualstack=False):
         suffix = '.byteplus-api.com' if enable_dualstack else '.byteplusapi.com'
