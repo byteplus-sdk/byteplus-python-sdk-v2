@@ -139,7 +139,7 @@ class BaseClient(Generic[_HttpxClientT]):
 
     @property
     def user_agent(self) -> str:
-        return "volc-sdk-python/" + VERSION
+        return "byteplus-sdk-python/" + VERSION
 
     def default_headers(self) -> Dict[str, str]:
         return {

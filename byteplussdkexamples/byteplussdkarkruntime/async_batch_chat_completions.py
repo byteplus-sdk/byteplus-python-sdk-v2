@@ -10,7 +10,7 @@ from byteplussdkarkruntime import AsyncArk
 # Note: If you use an API key, this API key will not be refreshed.
 # To prevent the API from expiring and failing after some time, choose an API key with no expiration date.
 
-# 2.If you authorize your endpoint with Volcengine Identity and Access Management（IAM), set your api key to environment variable "BYTEPLUS_ACCESSKEY", "BYTEPLUS_SECRETKEY"
+# 2.If you authorize your endpoint with Byteplus Identity and Access Management（IAM), set your api key to environment variable "BYTEPLUS_ACCESSKEY", "BYTEPLUS_SECRETKEY"
 # or specify ak&sk by Ark(ak="${YOUR_AK}", sk="${YOUR_SK}").
 # To get your ak&sk, please refer to this document(https://docs.byteplus.com/en/docs/byteplus-platform/docs-creating-an-accesskey)
 # For more information，please check this document（https://docs.byteplus.com/en/docs/ModelArk/1361424）
