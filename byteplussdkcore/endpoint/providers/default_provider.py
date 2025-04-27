@@ -129,10 +129,12 @@ class DefaultEndpointProvider(EndpointProvider):
         return False
 
     @staticmethod
-    def __has_enabled_dualstack():
-        return os.getenv("BYTEPLUS_ENABLE_DUALSTACK") == 'true'
+    def __has_enabled_dualstack(use_dual_stack):
+        if use_dual_stack is None:
+            return os.getenv("BYTEPLUS_ENABLE_DUALSTACK") == 'true'
+        return use_dual_stack
 
-    def endpoint_for(self, service, region, custom_bootstrap_region=None, **kwargs):
+    def endpoint_for(self, service, region, custom_bootstrap_region=None, use_dual_stack=None, **kwargs):
         if service in self.custom_endpoints:
             conf = self.custom_endpoints[service]
             host = conf.get_endpoint_for(region)
@@ -147,7 +149,7 @@ class DefaultEndpointProvider(EndpointProvider):
             host = default_endpoint[service].fallback_endpoint
             return ResolvedEndpoint(host)
 
-        suffix = dualstack_endpoint_suffix if self.__has_enabled_dualstack() else endpoint_suffix
+        suffix = dualstack_endpoint_suffix if self.__has_enabled_dualstack(use_dual_stack) else endpoint_suffix
 
         host = self.get_default_endpoint(service=service, region=region, suffix=suffix)
 
