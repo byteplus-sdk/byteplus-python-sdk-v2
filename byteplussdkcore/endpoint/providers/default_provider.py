@@ -4,21 +4,29 @@ import warnings
 
 from byteplussdkcore.endpoint.endpoint_provider import EndpointProvider, ResolvedEndpoint
 
-fallback_endpoint = 'open.ap-southeast-1.byteplusapi.com'
+open_prefix = 'open'
+endpoint_suffix = '.byteplusapi.com'
+dualstack_endpoint_suffix = '.byteplus-api.com'
+fallback_endpoint = open_prefix + '.ap-southeast-1.byteplusapi.com'
 
 region_code_cn_beijing_auto_driving = "cn-beijing-autodriving"
 region_code_ap_southeast2 = "ap-southeast-2"
 region_code_ap_southeast3 = "ap-southeast-3"
 region_code_cn_hongkong = 'cn-hongkong'
 
+bootstrap_region = {
+    region_code_ap_southeast2: {},
+    region_code_ap_southeast3: {},
+}
+
+
 class ServiceEndpointInfo:
 
     def __init__(self, service, is_global, global_endpoint,
-                 region_endpoint_map, fallback_endpoint=fallback_endpoint, prefix=''):
+                 region_endpoint_map, fallback_endpoint=fallback_endpoint):
         self.service = service
         self.is_global = is_global
         self.global_endpoint = global_endpoint
-        self.prefix = prefix
         self.region_endpoint_map = region_endpoint_map
         self.fallback_endpoint = fallback_endpoint
 
@@ -35,10 +43,7 @@ class ServiceEndpointInfo:
         cn_none_mainland_region = [region_code_cn_hongkong]
         return region not in cn_none_mainland_region
 
-    def get_prefix(self):
-        return self.prefix
-
-    def get_endpoint_for(self, region, suffix='.byteplusapi.com'):
+    def get_endpoint_for(self, region, suffix=endpoint_suffix):
         if self.is_global:
             if self.global_endpoint:
                 return self.global_endpoint
@@ -50,54 +55,46 @@ class ServiceEndpointInfo:
             ('.cn' if self.__is_cn_region(region) else '')
 
 
+default_endpoint = {
+    'ark': ServiceEndpointInfo(
+        service='ark',
+        is_global=False,
+        global_endpoint='',
+        region_endpoint_map={},
+        fallback_endpoint=open_prefix + endpoint_suffix,
+    ),
+    'billing': ServiceEndpointInfo(
+        service='billing',
+        is_global=True,
+        global_endpoint='',
+        region_endpoint_map={},
+        fallback_endpoint=open_prefix + endpoint_suffix,
+    ),
+    'ecs': ServiceEndpointInfo(
+        service='ecs',
+        is_global=False,
+        global_endpoint='',
+        region_endpoint_map={},
+        fallback_endpoint=fallback_endpoint,
+    ),
+    'vpc': ServiceEndpointInfo(
+        service='vpc',
+        is_global=False,
+        global_endpoint='',
+        region_endpoint_map={},
+        fallback_endpoint=fallback_endpoint,
+    ),
+}
+
+
 class DefaultEndpointProvider(EndpointProvider):
-
-    endpoint_suffix = '.byteplusapi.com'
-    dualstack_endpoint_suffix = '.byteplus-api.com'
-    open_prefix = 'open'
-
-    default_endpoint = {
-        'ark': ServiceEndpointInfo(
-            service='ark',
-            is_global=False,
-            global_endpoint='',
-            region_endpoint_map={},
-            prefix='',
-        ),
-        'billing': ServiceEndpointInfo(
-            service='billing',
-            is_global=True,
-            global_endpoint='',
-            region_endpoint_map={},
-            prefix='',
-        ),
-        'ecs': ServiceEndpointInfo(
-            service='ecs',
-            is_global=False,
-            global_endpoint='',
-            region_endpoint_map={},
-            prefix='.ap-southeast-1',
-        ),
-        'vpc': ServiceEndpointInfo(
-            service='vpc',
-            is_global=False,
-            global_endpoint='',
-            region_endpoint_map={},
-            prefix='.ap-southeast-1',
-        ),
-    }
-
-    bootstrap_region = {
-        region_code_ap_southeast2: {},
-        region_code_ap_southeast3: {},
-    }
 
     def __init__(self, custom_endpoints=None):
         self.custom_endpoints = custom_endpoints or {}
 
     def get_default_endpoint(self, service, region, suffix=endpoint_suffix):
-        if service in self.default_endpoint:
-            e = self.default_endpoint[service]
+        if service in default_endpoint:
+            e = default_endpoint[service]
             return e.get_endpoint_for(region, suffix)
         return fallback_endpoint
 
@@ -122,8 +119,8 @@ class DefaultEndpointProvider(EndpointProvider):
                     stacklevel=2
                 )
 
-        if self.bootstrap_region:
-            if region_code in self.bootstrap_region:
+        if bootstrap_region:
+            if region_code in bootstrap_region:
                 return True
 
         if custom_bootstrap_region:
@@ -144,13 +141,13 @@ class DefaultEndpointProvider(EndpointProvider):
         if custom_bootstrap_region is None:
             custom_bootstrap_region = {}
 
-        suffix = self.dualstack_endpoint_suffix if self.__has_enabled_dualstack() else self.endpoint_suffix
-
         if not self.__in_bootstrap_region_list(region, custom_bootstrap_region):
-            if service not in self.default_endpoint:
+            if service not in default_endpoint:
                 return ResolvedEndpoint(fallback_endpoint)
-            host = self.open_prefix + self.default_endpoint[service].get_prefix() + suffix
+            host = default_endpoint[service].fallback_endpoint
             return ResolvedEndpoint(host)
+
+        suffix = dualstack_endpoint_suffix if self.__has_enabled_dualstack() else endpoint_suffix
 
         host = self.get_default_endpoint(service=service, region=region, suffix=suffix)
 
