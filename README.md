@@ -1,5 +1,27 @@
 # byteplus SDK for Python
 
+
+## 非兼容变更通知
+
+Byteplus SDK for Python 非兼容变更通知
+
+影响版本：`2.0.1` 以及后续版本
+
+影响范围：所有用户
+
+变更描述:
+
+发起请求将默认使用 `HTTPS` 协议，如需使用 `HTTP` 协议，请在发起请求时指定 `scheme` 参数为 `http`(不推荐):
+
+```python
+import byteplussdkcore
+
+configuration = byteplussdkcore.Configuration()
+configuration.scheme = 'http'
+```
+
+
+
 ## Table of Contents
 
 * Requirements
