@@ -66,7 +66,7 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
         self.use_dual_stack = None
 
         # Scheme Support http or https
-        self.scheme = "http"
+        self.scheme = "https"
         # Temp file folder for downloading files
         self.temp_folder_path = None
 
