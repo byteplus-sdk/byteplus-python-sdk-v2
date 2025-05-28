@@ -33,8 +33,6 @@ class ListBillOverviewByCategoryRequest(object):
                             and the value is json key in definition.
     """
     swagger_types = {
-        'account_id': 'int',
-        'base': 'BaseForListBillOverviewByCategoryInput',
         'bill_category_parent': 'list[str]',
         'bill_period': 'str',
         'billing_mode': 'list[str]',
@@ -43,8 +41,6 @@ class ListBillOverviewByCategoryRequest(object):
     }
 
     attribute_map = {
-        'account_id': 'AccountID',
-        'base': 'Base',
         'bill_category_parent': 'BillCategoryParent',
         'bill_period': 'BillPeriod',
         'billing_mode': 'BillingMode',
@@ -52,14 +48,12 @@ class ListBillOverviewByCategoryRequest(object):
         'payer_id': 'PayerID'
     }
 
-    def __init__(self, account_id=None, base=None, bill_category_parent=None, bill_period=None, billing_mode=None, owner_id=None, payer_id=None, _configuration=None):  # noqa: E501
+    def __init__(self, bill_category_parent=None, bill_period=None, billing_mode=None, owner_id=None, payer_id=None, _configuration=None):  # noqa: E501
         """ListBillOverviewByCategoryRequest - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
         self._configuration = _configuration
 
-        self._account_id = None
-        self._base = None
         self._bill_category_parent = None
         self._bill_period = None
         self._billing_mode = None
@@ -67,62 +61,15 @@ class ListBillOverviewByCategoryRequest(object):
         self._payer_id = None
         self.discriminator = None
 
-        if account_id is not None:
-            self.account_id = account_id
-        if base is not None:
-            self.base = base
         if bill_category_parent is not None:
             self.bill_category_parent = bill_category_parent
-        if bill_period is not None:
-            self.bill_period = bill_period
+        self.bill_period = bill_period
         if billing_mode is not None:
             self.billing_mode = billing_mode
         if owner_id is not None:
             self.owner_id = owner_id
         if payer_id is not None:
             self.payer_id = payer_id
-
-    @property
-    def account_id(self):
-        """Gets the account_id of this ListBillOverviewByCategoryRequest.  # noqa: E501
-
-
-        :return: The account_id of this ListBillOverviewByCategoryRequest.  # noqa: E501
-        :rtype: int
-        """
-        return self._account_id
-
-    @account_id.setter
-    def account_id(self, account_id):
-        """Sets the account_id of this ListBillOverviewByCategoryRequest.
-
-
-        :param account_id: The account_id of this ListBillOverviewByCategoryRequest.  # noqa: E501
-        :type: int
-        """
-
-        self._account_id = account_id
-
-    @property
-    def base(self):
-        """Gets the base of this ListBillOverviewByCategoryRequest.  # noqa: E501
-
-
-        :return: The base of this ListBillOverviewByCategoryRequest.  # noqa: E501
-        :rtype: BaseForListBillOverviewByCategoryInput
-        """
-        return self._base
-
-    @base.setter
-    def base(self, base):
-        """Sets the base of this ListBillOverviewByCategoryRequest.
-
-
-        :param base: The base of this ListBillOverviewByCategoryRequest.  # noqa: E501
-        :type: BaseForListBillOverviewByCategoryInput
-        """
-
-        self._base = base
 
     @property
     def bill_category_parent(self):
@@ -163,6 +110,14 @@ class ListBillOverviewByCategoryRequest(object):
         :param bill_period: The bill_period of this ListBillOverviewByCategoryRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and bill_period is None:
+            raise ValueError("Invalid value for `bill_period`, must not be `None`")  # noqa: E501
+        if (self._configuration.client_side_validation and
+                bill_period is not None and len(bill_period) > 7):
+            raise ValueError("Invalid value for `bill_period`, length must be less than or equal to `7`")  # noqa: E501
+        if (self._configuration.client_side_validation and
+                bill_period is not None and len(bill_period) < 7):
+            raise ValueError("Invalid value for `bill_period`, length must be greater than or equal to `7`")  # noqa: E501
 
         self._bill_period = bill_period
 

@@ -39,10 +39,10 @@ class ListForListSplitBillDetailOutput(object):
         'billing_function': 'str',
         'billing_method_code': 'str',
         'billing_mode': 'str',
+        'busi_period': 'str',
         'business_mode': 'str',
         'config_name': 'str',
         'configuration_code': 'str',
-        'country_region': 'str',
         'coupon_deduction_amount': 'str',
         'credit_carried_amount': 'str',
         'currency': 'str',
@@ -64,21 +64,27 @@ class ListForListSplitBillDetailOutput(object):
         'market_price': 'str',
         'measure_interval': 'str',
         'original_bill_amount': 'str',
+        'owner_customer_name': 'str',
+        'owner_id': 'str',
         'owner_user_name': 'str',
         'paid_amount': 'str',
+        'payable_amount': 'str',
+        'payer_customer_name': 'str',
+        'payer_id': 'str',
         'payer_user_name': 'str',
-        'posttax_amount': 'str',
         'preferential_bill_amount': 'str',
-        'pretax_amount': 'str',
         'price': 'str',
         'price_interval': 'str',
         'price_unit': 'str',
         'product': 'str',
         'product_zh': 'str',
         'project': 'str',
+        'project_display_name': 'str',
         'region': 'str',
         'region_code': 'str',
         'reservation_instance': 'str',
+        'seller_customer_name': 'str',
+        'seller_id': 'str',
         'seller_user_name': 'str',
         'selling_mode': 'str',
         'settlement_type': 'str',
@@ -90,7 +96,6 @@ class ListForListSplitBillDetailOutput(object):
         'split_item_ratio': 'str',
         'subject_name': 'str',
         'tag': 'str',
-        'tax': 'str',
         'trade_time': 'str',
         'unit': 'str',
         'unpaid_amount': 'str',
@@ -107,10 +112,10 @@ class ListForListSplitBillDetailOutput(object):
         'billing_function': 'BillingFunction',
         'billing_method_code': 'BillingMethodCode',
         'billing_mode': 'BillingMode',
+        'busi_period': 'BusiPeriod',
         'business_mode': 'BusinessMode',
         'config_name': 'ConfigName',
         'configuration_code': 'ConfigurationCode',
-        'country_region': 'CountryRegion',
         'coupon_deduction_amount': 'CouponDeductionAmount',
         'credit_carried_amount': 'CreditCarriedAmount',
         'currency': 'Currency',
@@ -132,21 +137,27 @@ class ListForListSplitBillDetailOutput(object):
         'market_price': 'MarketPrice',
         'measure_interval': 'MeasureInterval',
         'original_bill_amount': 'OriginalBillAmount',
+        'owner_customer_name': 'OwnerCustomerName',
+        'owner_id': 'OwnerID',
         'owner_user_name': 'OwnerUserName',
         'paid_amount': 'PaidAmount',
+        'payable_amount': 'PayableAmount',
+        'payer_customer_name': 'PayerCustomerName',
+        'payer_id': 'PayerID',
         'payer_user_name': 'PayerUserName',
-        'posttax_amount': 'PosttaxAmount',
         'preferential_bill_amount': 'PreferentialBillAmount',
-        'pretax_amount': 'PretaxAmount',
         'price': 'Price',
         'price_interval': 'PriceInterval',
         'price_unit': 'PriceUnit',
         'product': 'Product',
         'product_zh': 'ProductZh',
         'project': 'Project',
+        'project_display_name': 'ProjectDisplayName',
         'region': 'Region',
         'region_code': 'RegionCode',
         'reservation_instance': 'ReservationInstance',
+        'seller_customer_name': 'SellerCustomerName',
+        'seller_id': 'SellerID',
         'seller_user_name': 'SellerUserName',
         'selling_mode': 'SellingMode',
         'settlement_type': 'SettlementType',
@@ -158,7 +169,6 @@ class ListForListSplitBillDetailOutput(object):
         'split_item_ratio': 'SplitItemRatio',
         'subject_name': 'SubjectName',
         'tag': 'Tag',
-        'tax': 'Tax',
         'trade_time': 'TradeTime',
         'unit': 'Unit',
         'unpaid_amount': 'UnpaidAmount',
@@ -168,7 +178,7 @@ class ListForListSplitBillDetailOutput(object):
         'zone_code': 'ZoneCode'
     }
 
-    def __init__(self, bill_category=None, bill_id=None, bill_period=None, billing_function=None, billing_method_code=None, billing_mode=None, business_mode=None, config_name=None, configuration_code=None, country_region=None, coupon_deduction_amount=None, credit_carried_amount=None, currency=None, deduction_count=None, discount_bill_amount=None, discount_biz_billing_function=None, discount_biz_measure_interval=None, discount_biz_unit_price=None, discount_biz_unit_price_interval=None, effective_factor=None, element=None, element_code=None, expand_field=None, expense_time=None, factor=None, factor_code=None, instance_name=None, instance_no=None, market_price=None, measure_interval=None, original_bill_amount=None, owner_user_name=None, paid_amount=None, payer_user_name=None, posttax_amount=None, preferential_bill_amount=None, pretax_amount=None, price=None, price_interval=None, price_unit=None, product=None, product_zh=None, project=None, region=None, region_code=None, reservation_instance=None, seller_user_name=None, selling_mode=None, settlement_type=None, solution_zh=None, split_bill_detail_id=None, split_item_amount=None, split_item_id=None, split_item_name=None, split_item_ratio=None, subject_name=None, tag=None, tax=None, trade_time=None, unit=None, unpaid_amount=None, use_duration=None, use_duration_unit=None, zone=None, zone_code=None, _configuration=None):  # noqa: E501
+    def __init__(self, bill_category=None, bill_id=None, bill_period=None, billing_function=None, billing_method_code=None, billing_mode=None, busi_period=None, business_mode=None, config_name=None, configuration_code=None, coupon_deduction_amount=None, credit_carried_amount=None, currency=None, deduction_count=None, discount_bill_amount=None, discount_biz_billing_function=None, discount_biz_measure_interval=None, discount_biz_unit_price=None, discount_biz_unit_price_interval=None, effective_factor=None, element=None, element_code=None, expand_field=None, expense_time=None, factor=None, factor_code=None, instance_name=None, instance_no=None, market_price=None, measure_interval=None, original_bill_amount=None, owner_customer_name=None, owner_id=None, owner_user_name=None, paid_amount=None, payable_amount=None, payer_customer_name=None, payer_id=None, payer_user_name=None, preferential_bill_amount=None, price=None, price_interval=None, price_unit=None, product=None, product_zh=None, project=None, project_display_name=None, region=None, region_code=None, reservation_instance=None, seller_customer_name=None, seller_id=None, seller_user_name=None, selling_mode=None, settlement_type=None, solution_zh=None, split_bill_detail_id=None, split_item_amount=None, split_item_id=None, split_item_name=None, split_item_ratio=None, subject_name=None, tag=None, trade_time=None, unit=None, unpaid_amount=None, use_duration=None, use_duration_unit=None, zone=None, zone_code=None, _configuration=None):  # noqa: E501
         """ListForListSplitBillDetailOutput - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
@@ -180,10 +190,10 @@ class ListForListSplitBillDetailOutput(object):
         self._billing_function = None
         self._billing_method_code = None
         self._billing_mode = None
+        self._busi_period = None
         self._business_mode = None
         self._config_name = None
         self._configuration_code = None
-        self._country_region = None
         self._coupon_deduction_amount = None
         self._credit_carried_amount = None
         self._currency = None
@@ -205,21 +215,27 @@ class ListForListSplitBillDetailOutput(object):
         self._market_price = None
         self._measure_interval = None
         self._original_bill_amount = None
+        self._owner_customer_name = None
+        self._owner_id = None
         self._owner_user_name = None
         self._paid_amount = None
+        self._payable_amount = None
+        self._payer_customer_name = None
+        self._payer_id = None
         self._payer_user_name = None
-        self._posttax_amount = None
         self._preferential_bill_amount = None
-        self._pretax_amount = None
         self._price = None
         self._price_interval = None
         self._price_unit = None
         self._product = None
         self._product_zh = None
         self._project = None
+        self._project_display_name = None
         self._region = None
         self._region_code = None
         self._reservation_instance = None
+        self._seller_customer_name = None
+        self._seller_id = None
         self._seller_user_name = None
         self._selling_mode = None
         self._settlement_type = None
@@ -231,7 +247,6 @@ class ListForListSplitBillDetailOutput(object):
         self._split_item_ratio = None
         self._subject_name = None
         self._tag = None
-        self._tax = None
         self._trade_time = None
         self._unit = None
         self._unpaid_amount = None
@@ -253,14 +268,14 @@ class ListForListSplitBillDetailOutput(object):
             self.billing_method_code = billing_method_code
         if billing_mode is not None:
             self.billing_mode = billing_mode
+        if busi_period is not None:
+            self.busi_period = busi_period
         if business_mode is not None:
             self.business_mode = business_mode
         if config_name is not None:
             self.config_name = config_name
         if configuration_code is not None:
             self.configuration_code = configuration_code
-        if country_region is not None:
-            self.country_region = country_region
         if coupon_deduction_amount is not None:
             self.coupon_deduction_amount = coupon_deduction_amount
         if credit_carried_amount is not None:
@@ -303,18 +318,24 @@ class ListForListSplitBillDetailOutput(object):
             self.measure_interval = measure_interval
         if original_bill_amount is not None:
             self.original_bill_amount = original_bill_amount
+        if owner_customer_name is not None:
+            self.owner_customer_name = owner_customer_name
+        if owner_id is not None:
+            self.owner_id = owner_id
         if owner_user_name is not None:
             self.owner_user_name = owner_user_name
         if paid_amount is not None:
             self.paid_amount = paid_amount
+        if payable_amount is not None:
+            self.payable_amount = payable_amount
+        if payer_customer_name is not None:
+            self.payer_customer_name = payer_customer_name
+        if payer_id is not None:
+            self.payer_id = payer_id
         if payer_user_name is not None:
             self.payer_user_name = payer_user_name
-        if posttax_amount is not None:
-            self.posttax_amount = posttax_amount
         if preferential_bill_amount is not None:
             self.preferential_bill_amount = preferential_bill_amount
-        if pretax_amount is not None:
-            self.pretax_amount = pretax_amount
         if price is not None:
             self.price = price
         if price_interval is not None:
@@ -327,12 +348,18 @@ class ListForListSplitBillDetailOutput(object):
             self.product_zh = product_zh
         if project is not None:
             self.project = project
+        if project_display_name is not None:
+            self.project_display_name = project_display_name
         if region is not None:
             self.region = region
         if region_code is not None:
             self.region_code = region_code
         if reservation_instance is not None:
             self.reservation_instance = reservation_instance
+        if seller_customer_name is not None:
+            self.seller_customer_name = seller_customer_name
+        if seller_id is not None:
+            self.seller_id = seller_id
         if seller_user_name is not None:
             self.seller_user_name = seller_user_name
         if selling_mode is not None:
@@ -355,8 +382,6 @@ class ListForListSplitBillDetailOutput(object):
             self.subject_name = subject_name
         if tag is not None:
             self.tag = tag
-        if tax is not None:
-            self.tax = tax
         if trade_time is not None:
             self.trade_time = trade_time
         if unit is not None:
@@ -499,6 +524,27 @@ class ListForListSplitBillDetailOutput(object):
         self._billing_mode = billing_mode
 
     @property
+    def busi_period(self):
+        """Gets the busi_period of this ListForListSplitBillDetailOutput.  # noqa: E501
+
+
+        :return: The busi_period of this ListForListSplitBillDetailOutput.  # noqa: E501
+        :rtype: str
+        """
+        return self._busi_period
+
+    @busi_period.setter
+    def busi_period(self, busi_period):
+        """Sets the busi_period of this ListForListSplitBillDetailOutput.
+
+
+        :param busi_period: The busi_period of this ListForListSplitBillDetailOutput.  # noqa: E501
+        :type: str
+        """
+
+        self._busi_period = busi_period
+
+    @property
     def business_mode(self):
         """Gets the business_mode of this ListForListSplitBillDetailOutput.  # noqa: E501
 
@@ -560,27 +606,6 @@ class ListForListSplitBillDetailOutput(object):
         """
 
         self._configuration_code = configuration_code
-
-    @property
-    def country_region(self):
-        """Gets the country_region of this ListForListSplitBillDetailOutput.  # noqa: E501
-
-
-        :return: The country_region of this ListForListSplitBillDetailOutput.  # noqa: E501
-        :rtype: str
-        """
-        return self._country_region
-
-    @country_region.setter
-    def country_region(self, country_region):
-        """Sets the country_region of this ListForListSplitBillDetailOutput.
-
-
-        :param country_region: The country_region of this ListForListSplitBillDetailOutput.  # noqa: E501
-        :type: str
-        """
-
-        self._country_region = country_region
 
     @property
     def coupon_deduction_amount(self):
@@ -1024,6 +1049,48 @@ class ListForListSplitBillDetailOutput(object):
         self._original_bill_amount = original_bill_amount
 
     @property
+    def owner_customer_name(self):
+        """Gets the owner_customer_name of this ListForListSplitBillDetailOutput.  # noqa: E501
+
+
+        :return: The owner_customer_name of this ListForListSplitBillDetailOutput.  # noqa: E501
+        :rtype: str
+        """
+        return self._owner_customer_name
+
+    @owner_customer_name.setter
+    def owner_customer_name(self, owner_customer_name):
+        """Sets the owner_customer_name of this ListForListSplitBillDetailOutput.
+
+
+        :param owner_customer_name: The owner_customer_name of this ListForListSplitBillDetailOutput.  # noqa: E501
+        :type: str
+        """
+
+        self._owner_customer_name = owner_customer_name
+
+    @property
+    def owner_id(self):
+        """Gets the owner_id of this ListForListSplitBillDetailOutput.  # noqa: E501
+
+
+        :return: The owner_id of this ListForListSplitBillDetailOutput.  # noqa: E501
+        :rtype: str
+        """
+        return self._owner_id
+
+    @owner_id.setter
+    def owner_id(self, owner_id):
+        """Sets the owner_id of this ListForListSplitBillDetailOutput.
+
+
+        :param owner_id: The owner_id of this ListForListSplitBillDetailOutput.  # noqa: E501
+        :type: str
+        """
+
+        self._owner_id = owner_id
+
+    @property
     def owner_user_name(self):
         """Gets the owner_user_name of this ListForListSplitBillDetailOutput.  # noqa: E501
 
@@ -1066,6 +1133,69 @@ class ListForListSplitBillDetailOutput(object):
         self._paid_amount = paid_amount
 
     @property
+    def payable_amount(self):
+        """Gets the payable_amount of this ListForListSplitBillDetailOutput.  # noqa: E501
+
+
+        :return: The payable_amount of this ListForListSplitBillDetailOutput.  # noqa: E501
+        :rtype: str
+        """
+        return self._payable_amount
+
+    @payable_amount.setter
+    def payable_amount(self, payable_amount):
+        """Sets the payable_amount of this ListForListSplitBillDetailOutput.
+
+
+        :param payable_amount: The payable_amount of this ListForListSplitBillDetailOutput.  # noqa: E501
+        :type: str
+        """
+
+        self._payable_amount = payable_amount
+
+    @property
+    def payer_customer_name(self):
+        """Gets the payer_customer_name of this ListForListSplitBillDetailOutput.  # noqa: E501
+
+
+        :return: The payer_customer_name of this ListForListSplitBillDetailOutput.  # noqa: E501
+        :rtype: str
+        """
+        return self._payer_customer_name
+
+    @payer_customer_name.setter
+    def payer_customer_name(self, payer_customer_name):
+        """Sets the payer_customer_name of this ListForListSplitBillDetailOutput.
+
+
+        :param payer_customer_name: The payer_customer_name of this ListForListSplitBillDetailOutput.  # noqa: E501
+        :type: str
+        """
+
+        self._payer_customer_name = payer_customer_name
+
+    @property
+    def payer_id(self):
+        """Gets the payer_id of this ListForListSplitBillDetailOutput.  # noqa: E501
+
+
+        :return: The payer_id of this ListForListSplitBillDetailOutput.  # noqa: E501
+        :rtype: str
+        """
+        return self._payer_id
+
+    @payer_id.setter
+    def payer_id(self, payer_id):
+        """Sets the payer_id of this ListForListSplitBillDetailOutput.
+
+
+        :param payer_id: The payer_id of this ListForListSplitBillDetailOutput.  # noqa: E501
+        :type: str
+        """
+
+        self._payer_id = payer_id
+
+    @property
     def payer_user_name(self):
         """Gets the payer_user_name of this ListForListSplitBillDetailOutput.  # noqa: E501
 
@@ -1087,27 +1217,6 @@ class ListForListSplitBillDetailOutput(object):
         self._payer_user_name = payer_user_name
 
     @property
-    def posttax_amount(self):
-        """Gets the posttax_amount of this ListForListSplitBillDetailOutput.  # noqa: E501
-
-
-        :return: The posttax_amount of this ListForListSplitBillDetailOutput.  # noqa: E501
-        :rtype: str
-        """
-        return self._posttax_amount
-
-    @posttax_amount.setter
-    def posttax_amount(self, posttax_amount):
-        """Sets the posttax_amount of this ListForListSplitBillDetailOutput.
-
-
-        :param posttax_amount: The posttax_amount of this ListForListSplitBillDetailOutput.  # noqa: E501
-        :type: str
-        """
-
-        self._posttax_amount = posttax_amount
-
-    @property
     def preferential_bill_amount(self):
         """Gets the preferential_bill_amount of this ListForListSplitBillDetailOutput.  # noqa: E501
 
@@ -1127,27 +1236,6 @@ class ListForListSplitBillDetailOutput(object):
         """
 
         self._preferential_bill_amount = preferential_bill_amount
-
-    @property
-    def pretax_amount(self):
-        """Gets the pretax_amount of this ListForListSplitBillDetailOutput.  # noqa: E501
-
-
-        :return: The pretax_amount of this ListForListSplitBillDetailOutput.  # noqa: E501
-        :rtype: str
-        """
-        return self._pretax_amount
-
-    @pretax_amount.setter
-    def pretax_amount(self, pretax_amount):
-        """Sets the pretax_amount of this ListForListSplitBillDetailOutput.
-
-
-        :param pretax_amount: The pretax_amount of this ListForListSplitBillDetailOutput.  # noqa: E501
-        :type: str
-        """
-
-        self._pretax_amount = pretax_amount
 
     @property
     def price(self):
@@ -1276,6 +1364,27 @@ class ListForListSplitBillDetailOutput(object):
         self._project = project
 
     @property
+    def project_display_name(self):
+        """Gets the project_display_name of this ListForListSplitBillDetailOutput.  # noqa: E501
+
+
+        :return: The project_display_name of this ListForListSplitBillDetailOutput.  # noqa: E501
+        :rtype: str
+        """
+        return self._project_display_name
+
+    @project_display_name.setter
+    def project_display_name(self, project_display_name):
+        """Sets the project_display_name of this ListForListSplitBillDetailOutput.
+
+
+        :param project_display_name: The project_display_name of this ListForListSplitBillDetailOutput.  # noqa: E501
+        :type: str
+        """
+
+        self._project_display_name = project_display_name
+
+    @property
     def region(self):
         """Gets the region of this ListForListSplitBillDetailOutput.  # noqa: E501
 
@@ -1337,6 +1446,48 @@ class ListForListSplitBillDetailOutput(object):
         """
 
         self._reservation_instance = reservation_instance
+
+    @property
+    def seller_customer_name(self):
+        """Gets the seller_customer_name of this ListForListSplitBillDetailOutput.  # noqa: E501
+
+
+        :return: The seller_customer_name of this ListForListSplitBillDetailOutput.  # noqa: E501
+        :rtype: str
+        """
+        return self._seller_customer_name
+
+    @seller_customer_name.setter
+    def seller_customer_name(self, seller_customer_name):
+        """Sets the seller_customer_name of this ListForListSplitBillDetailOutput.
+
+
+        :param seller_customer_name: The seller_customer_name of this ListForListSplitBillDetailOutput.  # noqa: E501
+        :type: str
+        """
+
+        self._seller_customer_name = seller_customer_name
+
+    @property
+    def seller_id(self):
+        """Gets the seller_id of this ListForListSplitBillDetailOutput.  # noqa: E501
+
+
+        :return: The seller_id of this ListForListSplitBillDetailOutput.  # noqa: E501
+        :rtype: str
+        """
+        return self._seller_id
+
+    @seller_id.setter
+    def seller_id(self, seller_id):
+        """Sets the seller_id of this ListForListSplitBillDetailOutput.
+
+
+        :param seller_id: The seller_id of this ListForListSplitBillDetailOutput.  # noqa: E501
+        :type: str
+        """
+
+        self._seller_id = seller_id
 
     @property
     def seller_user_name(self):
@@ -1568,27 +1719,6 @@ class ListForListSplitBillDetailOutput(object):
         """
 
         self._tag = tag
-
-    @property
-    def tax(self):
-        """Gets the tax of this ListForListSplitBillDetailOutput.  # noqa: E501
-
-
-        :return: The tax of this ListForListSplitBillDetailOutput.  # noqa: E501
-        :rtype: str
-        """
-        return self._tax
-
-    @tax.setter
-    def tax(self, tax):
-        """Sets the tax of this ListForListSplitBillDetailOutput.
-
-
-        :param tax: The tax of this ListForListSplitBillDetailOutput.  # noqa: E501
-        :type: str
-        """
-
-        self._tax = tax
 
     @property
     def trade_time(self):
