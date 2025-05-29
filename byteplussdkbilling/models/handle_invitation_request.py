@@ -34,6 +34,7 @@ class HandleInvitationRequest(object):
     """
     swagger_types = {
         'action': 'int',
+        'auth_id': 'str',
         'invitation_type': 'int',
         'major_account_id': 'int',
         'relation': 'int',
@@ -42,19 +43,21 @@ class HandleInvitationRequest(object):
 
     attribute_map = {
         'action': 'Action',
+        'auth_id': 'AuthID',
         'invitation_type': 'InvitationType',
         'major_account_id': 'MajorAccountID',
         'relation': 'Relation',
         'relation_id': 'RelationID'
     }
 
-    def __init__(self, action=None, invitation_type=None, major_account_id=None, relation=None, relation_id=None, _configuration=None):  # noqa: E501
+    def __init__(self, action=None, auth_id=None, invitation_type=None, major_account_id=None, relation=None, relation_id=None, _configuration=None):  # noqa: E501
         """HandleInvitationRequest - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
         self._configuration = _configuration
 
         self._action = None
+        self._auth_id = None
         self._invitation_type = None
         self._major_account_id = None
         self._relation = None
@@ -62,6 +65,8 @@ class HandleInvitationRequest(object):
         self.discriminator = None
 
         self.action = action
+        if auth_id is not None:
+            self.auth_id = auth_id
         self.invitation_type = invitation_type
         if major_account_id is not None:
             self.major_account_id = major_account_id
@@ -91,6 +96,27 @@ class HandleInvitationRequest(object):
             raise ValueError("Invalid value for `action`, must not be `None`")  # noqa: E501
 
         self._action = action
+
+    @property
+    def auth_id(self):
+        """Gets the auth_id of this HandleInvitationRequest.  # noqa: E501
+
+
+        :return: The auth_id of this HandleInvitationRequest.  # noqa: E501
+        :rtype: str
+        """
+        return self._auth_id
+
+    @auth_id.setter
+    def auth_id(self, auth_id):
+        """Sets the auth_id of this HandleInvitationRequest.
+
+
+        :param auth_id: The auth_id of this HandleInvitationRequest.  # noqa: E501
+        :type: str
+        """
+
+        self._auth_id = auth_id
 
     @property
     def invitation_type(self):

@@ -33,6 +33,7 @@ class CancelInvitationRequest(object):
                             and the value is json key in definition.
     """
     swagger_types = {
+        'auth_id': 'str',
         'invitation_type': 'int',
         'relation': 'int',
         'relation_id': 'str',
@@ -40,30 +41,55 @@ class CancelInvitationRequest(object):
     }
 
     attribute_map = {
+        'auth_id': 'AuthID',
         'invitation_type': 'InvitationType',
         'relation': 'Relation',
         'relation_id': 'RelationID',
         'sub_account_id': 'SubAccountID'
     }
 
-    def __init__(self, invitation_type=None, relation=None, relation_id=None, sub_account_id=None, _configuration=None):  # noqa: E501
+    def __init__(self, auth_id=None, invitation_type=None, relation=None, relation_id=None, sub_account_id=None, _configuration=None):  # noqa: E501
         """CancelInvitationRequest - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
         self._configuration = _configuration
 
+        self._auth_id = None
         self._invitation_type = None
         self._relation = None
         self._relation_id = None
         self._sub_account_id = None
         self.discriminator = None
 
+        if auth_id is not None:
+            self.auth_id = auth_id
         self.invitation_type = invitation_type
         if relation is not None:
             self.relation = relation
         self.relation_id = relation_id
         if sub_account_id is not None:
             self.sub_account_id = sub_account_id
+
+    @property
+    def auth_id(self):
+        """Gets the auth_id of this CancelInvitationRequest.  # noqa: E501
+
+
+        :return: The auth_id of this CancelInvitationRequest.  # noqa: E501
+        :rtype: str
+        """
+        return self._auth_id
+
+    @auth_id.setter
+    def auth_id(self, auth_id):
+        """Sets the auth_id of this CancelInvitationRequest.
+
+
+        :param auth_id: The auth_id of this CancelInvitationRequest.  # noqa: E501
+        :type: str
+        """
+
+        self._auth_id = auth_id
 
     @property
     def invitation_type(self):

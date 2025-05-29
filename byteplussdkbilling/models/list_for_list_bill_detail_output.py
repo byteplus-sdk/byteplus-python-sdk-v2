@@ -75,6 +75,7 @@ class ListForListBillDetailOutput(object):
         'owner_id': 'str',
         'owner_user_name': 'str',
         'paid_amount': 'str',
+        'payable_amount': 'str',
         'payer_customer_name': 'str',
         'payer_id': 'str',
         'payer_user_name': 'str',
@@ -161,6 +162,7 @@ class ListForListBillDetailOutput(object):
         'owner_id': 'OwnerID',
         'owner_user_name': 'OwnerUserName',
         'paid_amount': 'PaidAmount',
+        'payable_amount': 'PayableAmount',
         'payer_customer_name': 'PayerCustomerName',
         'payer_id': 'PayerID',
         'payer_user_name': 'PayerUserName',
@@ -204,7 +206,7 @@ class ListForListBillDetailOutput(object):
         'zone_code': 'ZoneCode'
     }
 
-    def __init__(self, bill_category=None, bill_detail_id=None, bill_id=None, bill_period=None, billing_function=None, billing_method_code=None, billing_mode=None, busi_period=None, business_mode=None, config_name=None, configuration_code=None, count=None, country_region=None, coupon_amount=None, credit_carried_amount=None, currency=None, deduction_count=None, deduction_use_duration=None, discount_bill_amount=None, discount_biz_billing_function=None, discount_biz_measure_interval=None, discount_biz_unit_price=None, discount_biz_unit_price_interval=None, effective_factor=None, element=None, element_code=None, expand_field=None, expense_begin_time=None, expense_date=None, expense_end_time=None, factor=None, factor_code=None, formula=None, instance_name=None, instance_no=None, market_price=None, measure_interval=None, original_bill_amount=None, owner_customer_name=None, owner_id=None, owner_user_name=None, paid_amount=None, payer_customer_name=None, payer_id=None, payer_user_name=None, posttax_amount=None, preferential_bill_amount=None, pretax_amount=None, pretax_real_value=None, price=None, price_interval=None, price_unit=None, product=None, product_zh=None, project=None, project_display_name=None, real_value=None, region=None, region_code=None, reservation_instance=None, round_amount=None, seller_customer_name=None, seller_id=None, seller_user_name=None, selling_mode=None, settle_posttax_amount=None, settle_pretax_amount=None, settle_pretax_real_value=None, settle_real_value=None, settle_tax=None, settlement_type=None, solution_zh=None, subject_name=None, tag=None, tax=None, tax_rate=None, trade_time=None, unit=None, unpaid_amount=None, use_duration=None, use_duration_unit=None, zone=None, zone_code=None, _configuration=None):  # noqa: E501
+    def __init__(self, bill_category=None, bill_detail_id=None, bill_id=None, bill_period=None, billing_function=None, billing_method_code=None, billing_mode=None, busi_period=None, business_mode=None, config_name=None, configuration_code=None, count=None, country_region=None, coupon_amount=None, credit_carried_amount=None, currency=None, deduction_count=None, deduction_use_duration=None, discount_bill_amount=None, discount_biz_billing_function=None, discount_biz_measure_interval=None, discount_biz_unit_price=None, discount_biz_unit_price_interval=None, effective_factor=None, element=None, element_code=None, expand_field=None, expense_begin_time=None, expense_date=None, expense_end_time=None, factor=None, factor_code=None, formula=None, instance_name=None, instance_no=None, market_price=None, measure_interval=None, original_bill_amount=None, owner_customer_name=None, owner_id=None, owner_user_name=None, paid_amount=None, payable_amount=None, payer_customer_name=None, payer_id=None, payer_user_name=None, posttax_amount=None, preferential_bill_amount=None, pretax_amount=None, pretax_real_value=None, price=None, price_interval=None, price_unit=None, product=None, product_zh=None, project=None, project_display_name=None, real_value=None, region=None, region_code=None, reservation_instance=None, round_amount=None, seller_customer_name=None, seller_id=None, seller_user_name=None, selling_mode=None, settle_posttax_amount=None, settle_pretax_amount=None, settle_pretax_real_value=None, settle_real_value=None, settle_tax=None, settlement_type=None, solution_zh=None, subject_name=None, tag=None, tax=None, tax_rate=None, trade_time=None, unit=None, unpaid_amount=None, use_duration=None, use_duration_unit=None, zone=None, zone_code=None, _configuration=None):  # noqa: E501
         """ListForListBillDetailOutput - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
@@ -252,6 +254,7 @@ class ListForListBillDetailOutput(object):
         self._owner_id = None
         self._owner_user_name = None
         self._paid_amount = None
+        self._payable_amount = None
         self._payer_customer_name = None
         self._payer_id = None
         self._payer_user_name = None
@@ -379,6 +382,8 @@ class ListForListBillDetailOutput(object):
             self.owner_user_name = owner_user_name
         if paid_amount is not None:
             self.paid_amount = paid_amount
+        if payable_amount is not None:
+            self.payable_amount = payable_amount
         if payer_customer_name is not None:
             self.payer_customer_name = payer_customer_name
         if payer_id is not None:
@@ -1343,6 +1348,27 @@ class ListForListBillDetailOutput(object):
         """
 
         self._paid_amount = paid_amount
+
+    @property
+    def payable_amount(self):
+        """Gets the payable_amount of this ListForListBillDetailOutput.  # noqa: E501
+
+
+        :return: The payable_amount of this ListForListBillDetailOutput.  # noqa: E501
+        :rtype: str
+        """
+        return self._payable_amount
+
+    @payable_amount.setter
+    def payable_amount(self, payable_amount):
+        """Sets the payable_amount of this ListForListBillDetailOutput.
+
+
+        :param payable_amount: The payable_amount of this ListForListBillDetailOutput.  # noqa: E501
+        :type: str
+        """
+
+        self._payable_amount = payable_amount
 
     @property
     def payer_customer_name(self):

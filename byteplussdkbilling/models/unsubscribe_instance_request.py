@@ -83,6 +83,9 @@ class UnsubscribeInstanceRequest(object):
         :param client_token: The client_token of this UnsubscribeInstanceRequest.  # noqa: E501
         :type: str
         """
+        if (self._configuration.client_side_validation and
+                client_token is not None and len(client_token) > 36):
+            raise ValueError("Invalid value for `client_token`, length must be less than or equal to `36`")  # noqa: E501
 
         self._client_token = client_token
 

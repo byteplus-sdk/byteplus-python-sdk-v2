@@ -47,6 +47,7 @@ class ListForListBillOverviewByProdOutput(object):
         'owner_id': 'str',
         'owner_user_name': 'str',
         'paid_amount': 'str',
+        'payable_amount': 'str',
         'payer_customer_name': 'str',
         'payer_id': 'str',
         'payer_user_name': 'str',
@@ -87,6 +88,7 @@ class ListForListBillOverviewByProdOutput(object):
         'owner_id': 'OwnerID',
         'owner_user_name': 'OwnerUserName',
         'paid_amount': 'PaidAmount',
+        'payable_amount': 'PayableAmount',
         'payer_customer_name': 'PayerCustomerName',
         'payer_id': 'PayerID',
         'payer_user_name': 'PayerUserName',
@@ -112,7 +114,7 @@ class ListForListBillOverviewByProdOutput(object):
         'unpaid_amount': 'UnpaidAmount'
     }
 
-    def __init__(self, bill_category_parent=None, bill_period=None, billing_mode=None, business_mode=None, country_region=None, coupon_amount=None, credit_carried_amount=None, currency=None, discount_bill_amount=None, original_bill_amount=None, owner_customer_name=None, owner_id=None, owner_user_name=None, paid_amount=None, payer_customer_name=None, payer_id=None, payer_user_name=None, posttax_amount=None, preferential_bill_amount=None, pretax_amount=None, pretax_real_value=None, product=None, product_zh=None, real_value=None, round_bill_amount=None, seller_customer_name=None, seller_id=None, seller_user_name=None, settle_posttax_amount=None, settle_pretax_amount=None, settle_pretax_real_value=None, settle_real_value=None, settle_tax=None, settlement_type=None, subject_name=None, tax=None, unpaid_amount=None, _configuration=None):  # noqa: E501
+    def __init__(self, bill_category_parent=None, bill_period=None, billing_mode=None, business_mode=None, country_region=None, coupon_amount=None, credit_carried_amount=None, currency=None, discount_bill_amount=None, original_bill_amount=None, owner_customer_name=None, owner_id=None, owner_user_name=None, paid_amount=None, payable_amount=None, payer_customer_name=None, payer_id=None, payer_user_name=None, posttax_amount=None, preferential_bill_amount=None, pretax_amount=None, pretax_real_value=None, product=None, product_zh=None, real_value=None, round_bill_amount=None, seller_customer_name=None, seller_id=None, seller_user_name=None, settle_posttax_amount=None, settle_pretax_amount=None, settle_pretax_real_value=None, settle_real_value=None, settle_tax=None, settlement_type=None, subject_name=None, tax=None, unpaid_amount=None, _configuration=None):  # noqa: E501
         """ListForListBillOverviewByProdOutput - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
@@ -132,6 +134,7 @@ class ListForListBillOverviewByProdOutput(object):
         self._owner_id = None
         self._owner_user_name = None
         self._paid_amount = None
+        self._payable_amount = None
         self._payer_customer_name = None
         self._payer_id = None
         self._payer_user_name = None
@@ -185,6 +188,8 @@ class ListForListBillOverviewByProdOutput(object):
             self.owner_user_name = owner_user_name
         if paid_amount is not None:
             self.paid_amount = paid_amount
+        if payable_amount is not None:
+            self.payable_amount = payable_amount
         if payer_customer_name is not None:
             self.payer_customer_name = payer_customer_name
         if payer_id is not None:
@@ -525,6 +530,27 @@ class ListForListBillOverviewByProdOutput(object):
         """
 
         self._paid_amount = paid_amount
+
+    @property
+    def payable_amount(self):
+        """Gets the payable_amount of this ListForListBillOverviewByProdOutput.  # noqa: E501
+
+
+        :return: The payable_amount of this ListForListBillOverviewByProdOutput.  # noqa: E501
+        :rtype: str
+        """
+        return self._payable_amount
+
+    @payable_amount.setter
+    def payable_amount(self, payable_amount):
+        """Sets the payable_amount of this ListForListBillOverviewByProdOutput.
+
+
+        :param payable_amount: The payable_amount of this ListForListBillOverviewByProdOutput.  # noqa: E501
+        :type: str
+        """
+
+        self._payable_amount = payable_amount
 
     @property
     def payer_customer_name(self):

@@ -33,8 +33,6 @@ class ListBillDetailRequest(object):
                             and the value is json key in definition.
     """
     swagger_types = {
-        'account_id': 'int',
-        'base': 'BaseForListBillDetailInput',
         'bill_category': 'list[str]',
         'bill_period': 'str',
         'billing_mode': 'list[str]',
@@ -46,17 +44,12 @@ class ListBillDetailRequest(object):
         'limit': 'int',
         'need_record_num': 'int',
         'offset': 'int',
-        'order_by': 'str',
-        'order_type': 'int',
         'owner_id': 'list[int]',
         'payer_id': 'list[int]',
-        'product': 'list[str]',
-        'subject_no': 'str'
+        'product': 'list[str]'
     }
 
     attribute_map = {
-        'account_id': 'AccountID',
-        'base': 'Base',
         'bill_category': 'BillCategory',
         'bill_period': 'BillPeriod',
         'billing_mode': 'BillingMode',
@@ -68,22 +61,17 @@ class ListBillDetailRequest(object):
         'limit': 'Limit',
         'need_record_num': 'NeedRecordNum',
         'offset': 'Offset',
-        'order_by': 'OrderBy',
-        'order_type': 'OrderType',
         'owner_id': 'OwnerID',
         'payer_id': 'PayerID',
-        'product': 'Product',
-        'subject_no': 'SubjectNo'
+        'product': 'Product'
     }
 
-    def __init__(self, account_id=None, base=None, bill_category=None, bill_period=None, billing_mode=None, expense_date=None, group_period=None, group_term=None, ignore_zero=None, instance_no=None, limit=None, need_record_num=None, offset=None, order_by=None, order_type=None, owner_id=None, payer_id=None, product=None, subject_no=None, _configuration=None):  # noqa: E501
+    def __init__(self, bill_category=None, bill_period=None, billing_mode=None, expense_date=None, group_period=None, group_term=None, ignore_zero=None, instance_no=None, limit=None, need_record_num=None, offset=None, owner_id=None, payer_id=None, product=None, _configuration=None):  # noqa: E501
         """ListBillDetailRequest - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
         self._configuration = _configuration
 
-        self._account_id = None
-        self._base = None
         self._bill_category = None
         self._bill_period = None
         self._billing_mode = None
@@ -95,89 +83,37 @@ class ListBillDetailRequest(object):
         self._limit = None
         self._need_record_num = None
         self._offset = None
-        self._order_by = None
-        self._order_type = None
         self._owner_id = None
         self._payer_id = None
         self._product = None
-        self._subject_no = None
         self.discriminator = None
 
-        if account_id is not None:
-            self.account_id = account_id
-        if base is not None:
-            self.base = base
         if bill_category is not None:
             self.bill_category = bill_category
-        if bill_period is not None:
-            self.bill_period = bill_period
+        self.bill_period = bill_period
         if billing_mode is not None:
             self.billing_mode = billing_mode
         if expense_date is not None:
             self.expense_date = expense_date
-        self.group_period = group_period
-        self.group_term = group_term
-        self.ignore_zero = ignore_zero
+        if group_period is not None:
+            self.group_period = group_period
+        if group_term is not None:
+            self.group_term = group_term
+        if ignore_zero is not None:
+            self.ignore_zero = ignore_zero
         if instance_no is not None:
             self.instance_no = instance_no
         self.limit = limit
         if need_record_num is not None:
             self.need_record_num = need_record_num
-        self.offset = offset
-        if order_by is not None:
-            self.order_by = order_by
-        if order_type is not None:
-            self.order_type = order_type
+        if offset is not None:
+            self.offset = offset
         if owner_id is not None:
             self.owner_id = owner_id
         if payer_id is not None:
             self.payer_id = payer_id
         if product is not None:
             self.product = product
-        if subject_no is not None:
-            self.subject_no = subject_no
-
-    @property
-    def account_id(self):
-        """Gets the account_id of this ListBillDetailRequest.  # noqa: E501
-
-
-        :return: The account_id of this ListBillDetailRequest.  # noqa: E501
-        :rtype: int
-        """
-        return self._account_id
-
-    @account_id.setter
-    def account_id(self, account_id):
-        """Sets the account_id of this ListBillDetailRequest.
-
-
-        :param account_id: The account_id of this ListBillDetailRequest.  # noqa: E501
-        :type: int
-        """
-
-        self._account_id = account_id
-
-    @property
-    def base(self):
-        """Gets the base of this ListBillDetailRequest.  # noqa: E501
-
-
-        :return: The base of this ListBillDetailRequest.  # noqa: E501
-        :rtype: BaseForListBillDetailInput
-        """
-        return self._base
-
-    @base.setter
-    def base(self, base):
-        """Sets the base of this ListBillDetailRequest.
-
-
-        :param base: The base of this ListBillDetailRequest.  # noqa: E501
-        :type: BaseForListBillDetailInput
-        """
-
-        self._base = base
 
     @property
     def bill_category(self):
@@ -218,6 +154,8 @@ class ListBillDetailRequest(object):
         :param bill_period: The bill_period of this ListBillDetailRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and bill_period is None:
+            raise ValueError("Invalid value for `bill_period`, must not be `None`")  # noqa: E501
 
         self._bill_period = bill_period
 
@@ -281,8 +219,6 @@ class ListBillDetailRequest(object):
         :param group_period: The group_period of this ListBillDetailRequest.  # noqa: E501
         :type: int
         """
-        if self._configuration.client_side_validation and group_period is None:
-            raise ValueError("Invalid value for `group_period`, must not be `None`")  # noqa: E501
 
         self._group_period = group_period
 
@@ -304,8 +240,6 @@ class ListBillDetailRequest(object):
         :param group_term: The group_term of this ListBillDetailRequest.  # noqa: E501
         :type: int
         """
-        if self._configuration.client_side_validation and group_term is None:
-            raise ValueError("Invalid value for `group_term`, must not be `None`")  # noqa: E501
 
         self._group_term = group_term
 
@@ -327,8 +261,6 @@ class ListBillDetailRequest(object):
         :param ignore_zero: The ignore_zero of this ListBillDetailRequest.  # noqa: E501
         :type: int
         """
-        if self._configuration.client_side_validation and ignore_zero is None:
-            raise ValueError("Invalid value for `ignore_zero`, must not be `None`")  # noqa: E501
 
         self._ignore_zero = ignore_zero
 
@@ -415,52 +347,8 @@ class ListBillDetailRequest(object):
         :param offset: The offset of this ListBillDetailRequest.  # noqa: E501
         :type: int
         """
-        if self._configuration.client_side_validation and offset is None:
-            raise ValueError("Invalid value for `offset`, must not be `None`")  # noqa: E501
 
         self._offset = offset
-
-    @property
-    def order_by(self):
-        """Gets the order_by of this ListBillDetailRequest.  # noqa: E501
-
-
-        :return: The order_by of this ListBillDetailRequest.  # noqa: E501
-        :rtype: str
-        """
-        return self._order_by
-
-    @order_by.setter
-    def order_by(self, order_by):
-        """Sets the order_by of this ListBillDetailRequest.
-
-
-        :param order_by: The order_by of this ListBillDetailRequest.  # noqa: E501
-        :type: str
-        """
-
-        self._order_by = order_by
-
-    @property
-    def order_type(self):
-        """Gets the order_type of this ListBillDetailRequest.  # noqa: E501
-
-
-        :return: The order_type of this ListBillDetailRequest.  # noqa: E501
-        :rtype: int
-        """
-        return self._order_type
-
-    @order_type.setter
-    def order_type(self, order_type):
-        """Sets the order_type of this ListBillDetailRequest.
-
-
-        :param order_type: The order_type of this ListBillDetailRequest.  # noqa: E501
-        :type: int
-        """
-
-        self._order_type = order_type
 
     @property
     def owner_id(self):
@@ -524,27 +412,6 @@ class ListBillDetailRequest(object):
         """
 
         self._product = product
-
-    @property
-    def subject_no(self):
-        """Gets the subject_no of this ListBillDetailRequest.  # noqa: E501
-
-
-        :return: The subject_no of this ListBillDetailRequest.  # noqa: E501
-        :rtype: str
-        """
-        return self._subject_no
-
-    @subject_no.setter
-    def subject_no(self, subject_no):
-        """Sets the subject_no of this ListBillDetailRequest.
-
-
-        :param subject_no: The subject_no of this ListBillDetailRequest.  # noqa: E501
-        :type: str
-        """
-
-        self._subject_no = subject_no
 
     def to_dict(self):
         """Returns the model properties as a dict"""

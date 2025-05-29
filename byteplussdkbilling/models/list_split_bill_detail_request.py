@@ -36,12 +36,15 @@ class ListSplitBillDetailRequest(object):
         'bill_category': 'list[str]',
         'bill_period': 'str',
         'billing_mode': 'list[str]',
+        'expense_date': 'str',
         'group_period': 'int',
         'ignore_zero': 'int',
         'instance_no': 'str',
         'limit': 'int',
         'need_record_num': 'int',
         'offset': 'int',
+        'owner_id': 'list[int]',
+        'payer_id': 'list[int]',
         'product': 'list[str]',
         'split_item_id': 'str'
     }
@@ -50,17 +53,20 @@ class ListSplitBillDetailRequest(object):
         'bill_category': 'BillCategory',
         'bill_period': 'BillPeriod',
         'billing_mode': 'BillingMode',
+        'expense_date': 'ExpenseDate',
         'group_period': 'GroupPeriod',
         'ignore_zero': 'IgnoreZero',
         'instance_no': 'InstanceNo',
         'limit': 'Limit',
         'need_record_num': 'NeedRecordNum',
         'offset': 'Offset',
+        'owner_id': 'OwnerID',
+        'payer_id': 'PayerID',
         'product': 'Product',
         'split_item_id': 'SplitItemID'
     }
 
-    def __init__(self, bill_category=None, bill_period=None, billing_mode=None, group_period=None, ignore_zero=None, instance_no=None, limit=None, need_record_num=None, offset=None, product=None, split_item_id=None, _configuration=None):  # noqa: E501
+    def __init__(self, bill_category=None, bill_period=None, billing_mode=None, expense_date=None, group_period=None, ignore_zero=None, instance_no=None, limit=None, need_record_num=None, offset=None, owner_id=None, payer_id=None, product=None, split_item_id=None, _configuration=None):  # noqa: E501
         """ListSplitBillDetailRequest - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
@@ -69,12 +75,15 @@ class ListSplitBillDetailRequest(object):
         self._bill_category = None
         self._bill_period = None
         self._billing_mode = None
+        self._expense_date = None
         self._group_period = None
         self._ignore_zero = None
         self._instance_no = None
         self._limit = None
         self._need_record_num = None
         self._offset = None
+        self._owner_id = None
+        self._payer_id = None
         self._product = None
         self._split_item_id = None
         self.discriminator = None
@@ -84,6 +93,8 @@ class ListSplitBillDetailRequest(object):
         self.bill_period = bill_period
         if billing_mode is not None:
             self.billing_mode = billing_mode
+        if expense_date is not None:
+            self.expense_date = expense_date
         if group_period is not None:
             self.group_period = group_period
         if ignore_zero is not None:
@@ -95,6 +106,10 @@ class ListSplitBillDetailRequest(object):
             self.need_record_num = need_record_num
         if offset is not None:
             self.offset = offset
+        if owner_id is not None:
+            self.owner_id = owner_id
+        if payer_id is not None:
+            self.payer_id = payer_id
         if product is not None:
             self.product = product
         if split_item_id is not None:
@@ -164,6 +179,27 @@ class ListSplitBillDetailRequest(object):
         """
 
         self._billing_mode = billing_mode
+
+    @property
+    def expense_date(self):
+        """Gets the expense_date of this ListSplitBillDetailRequest.  # noqa: E501
+
+
+        :return: The expense_date of this ListSplitBillDetailRequest.  # noqa: E501
+        :rtype: str
+        """
+        return self._expense_date
+
+    @expense_date.setter
+    def expense_date(self, expense_date):
+        """Sets the expense_date of this ListSplitBillDetailRequest.
+
+
+        :param expense_date: The expense_date of this ListSplitBillDetailRequest.  # noqa: E501
+        :type: str
+        """
+
+        self._expense_date = expense_date
 
     @property
     def group_period(self):
@@ -292,6 +328,48 @@ class ListSplitBillDetailRequest(object):
         """
 
         self._offset = offset
+
+    @property
+    def owner_id(self):
+        """Gets the owner_id of this ListSplitBillDetailRequest.  # noqa: E501
+
+
+        :return: The owner_id of this ListSplitBillDetailRequest.  # noqa: E501
+        :rtype: list[int]
+        """
+        return self._owner_id
+
+    @owner_id.setter
+    def owner_id(self, owner_id):
+        """Sets the owner_id of this ListSplitBillDetailRequest.
+
+
+        :param owner_id: The owner_id of this ListSplitBillDetailRequest.  # noqa: E501
+        :type: list[int]
+        """
+
+        self._owner_id = owner_id
+
+    @property
+    def payer_id(self):
+        """Gets the payer_id of this ListSplitBillDetailRequest.  # noqa: E501
+
+
+        :return: The payer_id of this ListSplitBillDetailRequest.  # noqa: E501
+        :rtype: list[int]
+        """
+        return self._payer_id
+
+    @payer_id.setter
+    def payer_id(self, payer_id):
+        """Sets the payer_id of this ListSplitBillDetailRequest.
+
+
+        :param payer_id: The payer_id of this ListSplitBillDetailRequest.  # noqa: E501
+        :type: list[int]
+        """
+
+        self._payer_id = payer_id
 
     @property
     def product(self):
