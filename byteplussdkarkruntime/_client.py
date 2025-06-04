@@ -38,6 +38,8 @@ class Ark(SyncAPIClient):
     chat: resources.Chat
     context: resources.Context
     batch_chat: resources.BatchChat
+    content_generation : resources.ContentGeneration
+    images : resources.Images
     model_breaker_map: dict[str, ModelBreaker]
     model_breaker_lock: threading.Lock
 
@@ -96,6 +98,8 @@ class Ark(SyncAPIClient):
         self.chat = resources.Chat(self)
         self.context = resources.Context(self)
         self.batch_chat = resources.BatchChat(self)
+        self.content_generation = resources.ContentGeneration(self)
+        self.images = resources.Images(self)
         self.model_breaker_map = defaultdict(ModelBreaker)
         self.model_breaker_lock = threading.Lock()
         # self.classification = resources.Classification(self)
@@ -137,6 +141,8 @@ class AsyncArk(AsyncAPIClient):
     chat: resources.AsyncChat
     context: resources.AsyncContext
     batch_chat: resources.AsyncBatchChat
+    content_generation: resources.AsyncContentGeneration
+    images: resources.AsyncImages
     model_breaker_map: dict[str, ModelBreaker]
     model_breaker_lock: asyncio.Lock
 
@@ -194,6 +200,8 @@ class AsyncArk(AsyncAPIClient):
         self.chat = resources.AsyncChat(self)
         self.context = resources.AsyncContext(self)
         self.batch_chat = resources.AsyncBatchChat(self)
+        self.content_generation = resources.AsyncContentGeneration(self)
+        self.images = resources.AsyncImages(self)
         self.model_breaker_map = defaultdict(ModelBreaker)
         self.model_breaker_lock = asyncio.Lock()
         # self.classification = resources.AsyncClassification(self)
