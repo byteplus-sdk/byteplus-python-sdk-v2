@@ -84,6 +84,13 @@ default_endpoint = {
         region_endpoint_map={},
         fallback_endpoint=fallback_endpoint,
     ),
+    'kms': ServiceEndpointInfo(
+        service='kms',
+        is_global=False,
+        global_endpoint='',
+        region_endpoint_map={},
+        fallback_endpoint=fallback_endpoint,
+    ),
 }
 
 
