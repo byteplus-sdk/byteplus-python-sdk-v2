@@ -26,7 +26,6 @@ class CreateTaskContentImageDataParam(TypedDict):
 class CreateTaskContentImageParam(TypedDict):
     type: Literal["image_url"]
     image_url: CreateTaskContentImageDataParam
-    role: str
     """Image data object containing image URL."""
 
 
