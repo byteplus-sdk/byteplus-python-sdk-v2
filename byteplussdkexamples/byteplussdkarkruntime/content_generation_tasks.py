@@ -14,16 +14,16 @@ if __name__ == "__main__":
         content=[
             {
                 "type": "text",
-                "text": "Dragon soaring above vast grasslands"
+                "text": "Bird soaring above vast grasslands"
             },
             {
                 "type": "image_url",
                 "image_url": {
                     "url": "${YOUR_IMAGE_URL}"
                 },
-                # "role": "first_frame"
             }
-        ]
+        ],
+        # callback_url="${YOUR_CALLBACK_URL}"
     )
     print(create_result)
 

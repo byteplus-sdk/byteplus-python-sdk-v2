@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
     result = client.images.generate(
         model="${YOUR_ENDPOINT_ID}",
-        prompt="Dragon soaring above vast grasslands",
+        prompt="Bird soaring above vast grasslands",
         seed=1234567890,
         watermark=True,
         size="512x512",
