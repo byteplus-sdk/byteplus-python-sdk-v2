@@ -1,7 +1,7 @@
 import datetime
 import mimetypes
 import os
-from urllib.parse import quote
+from six.moves.urllib.parse import quote
 
 import six
 
