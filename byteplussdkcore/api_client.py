@@ -15,9 +15,9 @@ from byteplussdkcore.configuration import Configuration
 from byteplussdkcore.interceptor import BuildRequestInterceptor, RuntimeOptionsInterceptor, \
     ResolveEndpointInterceptor, SignRequestInterceptor, DeserializedResponseInterceptor, InterceptorContext, Request, \
     Response, InterceptorChain
-from byteplussdkcore.retryer.retryer import DEFAULT_RETRYER
 
 logger = logging.getLogger(__name__)
+
 
 class ApiClient(object):
     """Generic API client for Swagger client library builds.

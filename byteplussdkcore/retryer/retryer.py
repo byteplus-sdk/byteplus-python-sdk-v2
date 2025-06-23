@@ -1,8 +1,11 @@
 # coding: utf-8
-
-from byteplussdkcore.rest import RESTResponse
-from byteplussdkcore.retryer.backoff_strategy import ExponentialWithRandomJitterBackoffStrategy, BackoffStrategy
-from byteplussdkcore.retryer.retry_condition import DefaultRetryCondition, RetryCondition
+from typing import TYPE_CHECKING
+from byteplussdkcore.retryer.backoff_strategy import ExponentialWithRandomJitterBackoffStrategy
+from byteplussdkcore.retryer.retry_condition import DefaultRetryCondition
+if TYPE_CHECKING:
+    from byteplussdkcore.rest import RESTResponse
+    from byteplussdkcore.retryer.backoff_strategy import BackoffStrategy
+    from byteplussdkcore.retryer.retry_condition import RetryCondition
 
 _DEFAULT_BACKOFF_STRATEGY = ExponentialWithRandomJitterBackoffStrategy(
     min_retry_delay_ms=300,
@@ -68,5 +71,6 @@ class Retryer:
         if self.backoff_strategy is not None:
             return self.backoff_strategy.compute_delay(retry_count)
         return 0.0
+
 
 DEFAULT_RETRYER = Retryer()
