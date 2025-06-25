@@ -33,11 +33,14 @@ class RunInstancesRequest(object):
                             and the value is json key in definition.
     """
     swagger_types = {
+        'affinity_group_size': 'int',
         'auto_renew': 'bool',
         'auto_renew_period': 'int',
         'client_token': 'str',
         'count': 'int',
+        'cpu_max_frequency': 'float',
         'credit_specification': 'str',
+        'deletion_protection': 'bool',
         'deployment_set_group_number': 'int',
         'deployment_set_id': 'str',
         'description': 'str',
@@ -56,7 +59,6 @@ class RunInstancesRequest(object):
         'keep_image_credential': 'bool',
         'key_pair_name': 'str',
         'min_count': 'int',
-        'network_interface': 'list[ConvertNetworkInterfaceForRunInstancesInput]',
         'network_interfaces': 'list[NetworkInterfaceForRunInstancesInput]',
         'password': 'str',
         'period': 'int',
@@ -75,11 +77,14 @@ class RunInstancesRequest(object):
     }
 
     attribute_map = {
+        'affinity_group_size': 'AffinityGroupSize',
         'auto_renew': 'AutoRenew',
         'auto_renew_period': 'AutoRenewPeriod',
         'client_token': 'ClientToken',
         'count': 'Count',
+        'cpu_max_frequency': 'CpuMaxFrequency',
         'credit_specification': 'CreditSpecification',
+        'deletion_protection': 'DeletionProtection',
         'deployment_set_group_number': 'DeploymentSetGroupNumber',
         'deployment_set_id': 'DeploymentSetId',
         'description': 'Description',
@@ -98,7 +103,6 @@ class RunInstancesRequest(object):
         'keep_image_credential': 'KeepImageCredential',
         'key_pair_name': 'KeyPairName',
         'min_count': 'MinCount',
-        'network_interface': 'NetworkInterface',
         'network_interfaces': 'NetworkInterfaces',
         'password': 'Password',
         'period': 'Period',
@@ -116,17 +120,20 @@ class RunInstancesRequest(object):
         'zone_id': 'ZoneId'
     }
 
-    def __init__(self, auto_renew=None, auto_renew_period=None, client_token=None, count=None, credit_specification=None, deployment_set_group_number=None, deployment_set_id=None, description=None, dry_run=None, eip_address=None, host_name=None, hostname=None, hpc_cluster_id=None, image_id=None, image_release_version=None, install_run_command_agent=None, instance_charge_type=None, instance_name=None, instance_type=None, instance_type_id=None, keep_image_credential=None, key_pair_name=None, min_count=None, network_interface=None, network_interfaces=None, password=None, period=None, period_unit=None, placement=None, project_name=None, security_enhancement_strategy=None, spot_price_limit=None, spot_strategy=None, suffix_index=None, tags=None, unique_suffix=None, user_data=None, volumes=None, zone_id=None, _configuration=None):  # noqa: E501
+    def __init__(self, affinity_group_size=None, auto_renew=None, auto_renew_period=None, client_token=None, count=None, cpu_max_frequency=None, credit_specification=None, deletion_protection=None, deployment_set_group_number=None, deployment_set_id=None, description=None, dry_run=None, eip_address=None, host_name=None, hostname=None, hpc_cluster_id=None, image_id=None, image_release_version=None, install_run_command_agent=None, instance_charge_type=None, instance_name=None, instance_type=None, instance_type_id=None, keep_image_credential=None, key_pair_name=None, min_count=None, network_interfaces=None, password=None, period=None, period_unit=None, placement=None, project_name=None, security_enhancement_strategy=None, spot_price_limit=None, spot_strategy=None, suffix_index=None, tags=None, unique_suffix=None, user_data=None, volumes=None, zone_id=None, _configuration=None):  # noqa: E501
         """RunInstancesRequest - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
         self._configuration = _configuration
 
+        self._affinity_group_size = None
         self._auto_renew = None
         self._auto_renew_period = None
         self._client_token = None
         self._count = None
+        self._cpu_max_frequency = None
         self._credit_specification = None
+        self._deletion_protection = None
         self._deployment_set_group_number = None
         self._deployment_set_id = None
         self._description = None
@@ -145,7 +152,6 @@ class RunInstancesRequest(object):
         self._keep_image_credential = None
         self._key_pair_name = None
         self._min_count = None
-        self._network_interface = None
         self._network_interfaces = None
         self._password = None
         self._period = None
@@ -163,6 +169,8 @@ class RunInstancesRequest(object):
         self._zone_id = None
         self.discriminator = None
 
+        if affinity_group_size is not None:
+            self.affinity_group_size = affinity_group_size
         if auto_renew is not None:
             self.auto_renew = auto_renew
         if auto_renew_period is not None:
@@ -171,8 +179,12 @@ class RunInstancesRequest(object):
             self.client_token = client_token
         if count is not None:
             self.count = count
+        if cpu_max_frequency is not None:
+            self.cpu_max_frequency = cpu_max_frequency
         if credit_specification is not None:
             self.credit_specification = credit_specification
+        if deletion_protection is not None:
+            self.deletion_protection = deletion_protection
         if deployment_set_group_number is not None:
             self.deployment_set_group_number = deployment_set_group_number
         if deployment_set_id is not None:
@@ -189,16 +201,14 @@ class RunInstancesRequest(object):
             self.hostname = hostname
         if hpc_cluster_id is not None:
             self.hpc_cluster_id = hpc_cluster_id
-        if image_id is not None:
-            self.image_id = image_id
+        self.image_id = image_id
         if image_release_version is not None:
             self.image_release_version = image_release_version
         if install_run_command_agent is not None:
             self.install_run_command_agent = install_run_command_agent
         if instance_charge_type is not None:
             self.instance_charge_type = instance_charge_type
-        if instance_name is not None:
-            self.instance_name = instance_name
+        self.instance_name = instance_name
         if instance_type is not None:
             self.instance_type = instance_type
         if instance_type_id is not None:
@@ -209,8 +219,6 @@ class RunInstancesRequest(object):
             self.key_pair_name = key_pair_name
         if min_count is not None:
             self.min_count = min_count
-        if network_interface is not None:
-            self.network_interface = network_interface
         if network_interfaces is not None:
             self.network_interfaces = network_interfaces
         if password is not None:
@@ -239,8 +247,28 @@ class RunInstancesRequest(object):
             self.user_data = user_data
         if volumes is not None:
             self.volumes = volumes
-        if zone_id is not None:
-            self.zone_id = zone_id
+        self.zone_id = zone_id
+
+    @property
+    def affinity_group_size(self):
+        """Gets the affinity_group_size of this RunInstancesRequest.  # noqa: E501
+
+
+        :return: The affinity_group_size of this RunInstancesRequest.  # noqa: E501
+        :rtype: int
+        """
+        return self._affinity_group_size
+
+    @affinity_group_size.setter
+    def affinity_group_size(self, affinity_group_size):
+        """Sets the affinity_group_size of this RunInstancesRequest.
+
+
+        :param affinity_group_size: The affinity_group_size of this RunInstancesRequest.  # noqa: E501
+        :type: int
+        """
+
+        self._affinity_group_size = affinity_group_size
 
     @property
     def auto_renew(self):
@@ -327,6 +355,27 @@ class RunInstancesRequest(object):
         self._count = count
 
     @property
+    def cpu_max_frequency(self):
+        """Gets the cpu_max_frequency of this RunInstancesRequest.  # noqa: E501
+
+
+        :return: The cpu_max_frequency of this RunInstancesRequest.  # noqa: E501
+        :rtype: float
+        """
+        return self._cpu_max_frequency
+
+    @cpu_max_frequency.setter
+    def cpu_max_frequency(self, cpu_max_frequency):
+        """Sets the cpu_max_frequency of this RunInstancesRequest.
+
+
+        :param cpu_max_frequency: The cpu_max_frequency of this RunInstancesRequest.  # noqa: E501
+        :type: float
+        """
+
+        self._cpu_max_frequency = cpu_max_frequency
+
+    @property
     def credit_specification(self):
         """Gets the credit_specification of this RunInstancesRequest.  # noqa: E501
 
@@ -346,6 +395,27 @@ class RunInstancesRequest(object):
         """
 
         self._credit_specification = credit_specification
+
+    @property
+    def deletion_protection(self):
+        """Gets the deletion_protection of this RunInstancesRequest.  # noqa: E501
+
+
+        :return: The deletion_protection of this RunInstancesRequest.  # noqa: E501
+        :rtype: bool
+        """
+        return self._deletion_protection
+
+    @deletion_protection.setter
+    def deletion_protection(self, deletion_protection):
+        """Sets the deletion_protection of this RunInstancesRequest.
+
+
+        :param deletion_protection: The deletion_protection of this RunInstancesRequest.  # noqa: E501
+        :type: bool
+        """
+
+        self._deletion_protection = deletion_protection
 
     @property
     def deployment_set_group_number(self):
@@ -533,6 +603,8 @@ class RunInstancesRequest(object):
         :param image_id: The image_id of this RunInstancesRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and image_id is None:
+            raise ValueError("Invalid value for `image_id`, must not be `None`")  # noqa: E501
 
         self._image_id = image_id
 
@@ -617,6 +689,8 @@ class RunInstancesRequest(object):
         :param instance_name: The instance_name of this RunInstancesRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and instance_name is None:
+            raise ValueError("Invalid value for `instance_name`, must not be `None`")  # noqa: E501
 
         self._instance_name = instance_name
 
@@ -724,27 +798,6 @@ class RunInstancesRequest(object):
         """
 
         self._min_count = min_count
-
-    @property
-    def network_interface(self):
-        """Gets the network_interface of this RunInstancesRequest.  # noqa: E501
-
-
-        :return: The network_interface of this RunInstancesRequest.  # noqa: E501
-        :rtype: list[ConvertNetworkInterfaceForRunInstancesInput]
-        """
-        return self._network_interface
-
-    @network_interface.setter
-    def network_interface(self, network_interface):
-        """Sets the network_interface of this RunInstancesRequest.
-
-
-        :param network_interface: The network_interface of this RunInstancesRequest.  # noqa: E501
-        :type: list[ConvertNetworkInterfaceForRunInstancesInput]
-        """
-
-        self._network_interface = network_interface
 
     @property
     def network_interfaces(self):
@@ -1058,6 +1111,8 @@ class RunInstancesRequest(object):
         :param zone_id: The zone_id of this RunInstancesRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and zone_id is None:
+            raise ValueError("Invalid value for `zone_id`, must not be `None`")  # noqa: E501
 
         self._zone_id = zone_id
 

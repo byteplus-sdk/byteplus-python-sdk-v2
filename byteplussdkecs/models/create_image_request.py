@@ -77,8 +77,7 @@ class CreateImageRequest(object):
             self.create_whole_image = create_whole_image
         if description is not None:
             self.description = description
-        if image_name is not None:
-            self.image_name = image_name
+        self.image_name = image_name
         if instance_id is not None:
             self.instance_id = instance_id
         if need_detection is not None:
@@ -152,6 +151,8 @@ class CreateImageRequest(object):
         :param image_name: The image_name of this CreateImageRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and image_name is None:
+            raise ValueError("Invalid value for `image_name`, must not be `None`")  # noqa: E501
 
         self._image_name = image_name
 

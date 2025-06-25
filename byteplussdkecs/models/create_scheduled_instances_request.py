@@ -36,6 +36,8 @@ class CreateScheduledInstancesRequest(object):
         'auto_release_at': 'str',
         'client_token': 'str',
         'count': 'int',
+        'cpu_max_frequency': 'float',
+        'deletion_protection': 'bool',
         'delivery_type': 'str',
         'description': 'str',
         'dry_run': 'bool',
@@ -50,6 +52,7 @@ class CreateScheduledInstancesRequest(object):
         'instance_type_id': 'str',
         'keep_image_credential': 'bool',
         'key_pair_name': 'str',
+        'min_count': 'int',
         'network_interfaces': 'list[NetworkInterfaceForCreateScheduledInstancesInput]',
         'password': 'str',
         'project_name': 'str',
@@ -69,6 +72,8 @@ class CreateScheduledInstancesRequest(object):
         'auto_release_at': 'AutoReleaseAt',
         'client_token': 'ClientToken',
         'count': 'Count',
+        'cpu_max_frequency': 'CpuMaxFrequency',
+        'deletion_protection': 'DeletionProtection',
         'delivery_type': 'DeliveryType',
         'description': 'Description',
         'dry_run': 'DryRun',
@@ -83,6 +88,7 @@ class CreateScheduledInstancesRequest(object):
         'instance_type_id': 'InstanceTypeId',
         'keep_image_credential': 'KeepImageCredential',
         'key_pair_name': 'KeyPairName',
+        'min_count': 'MinCount',
         'network_interfaces': 'NetworkInterfaces',
         'password': 'Password',
         'project_name': 'ProjectName',
@@ -98,7 +104,7 @@ class CreateScheduledInstancesRequest(object):
         'zone_id': 'ZoneId'
     }
 
-    def __init__(self, auto_release_at=None, client_token=None, count=None, delivery_type=None, description=None, dry_run=None, eip_address=None, elastic_scheduled_instance_type=None, end_delivery_at=None, hostname=None, hpc_cluster_id=None, image_id=None, install_run_command_agent=None, instance_name=None, instance_type_id=None, keep_image_credential=None, key_pair_name=None, network_interfaces=None, password=None, project_name=None, scheduled_instance_description=None, scheduled_instance_name=None, security_enhancement_strategy=None, start_delivery_at=None, suffix_index=None, tags=None, unique_suffix=None, user_data=None, volumes=None, zone_id=None, _configuration=None):  # noqa: E501
+    def __init__(self, auto_release_at=None, client_token=None, count=None, cpu_max_frequency=None, deletion_protection=None, delivery_type=None, description=None, dry_run=None, eip_address=None, elastic_scheduled_instance_type=None, end_delivery_at=None, hostname=None, hpc_cluster_id=None, image_id=None, install_run_command_agent=None, instance_name=None, instance_type_id=None, keep_image_credential=None, key_pair_name=None, min_count=None, network_interfaces=None, password=None, project_name=None, scheduled_instance_description=None, scheduled_instance_name=None, security_enhancement_strategy=None, start_delivery_at=None, suffix_index=None, tags=None, unique_suffix=None, user_data=None, volumes=None, zone_id=None, _configuration=None):  # noqa: E501
         """CreateScheduledInstancesRequest - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
@@ -107,6 +113,8 @@ class CreateScheduledInstancesRequest(object):
         self._auto_release_at = None
         self._client_token = None
         self._count = None
+        self._cpu_max_frequency = None
+        self._deletion_protection = None
         self._delivery_type = None
         self._description = None
         self._dry_run = None
@@ -121,6 +129,7 @@ class CreateScheduledInstancesRequest(object):
         self._instance_type_id = None
         self._keep_image_credential = None
         self._key_pair_name = None
+        self._min_count = None
         self._network_interfaces = None
         self._password = None
         self._project_name = None
@@ -142,6 +151,10 @@ class CreateScheduledInstancesRequest(object):
             self.client_token = client_token
         if count is not None:
             self.count = count
+        if cpu_max_frequency is not None:
+            self.cpu_max_frequency = cpu_max_frequency
+        if deletion_protection is not None:
+            self.deletion_protection = deletion_protection
         if delivery_type is not None:
             self.delivery_type = delivery_type
         if description is not None:
@@ -158,18 +171,17 @@ class CreateScheduledInstancesRequest(object):
             self.hostname = hostname
         if hpc_cluster_id is not None:
             self.hpc_cluster_id = hpc_cluster_id
-        if image_id is not None:
-            self.image_id = image_id
+        self.image_id = image_id
         if install_run_command_agent is not None:
             self.install_run_command_agent = install_run_command_agent
-        if instance_name is not None:
-            self.instance_name = instance_name
-        if instance_type_id is not None:
-            self.instance_type_id = instance_type_id
+        self.instance_name = instance_name
+        self.instance_type_id = instance_type_id
         if keep_image_credential is not None:
             self.keep_image_credential = keep_image_credential
         if key_pair_name is not None:
             self.key_pair_name = key_pair_name
+        if min_count is not None:
+            self.min_count = min_count
         if network_interfaces is not None:
             self.network_interfaces = network_interfaces
         if password is not None:
@@ -178,8 +190,7 @@ class CreateScheduledInstancesRequest(object):
             self.project_name = project_name
         if scheduled_instance_description is not None:
             self.scheduled_instance_description = scheduled_instance_description
-        if scheduled_instance_name is not None:
-            self.scheduled_instance_name = scheduled_instance_name
+        self.scheduled_instance_name = scheduled_instance_name
         if security_enhancement_strategy is not None:
             self.security_enhancement_strategy = security_enhancement_strategy
         if start_delivery_at is not None:
@@ -194,8 +205,7 @@ class CreateScheduledInstancesRequest(object):
             self.user_data = user_data
         if volumes is not None:
             self.volumes = volumes
-        if zone_id is not None:
-            self.zone_id = zone_id
+        self.zone_id = zone_id
 
     @property
     def auto_release_at(self):
@@ -259,6 +269,48 @@ class CreateScheduledInstancesRequest(object):
         """
 
         self._count = count
+
+    @property
+    def cpu_max_frequency(self):
+        """Gets the cpu_max_frequency of this CreateScheduledInstancesRequest.  # noqa: E501
+
+
+        :return: The cpu_max_frequency of this CreateScheduledInstancesRequest.  # noqa: E501
+        :rtype: float
+        """
+        return self._cpu_max_frequency
+
+    @cpu_max_frequency.setter
+    def cpu_max_frequency(self, cpu_max_frequency):
+        """Sets the cpu_max_frequency of this CreateScheduledInstancesRequest.
+
+
+        :param cpu_max_frequency: The cpu_max_frequency of this CreateScheduledInstancesRequest.  # noqa: E501
+        :type: float
+        """
+
+        self._cpu_max_frequency = cpu_max_frequency
+
+    @property
+    def deletion_protection(self):
+        """Gets the deletion_protection of this CreateScheduledInstancesRequest.  # noqa: E501
+
+
+        :return: The deletion_protection of this CreateScheduledInstancesRequest.  # noqa: E501
+        :rtype: bool
+        """
+        return self._deletion_protection
+
+    @deletion_protection.setter
+    def deletion_protection(self, deletion_protection):
+        """Sets the deletion_protection of this CreateScheduledInstancesRequest.
+
+
+        :param deletion_protection: The deletion_protection of this CreateScheduledInstancesRequest.  # noqa: E501
+        :type: bool
+        """
+
+        self._deletion_protection = deletion_protection
 
     @property
     def delivery_type(self):
@@ -446,6 +498,8 @@ class CreateScheduledInstancesRequest(object):
         :param image_id: The image_id of this CreateScheduledInstancesRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and image_id is None:
+            raise ValueError("Invalid value for `image_id`, must not be `None`")  # noqa: E501
 
         self._image_id = image_id
 
@@ -488,6 +542,8 @@ class CreateScheduledInstancesRequest(object):
         :param instance_name: The instance_name of this CreateScheduledInstancesRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and instance_name is None:
+            raise ValueError("Invalid value for `instance_name`, must not be `None`")  # noqa: E501
 
         self._instance_name = instance_name
 
@@ -509,6 +565,8 @@ class CreateScheduledInstancesRequest(object):
         :param instance_type_id: The instance_type_id of this CreateScheduledInstancesRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and instance_type_id is None:
+            raise ValueError("Invalid value for `instance_type_id`, must not be `None`")  # noqa: E501
 
         self._instance_type_id = instance_type_id
 
@@ -553,6 +611,27 @@ class CreateScheduledInstancesRequest(object):
         """
 
         self._key_pair_name = key_pair_name
+
+    @property
+    def min_count(self):
+        """Gets the min_count of this CreateScheduledInstancesRequest.  # noqa: E501
+
+
+        :return: The min_count of this CreateScheduledInstancesRequest.  # noqa: E501
+        :rtype: int
+        """
+        return self._min_count
+
+    @min_count.setter
+    def min_count(self, min_count):
+        """Sets the min_count of this CreateScheduledInstancesRequest.
+
+
+        :param min_count: The min_count of this CreateScheduledInstancesRequest.  # noqa: E501
+        :type: int
+        """
+
+        self._min_count = min_count
 
     @property
     def network_interfaces(self):
@@ -656,6 +735,8 @@ class CreateScheduledInstancesRequest(object):
         :param scheduled_instance_name: The scheduled_instance_name of this CreateScheduledInstancesRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and scheduled_instance_name is None:
+            raise ValueError("Invalid value for `scheduled_instance_name`, must not be `None`")  # noqa: E501
 
         self._scheduled_instance_name = scheduled_instance_name
 
@@ -824,6 +905,8 @@ class CreateScheduledInstancesRequest(object):
         :param zone_id: The zone_id of this CreateScheduledInstancesRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and zone_id is None:
+            raise ValueError("Invalid value for `zone_id`, must not be `None`")  # noqa: E501
 
         self._zone_id = zone_id
 

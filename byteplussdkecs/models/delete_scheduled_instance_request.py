@@ -54,8 +54,7 @@ class DeleteScheduledInstanceRequest(object):
 
         if client_token is not None:
             self.client_token = client_token
-        if scheduled_instance_id is not None:
-            self.scheduled_instance_id = scheduled_instance_id
+        self.scheduled_instance_id = scheduled_instance_id
 
     @property
     def client_token(self):
@@ -96,6 +95,8 @@ class DeleteScheduledInstanceRequest(object):
         :param scheduled_instance_id: The scheduled_instance_id of this DeleteScheduledInstanceRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and scheduled_instance_id is None:
+            raise ValueError("Invalid value for `scheduled_instance_id`, must not be `None`")  # noqa: E501
 
         self._scheduled_instance_id = scheduled_instance_id
 

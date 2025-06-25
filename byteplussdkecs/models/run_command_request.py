@@ -50,6 +50,7 @@ class RunCommandRequest(object):
         'timeout': 'int',
         'type': 'str',
         'username': 'str',
+        'windows_password': 'str',
         'working_dir': 'str'
     }
 
@@ -71,10 +72,11 @@ class RunCommandRequest(object):
         'timeout': 'Timeout',
         'type': 'Type',
         'username': 'Username',
+        'windows_password': 'WindowsPassword',
         'working_dir': 'WorkingDir'
     }
 
-    def __init__(self, command_content=None, content_encoding=None, enable_parameter=None, frequency=None, instance_ids=None, invocation_description=None, invocation_name=None, launch_time=None, parameter_definitions=None, parameters=None, project_name=None, recurrence_end_time=None, repeat_mode=None, tags=None, timeout=None, type=None, username=None, working_dir=None, _configuration=None):  # noqa: E501
+    def __init__(self, command_content=None, content_encoding=None, enable_parameter=None, frequency=None, instance_ids=None, invocation_description=None, invocation_name=None, launch_time=None, parameter_definitions=None, parameters=None, project_name=None, recurrence_end_time=None, repeat_mode=None, tags=None, timeout=None, type=None, username=None, windows_password=None, working_dir=None, _configuration=None):  # noqa: E501
         """RunCommandRequest - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
@@ -97,11 +99,11 @@ class RunCommandRequest(object):
         self._timeout = None
         self._type = None
         self._username = None
+        self._windows_password = None
         self._working_dir = None
         self.discriminator = None
 
-        if command_content is not None:
-            self.command_content = command_content
+        self.command_content = command_content
         if content_encoding is not None:
             self.content_encoding = content_encoding
         if enable_parameter is not None:
@@ -112,8 +114,7 @@ class RunCommandRequest(object):
             self.instance_ids = instance_ids
         if invocation_description is not None:
             self.invocation_description = invocation_description
-        if invocation_name is not None:
-            self.invocation_name = invocation_name
+        self.invocation_name = invocation_name
         if launch_time is not None:
             self.launch_time = launch_time
         if parameter_definitions is not None:
@@ -130,10 +131,11 @@ class RunCommandRequest(object):
             self.tags = tags
         if timeout is not None:
             self.timeout = timeout
-        if type is not None:
-            self.type = type
+        self.type = type
         if username is not None:
             self.username = username
+        if windows_password is not None:
+            self.windows_password = windows_password
         if working_dir is not None:
             self.working_dir = working_dir
 
@@ -155,6 +157,8 @@ class RunCommandRequest(object):
         :param command_content: The command_content of this RunCommandRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and command_content is None:
+            raise ValueError("Invalid value for `command_content`, must not be `None`")  # noqa: E501
 
         self._command_content = command_content
 
@@ -281,6 +285,8 @@ class RunCommandRequest(object):
         :param invocation_name: The invocation_name of this RunCommandRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and invocation_name is None:
+            raise ValueError("Invalid value for `invocation_name`, must not be `None`")  # noqa: E501
 
         self._invocation_name = invocation_name
 
@@ -470,6 +476,8 @@ class RunCommandRequest(object):
         :param type: The type of this RunCommandRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and type is None:
+            raise ValueError("Invalid value for `type`, must not be `None`")  # noqa: E501
 
         self._type = type
 
@@ -493,6 +501,27 @@ class RunCommandRequest(object):
         """
 
         self._username = username
+
+    @property
+    def windows_password(self):
+        """Gets the windows_password of this RunCommandRequest.  # noqa: E501
+
+
+        :return: The windows_password of this RunCommandRequest.  # noqa: E501
+        :rtype: str
+        """
+        return self._windows_password
+
+    @windows_password.setter
+    def windows_password(self, windows_password):
+        """Sets the windows_password of this RunCommandRequest.
+
+
+        :param windows_password: The windows_password of this RunCommandRequest.  # noqa: E501
+        :type: str
+        """
+
+        self._windows_password = windows_password
 
     @property
     def working_dir(self):
