@@ -78,8 +78,7 @@ class ModifyInstancePlacementRequest(object):
             self.dedicated_host_id = dedicated_host_id
         if dry_run is not None:
             self.dry_run = dry_run
-        if instance_id is not None:
-            self.instance_id = instance_id
+        self.instance_id = instance_id
         if instance_type_id is not None:
             self.instance_type_id = instance_type_id
         if migration_type is not None:
@@ -189,6 +188,8 @@ class ModifyInstancePlacementRequest(object):
         :param instance_id: The instance_id of this ModifyInstancePlacementRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and instance_id is None:
+            raise ValueError("Invalid value for `instance_id`, must not be `None`")  # noqa: E501
 
         self._instance_id = instance_id
 

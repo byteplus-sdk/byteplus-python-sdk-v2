@@ -62,10 +62,8 @@ class ModifyInstanceDeploymentRequest(object):
             self.client_token = client_token
         if deployment_set_group_number is not None:
             self.deployment_set_group_number = deployment_set_group_number
-        if deployment_set_id is not None:
-            self.deployment_set_id = deployment_set_id
-        if instance_id is not None:
-            self.instance_id = instance_id
+        self.deployment_set_id = deployment_set_id
+        self.instance_id = instance_id
 
     @property
     def client_token(self):
@@ -127,6 +125,8 @@ class ModifyInstanceDeploymentRequest(object):
         :param deployment_set_id: The deployment_set_id of this ModifyInstanceDeploymentRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and deployment_set_id is None:
+            raise ValueError("Invalid value for `deployment_set_id`, must not be `None`")  # noqa: E501
 
         self._deployment_set_id = deployment_set_id
 
@@ -148,6 +148,8 @@ class ModifyInstanceDeploymentRequest(object):
         :param instance_id: The instance_id of this ModifyInstanceDeploymentRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and instance_id is None:
+            raise ValueError("Invalid value for `instance_id`, must not be `None`")  # noqa: E501
 
         self._instance_id = instance_id
 

@@ -49,8 +49,7 @@ class DetectImageRequest(object):
         self._image_id = None
         self.discriminator = None
 
-        if image_id is not None:
-            self.image_id = image_id
+        self.image_id = image_id
 
     @property
     def image_id(self):
@@ -70,6 +69,8 @@ class DetectImageRequest(object):
         :param image_id: The image_id of this DetectImageRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and image_id is None:
+            raise ValueError("Invalid value for `image_id`, must not be `None`")  # noqa: E501
 
         self._image_id = image_id
 

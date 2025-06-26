@@ -65,8 +65,7 @@ class ModifyInstanceSpecRequest(object):
             self.client_token = client_token
         if dry_run is not None:
             self.dry_run = dry_run
-        if instance_id is not None:
-            self.instance_id = instance_id
+        self.instance_id = instance_id
         if instance_type is not None:
             self.instance_type = instance_type
         if instance_type_id is not None:
@@ -132,6 +131,8 @@ class ModifyInstanceSpecRequest(object):
         :param instance_id: The instance_id of this ModifyInstanceSpecRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and instance_id is None:
+            raise ValueError("Invalid value for `instance_id`, must not be `None`")  # noqa: E501
 
         self._instance_id = instance_id
 

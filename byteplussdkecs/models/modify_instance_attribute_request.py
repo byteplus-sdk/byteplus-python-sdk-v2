@@ -34,6 +34,7 @@ class ModifyInstanceAttributeRequest(object):
     """
     swagger_types = {
         'client_token': 'str',
+        'deletion_protection': 'bool',
         'description': 'str',
         'hostname': 'str',
         'instance_id': 'str',
@@ -44,6 +45,7 @@ class ModifyInstanceAttributeRequest(object):
 
     attribute_map = {
         'client_token': 'ClientToken',
+        'deletion_protection': 'DeletionProtection',
         'description': 'Description',
         'hostname': 'Hostname',
         'instance_id': 'InstanceId',
@@ -52,13 +54,14 @@ class ModifyInstanceAttributeRequest(object):
         'user_data': 'UserData'
     }
 
-    def __init__(self, client_token=None, description=None, hostname=None, instance_id=None, instance_name=None, password=None, user_data=None, _configuration=None):  # noqa: E501
+    def __init__(self, client_token=None, deletion_protection=None, description=None, hostname=None, instance_id=None, instance_name=None, password=None, user_data=None, _configuration=None):  # noqa: E501
         """ModifyInstanceAttributeRequest - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
         self._configuration = _configuration
 
         self._client_token = None
+        self._deletion_protection = None
         self._description = None
         self._hostname = None
         self._instance_id = None
@@ -69,12 +72,13 @@ class ModifyInstanceAttributeRequest(object):
 
         if client_token is not None:
             self.client_token = client_token
+        if deletion_protection is not None:
+            self.deletion_protection = deletion_protection
         if description is not None:
             self.description = description
         if hostname is not None:
             self.hostname = hostname
-        if instance_id is not None:
-            self.instance_id = instance_id
+        self.instance_id = instance_id
         if instance_name is not None:
             self.instance_name = instance_name
         if password is not None:
@@ -102,6 +106,27 @@ class ModifyInstanceAttributeRequest(object):
         """
 
         self._client_token = client_token
+
+    @property
+    def deletion_protection(self):
+        """Gets the deletion_protection of this ModifyInstanceAttributeRequest.  # noqa: E501
+
+
+        :return: The deletion_protection of this ModifyInstanceAttributeRequest.  # noqa: E501
+        :rtype: bool
+        """
+        return self._deletion_protection
+
+    @deletion_protection.setter
+    def deletion_protection(self, deletion_protection):
+        """Sets the deletion_protection of this ModifyInstanceAttributeRequest.
+
+
+        :param deletion_protection: The deletion_protection of this ModifyInstanceAttributeRequest.  # noqa: E501
+        :type: bool
+        """
+
+        self._deletion_protection = deletion_protection
 
     @property
     def description(self):
@@ -163,6 +188,8 @@ class ModifyInstanceAttributeRequest(object):
         :param instance_id: The instance_id of this ModifyInstanceAttributeRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and instance_id is None:
+            raise ValueError("Invalid value for `instance_id`, must not be `None`")  # noqa: E501
 
         self._instance_id = instance_id
 

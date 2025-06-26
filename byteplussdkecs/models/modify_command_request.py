@@ -81,8 +81,7 @@ class ModifyCommandRequest(object):
 
         if command_content is not None:
             self.command_content = command_content
-        if command_id is not None:
-            self.command_id = command_id
+        self.command_id = command_id
         if content_encoding is not None:
             self.content_encoding = content_encoding
         if description is not None:
@@ -141,6 +140,8 @@ class ModifyCommandRequest(object):
         :param command_id: The command_id of this ModifyCommandRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and command_id is None:
+            raise ValueError("Invalid value for `command_id`, must not be `None`")  # noqa: E501
 
         self._command_id = command_id
 

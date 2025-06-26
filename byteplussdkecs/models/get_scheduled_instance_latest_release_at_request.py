@@ -63,14 +63,11 @@ class GetScheduledInstanceLatestReleaseAtRequest(object):
 
         if delivery_type is not None:
             self.delivery_type = delivery_type
-        if instance_type_id is not None:
-            self.instance_type_id = instance_type_id
+        self.instance_type_id = instance_type_id
         if start_delivery_at is not None:
             self.start_delivery_at = start_delivery_at
-        if volume_type is not None:
-            self.volume_type = volume_type
-        if zone_id is not None:
-            self.zone_id = zone_id
+        self.volume_type = volume_type
+        self.zone_id = zone_id
 
     @property
     def delivery_type(self):
@@ -111,6 +108,8 @@ class GetScheduledInstanceLatestReleaseAtRequest(object):
         :param instance_type_id: The instance_type_id of this GetScheduledInstanceLatestReleaseAtRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and instance_type_id is None:
+            raise ValueError("Invalid value for `instance_type_id`, must not be `None`")  # noqa: E501
 
         self._instance_type_id = instance_type_id
 
@@ -153,6 +152,8 @@ class GetScheduledInstanceLatestReleaseAtRequest(object):
         :param volume_type: The volume_type of this GetScheduledInstanceLatestReleaseAtRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and volume_type is None:
+            raise ValueError("Invalid value for `volume_type`, must not be `None`")  # noqa: E501
 
         self._volume_type = volume_type
 
@@ -174,6 +175,8 @@ class GetScheduledInstanceLatestReleaseAtRequest(object):
         :param zone_id: The zone_id of this GetScheduledInstanceLatestReleaseAtRequest.  # noqa: E501
         :type: str
         """
+        if self._configuration.client_side_validation and zone_id is None:
+            raise ValueError("Invalid value for `zone_id`, must not be `None`")  # noqa: E501
 
         self._zone_id = zone_id
 
