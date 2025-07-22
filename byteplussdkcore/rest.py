@@ -176,10 +176,6 @@ class RESTClientObject(object):
         if 'Content-Type' not in headers:
             headers['Content-Type'] = 'application/json'
 
-        host = headers.get('Host')
-        with self._lock:
-            self.__init_pool_manager(self._configuration, host, self._pools_size, self._maxsize)
-
         try:
             # For `POST`, `PUT`, `PATCH`, `OPTIONS`, `DELETE`
             if method in ['POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE']:
