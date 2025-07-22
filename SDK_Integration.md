@@ -18,7 +18,6 @@ English | [简体中文](./SDK_Integration_zh.md)
   - [Skip SSL Verification](#skip-ssl-verification)
 - [Http(s) Proxy Configuration](#https-proxy-configuration)
   - [Set Http(s) Proxy](#set-https-proxy)
-  - [Set No Proxy](#set-no-proxy)
   - [Notice](#notice)
 - [Timeouts](#timeouts)
 - [Retry Mechanism](#retry-mechanism)
@@ -278,26 +277,11 @@ byteplussdkcore.Configuration.set_default(configuration)
 
 ```
 
-## Set No Proxy
-
-```python
-configuration = byteplussdkcore.Configuration()
-configuration.ak = "Your AK"
-configuration.sk = "Your SK"
-
-configuration.http_proxy = "http://your_proxy:8080"
-configuration.https_proxy = "http://your_proxy:8080"
-configuration.no_proxy = "host1_without_proxy,host2_without_proxy"
-
-byteplussdkcore.Configuration.set_default(configuration)
-
-```
-
 ## Notice
 
 You can set environment variables below:
 
-http_proxy/HTTP_PROXY, https_proxy/HTTPS_PROXY, no_proxy/NO_PROXY
+http_proxy/HTTP_PROXY, https_proxy/HTTPS_PROXY
 
 Priority: Code > Environment variables
 

@@ -23,17 +23,6 @@ except ImportError:
 
 logger = logging.getLogger(__name__)
 
-def _get_no_proxy(configuration):
-    n1 = os.environ.get('NO_PROXY')
-    n2 = os.environ.get('no_proxy')
-    if configuration.no_proxy:
-        return configuration.no_proxy.split(',')
-    elif n1:
-        return n1.split(',')
-    elif n2:
-        return n2.split(',')
-    return []
-
 
 class RESTResponse(io.IOBase):
 
@@ -61,18 +50,7 @@ class RESTClientObject(object):
         # maxsize is the number of requests to host that are allowed in parallel  # noqa: E501
         # Custom SSL certificates and client certificates: http://urllib3.readthedocs.io/en/latest/advanced-usage.html  # noqa: E501
 
-        self._configuration = configuration
-        self._last_pm_proxy_url = None
-        self._pools_size = pools_size
-        self._maxsize = maxsize
-        self._lock = threading.Lock()
-        self.pool_manager = None
-
-    def __init_pool_manager(self, configuration, host, pools_size, maxsize):
-
-        proxy_url = self.__get_proxy(host)
-        if proxy_url == self._last_pm_proxy_url and self.pool_manager:
-            return
+        proxy_url = self.__get_proxy(configuration)
 
         # cert_reqs
         if configuration.verify_ssl:
@@ -130,14 +108,10 @@ class RESTClientObject(object):
                 retries=Retry(total=False),
                 **addition_pool_args
             )
-        self._last_pm_proxy_url = proxy_url
 
-    def __get_proxy(self, host):
-        configuration = self._configuration
+    def __get_proxy(self, configuration):
         proxy_url = configuration.proxy
-        if host in _get_no_proxy(configuration):
-            proxy_url = None
-        elif not configuration.proxy:
+        if not proxy_url:
             if configuration.scheme == 'http':
                 if configuration.http_proxy:
                     proxy_url = configuration.http_proxy
