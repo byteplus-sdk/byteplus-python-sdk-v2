@@ -2,10 +2,11 @@ English | [简体中文](./SDK_Integration_zh.md)
 
 # Table of Contents
 
+- [Table of Contents](#table-of-contents)
 - [Integrate the SDK](#integrate-the-sdk)
-  - [Environment Requirements](#environment-requirements)
-  - [Credentials](#credentials)
-    - [AK/SK](#aksk)
+- [Environment Requirements](#environment-requirements)
+- [Credentials](#credentials)
+  - [AK/SK](#aksk)
 - [Endpoint Configuration](#endpoint-configuration)
   - [Custom Endpoint](#custom-endpoint)
   - [Custom RegionId](#custom-regionid)
@@ -15,6 +16,10 @@ English | [简体中文](./SDK_Integration_zh.md)
 - [HTTPS Request Settings](#https-request-settings)
   - [Specify the Scheme](#specify-the-scheme)
   - [Skip SSL Verification](#skip-ssl-verification)
+- [Http(s) Proxy Configuration](#https-proxy-configuration)
+  - [Set Http(s) Proxy](#set-https-proxy)
+  - [Set No Proxy](#set-no-proxy)
+  - [Notice](#notice)
 - [Timeouts](#timeouts)
 - [Retry Mechanism](#retry-mechanism)
   - [Retry code configuration](#retry-code-configuration)
@@ -254,6 +259,47 @@ configuration.verify_ssl=False # Ignore SSL Verification
 byteplussdkcore.Configuration.set_default(configuration)
 ```
 ---
+
+# Http(s) Proxy Configuration
+
+> - **default** 
+>   no proxy
+
+## Set Http(s) Proxy
+
+```python
+configuration = byteplussdkcore.Configuration()
+configuration.ak = "Your AK"
+configuration.sk = "Your SK"
+configuration.http_proxy = "http://your_proxy:8080"
+configuration.https_proxy = "http://your_proxy:8080"
+
+byteplussdkcore.Configuration.set_default(configuration)
+
+```
+
+## Set No Proxy
+
+```python
+configuration = byteplussdkcore.Configuration()
+configuration.ak = "Your AK"
+configuration.sk = "Your SK"
+
+configuration.http_proxy = "http://your_proxy:8080"
+configuration.https_proxy = "http://your_proxy:8080"
+configuration.no_proxy = "host1_without_proxy,host2_without_proxy"
+
+byteplussdkcore.Configuration.set_default(configuration)
+
+```
+
+## Notice
+
+You can set environment variables below:
+
+http_proxy/HTTP_PROXY, https_proxy/HTTPS_PROXY, no_proxy/NO_PROXY
+
+Priority: Code > Environment variables
 
 # Timeouts
 
