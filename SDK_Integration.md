@@ -2,10 +2,12 @@ English | [简体中文](./SDK_Integration_zh.md)
 
 # Table of Contents
 
+- [Table of Contents](#table-of-contents)
 - [Integrate the SDK](#integrate-the-sdk)
-  - [Environment Requirements](#environment-requirements)
-  - [Credentials](#credentials)
-    - [AK/SK](#aksk)
+- [Environment Requirements](#environment-requirements)
+- [Credentials](#credentials)
+  - [AK/SK](#aksk)
+  - [STS Token Settings](#sts-token-settings)
 - [Endpoint Configuration](#endpoint-configuration)
   - [Custom Endpoint](#custom-endpoint)
   - [Custom RegionId](#custom-regionid)
@@ -15,6 +17,9 @@ English | [简体中文](./SDK_Integration_zh.md)
 - [HTTPS Request Settings](#https-request-settings)
   - [Specify the Scheme](#specify-the-scheme)
   - [Skip SSL Verification](#skip-ssl-verification)
+- [Http(s) Proxy Configuration](#https-proxy-configuration)
+  - [Set Http(s) Proxy](#set-https-proxy)
+  - [Notice](#notice)
 - [Timeouts](#timeouts)
 - [Retry Mechanism](#retry-mechanism)
   - [Retry code configuration](#retry-code-configuration)
@@ -52,7 +57,7 @@ This guide explains each step in detail, with tips for common scenarios.
 ---
 # Credentials
 
-So far, BytePlus Python SDK only supports AK/SK settings.
+So far, BytePlus Python SDK supports `AK/SK` and `STS Token` settings.
 
 ## AK/SK
 
@@ -95,6 +100,52 @@ create_command_request = byteplussdkecs.CreateCommandRequest(
 try:
     api_instance.create_command(create_command_request)
 except ApiException as e:
+    pass
+```
+---
+
+## STS Token Settings
+
+STS (Security Token Service) is a temporary access credential mechanism provided by Volcano Engine. Developers call the STS interface through the server to obtain temporary credentials (temporary AK, SK and Token). The validity period is configurable and suitable for scenarios with high security requirements.
+
+> ⚠️ Notes
+>
+> 1. Minimum permissions: Only grant the caller the minimum permissions to access the required resources, and avoid using the * wildcard to grant full resource and full operation permissions.
+> 2. Set a reasonable validity period: Please set a reasonable validity period according to the actual situation. The shorter the better. It is recommended not to exceed 1 hour.
+
+Supports `configuration` level global configuration and interface level runtime parameter setting `RuntimeOption`; `RuntimeOption` settings will override `configuration` global configuration.
+
+```python
+import byteplussdkcore,byteplussdkecs
+from byteplussdkcore.rest import ApiException
+from byteplussdkcore.interceptor import RuntimeOption
+
+# Global settings
+configuration = byteplussdkcore.Configuration()
+configuration.ak = "Your ak"
+configuration.sk = "Your sk"
+configuration.session_token = "Your sts token"
+configuration.debug = True
+byteplussdkcore.Configuration.set_default(configuration)
+
+# Interface-level runtime parameter settings, will override global configuration
+runtime_options = RuntimeOption(
+ak = "Your ak",
+sk = "Your sk",
+session_token = "Your sts token",
+client_side_validation = True, # Enable client-side validation, enabled by default
+)
+api_instance = byteplussdkecs.ECCSApi()
+create_command_request = byteplussdkecs.CreateCommandRequest( 
+command_content="ls -l", 
+description="Your command description", 
+name="Your command name", 
+type="command", 
+_configuration=runtime_options, # Configure runtime parameters
+)
+try: 
+    api_instance.create_command(create_command_request)
+except ApiException as e: 
     pass
 ```
 ---
@@ -254,6 +305,32 @@ configuration.verify_ssl=False # Ignore SSL Verification
 byteplussdkcore.Configuration.set_default(configuration)
 ```
 ---
+
+# Http(s) Proxy Configuration
+
+> - **default** 
+>   no proxy
+
+## Set Http(s) Proxy
+
+```python
+configuration = byteplussdkcore.Configuration()
+configuration.ak = "Your AK"
+configuration.sk = "Your SK"
+configuration.http_proxy = "http://your_proxy:8080"
+configuration.https_proxy = "http://your_proxy:8080"
+
+byteplussdkcore.Configuration.set_default(configuration)
+
+```
+
+## Notice
+
+You can set environment variables below:
+
+http_proxy/HTTP_PROXY, https_proxy/HTTPS_PROXY
+
+Priority: Code > Environment variables
 
 # Timeouts
 
