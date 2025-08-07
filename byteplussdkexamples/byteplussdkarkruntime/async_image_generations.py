@@ -1,13 +1,15 @@
-from byteplussdkarkruntime import Ark
+import asyncio
+
+from byteplussdkarkruntime import AsyncArk
 
 # Authentication
 # 1.If you authorize your endpoint using an API key, you can set your api key to environment variable "ARK_API_KEY"
 # or specify api key by Ark(api_key="${YOUR_API_KEY}").
 # Note: If you use an API key, this API key will not be refreshed.
 # To prevent the API from expiring and failing after some time, choose an API key with no expiration date.
-client = Ark()
+client = AsyncArk()
 
-if __name__ == "__main__":
+async def main():
     print("----- [Seedream] generate images -----")
 
     result = client.images.generate(
@@ -19,7 +21,7 @@ if __name__ == "__main__":
         guidance_scale=2.5,
     )
 
-    print(result)
+    print(await result)
 
     print("----- [Seededit] generate images -----")
 
@@ -33,4 +35,7 @@ if __name__ == "__main__":
         guidance_scale=2.5,
     )
 
-    print(result)
+    print(await result)
+
+if __name__ == "__main__":
+    asyncio.run(main())
