@@ -31,6 +31,8 @@ English | [简体中文](./SDK_Integration_zh.md)
     - [Custom backoff strategy](#custom-backoff-strategy)
 - [Error Handling](#error-handling)
 - [Debugging](#debugging)
+    - [Enable Debug Mode](#enable-debug-mode)
+    - [Set Debug Level](#set-debug-level)
 - [Custom Logger](#custom-logger)
 
 ---
@@ -314,6 +316,7 @@ byteplussdkcore.Configuration.set_default(configuration)
 ## Set Http(s) Proxy
 
 ```python
+import byteplussdkcore
 configuration = byteplussdkcore.Configuration()
 configuration.ak = "Your AK"
 configuration.sk = "Your SK"
@@ -565,6 +568,8 @@ except Exception as e:
 # Debugging
 To facilitate customers to troubleshoot and debug when processing requests, the SDK supports logging and provides multiple log level settings. Customers can configure the log level according to actual needs and obtain detailed request and response information to improve troubleshooting efficiency and system observability.
 
+## Enable Debug Mode
+
 >**Default**      
 > * `debug` - `False`
 
@@ -576,6 +581,38 @@ configuration.sk = "Your SK"
 configuration.debug = True  # Enable debug mode
 byteplussdkcore.Configuration.set_default(configuration)
 ```
+
+## Set Debug Level
+By default, when debug logging is enabled, all debug logs will be output. To output logs on demand, you can call `configuration.log_level` to set the following:
+
+```python
+import byteplussdkcore
+from byteplussdkcore.observability.debugger import LogLevel
+configuration = byteplussdkcore.Configuration()
+configuration.ak = "Your AK"
+configuration.sk = "Your SK"
+configuration.debug = True
+configuration.log_level = LogLevel.LOG_DEBUG_WITH_CONFIG.mask | LogLevel.LOG_DEBUG_WITH_REQUEST.mask | LogLevel.LOG_DEBUG_WITH_RESPONSE.mask
+byteplussdkcore.Configuration.set_default(configuration)
+
+```
+
+**Supported log levels**
+
+| Items | Parent log (print parent log at the same time) | Printed content |
+|----------------------------------|-----|--------------------------------|
+| `LOG_DEBUG_WITH_REQUEST` | — | Request line and basic request information: `HTTP method`, `URL (including query parameters)`, `Request headers` |
+| `LOG_DEBUG_WITH_REQUEST_BODY` | `LOG_DEBUG_WITH_REQUEST` | `Request body` |
+| `LOG_DEBUG_WITH_REQUEST_ID` | `LOG_DEBUG_WITH_REQUEST` | `RequestId` |
+| `LOG_DEBUG_WITH_RESPONSE` | `LOG_DEBUG_WITH_REQUEST` | `Response status code` `Response headers` |
+| `LOG_DEBUG_WITH_RESPONSE_BODY` | `LOG_DEBUG_WITH_RESPONSE` | `Response body` |
+| `LOG_DEBUG_WITH_SIGNING` | `LOG_DEBUG_WITH_REQUEST` | `Signing process` |
+| `LOG_DEBUG_WITH_ENDPOINT` | `LOG_DEBUG_WITH_REQUEST` | `Endpoint selection process` |
+| `LOG_DEBUG_WITH_REQUEST_RETRIES` | `LOG_DEBUG_WITH_REQUEST` | `Retry information` |
+| `LOG_DEBUG_WITH_CONFIG` | `LOG_DEBUG_WITH_REQUEST` | `Key configuration information` |
+| `LOG_DEBUG_ALL` | — | `Include all of the above information` |
+
+
 
 ---
 
