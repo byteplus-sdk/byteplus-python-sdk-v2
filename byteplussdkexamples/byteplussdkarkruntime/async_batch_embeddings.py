@@ -26,7 +26,7 @@ async def worker(
     while True:
         request = await requests.get()
         try:
-            completion = await client.batch.chat.completions.create(**request)
+            completion = await client.batch.embeddings.create(**request)
             print(completion)
         except Exception as e:
             print(e, file=sys.stderr)
@@ -46,13 +46,7 @@ async def main():
         await requests.put(
             {
                 "model": "${YOUR_ENDPOINT_ID}",
-                "messages": [
-                    {
-                        "role": "system",
-                        "content": "You are a helpful AI assistant.",
-                    },
-                    {"role": "user", "content": "Hello, How are you?"},
-                ],
+                "input": ["花椰菜又称菜花、花菜，是一种常见的蔬菜。"],
             }
         )
 

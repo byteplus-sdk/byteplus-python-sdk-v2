@@ -4,19 +4,29 @@ import datetime
 import functools
 import random
 import string
-from typing import (
-    Any,
-    Mapping,
-    Callable,
-    cast,
-    TypeVar,
-)
+from typing import Any, Callable, Mapping, TypeVar, cast
 
 from typing_extensions import TypeGuard
 
 from .._types import NotGiven
 
+_T = TypeVar("_T")
 CallableT = TypeVar("CallableT", bound=Callable[..., Any])
+
+
+def deepcopy_minimal(item: _T) -> _T:
+    """Minimal reimplementation of copy.deepcopy() that will only copy certain object types:
+
+    - mappings, e.g. `dict`
+    - list
+
+    This is done for performance reasons.
+    """
+    if is_mapping(item):
+        return cast(_T, {k: deepcopy_minimal(v) for k, v in item.items()})
+    if is_list(item):
+        return cast(_T, [deepcopy_minimal(entry) for entry in item])
+    return item
 
 
 def _gen_request_id():
@@ -81,13 +91,33 @@ def _insert_sts_token(args, kwargs):
 
     ark_client = args[0]._client
     model = kwargs.get("model", "")
-    if ark_client.api_key is None and model and model.startswith("ep-") and ark_client.ak and ark_client.sk:
-        default_auth_header = {"Authorization": "Bearer " + ark_client._get_endpoint_sts_token(model)}
-        extra_headers = kwargs.get("extra_headers") if kwargs.get("extra_headers") else {}
+    if (
+        ark_client.api_key is None
+        and model
+        and model.startswith("ep-")
+        and ark_client.ak
+        and ark_client.sk
+    ):
+        default_auth_header = {
+            "Authorization": "Bearer " + ark_client._get_endpoint_sts_token(model)
+        }
+        extra_headers = (
+            kwargs.get("extra_headers") if kwargs.get("extra_headers") else {}
+        )
         kwargs["extra_headers"] = {**default_auth_header, **extra_headers}
-    elif ark_client.api_key is None and model and model.startswith("bot-") and ark_client.ak and ark_client.sk:
-        default_auth_header = {"Authorization": "Bearer " + ark_client._get_bot_sts_token(model)}
-        extra_headers = kwargs.get("extra_headers") if kwargs.get("extra_headers") else {}
+    elif (
+        ark_client.api_key is None
+        and model
+        and model.startswith("bot-")
+        and ark_client.ak
+        and ark_client.sk
+    ):
+        default_auth_header = {
+            "Authorization": "Bearer " + ark_client._get_bot_sts_token(model)
+        }
+        extra_headers = (
+            kwargs.get("extra_headers") if kwargs.get("extra_headers") else {}
+        )
         kwargs["extra_headers"] = {**default_auth_header, **extra_headers}
 
 
@@ -111,5 +141,6 @@ def _assert_apikey(args, kwargs):
     assert len(args) > 0
 
     ark_client = args[0]._client
-    assert ark_client.api_key is not None, \
-        "ak&sk authentication is currently not supported for this method, please use api key instead"
+    assert (
+        ark_client.api_key is not None
+    ), "ak&sk authentication is currently not supported for this method, please use api key instead"
