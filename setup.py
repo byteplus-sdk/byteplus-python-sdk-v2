@@ -29,7 +29,7 @@ setup(
     platforms='any',
     extras_require={
         "ark": [
-            "cryptography>=43.0.3, <43.0.4"
+            "cryptography>=44.0.1"
         ]
     },
 )

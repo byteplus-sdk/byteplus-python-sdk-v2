@@ -16,6 +16,7 @@ from ._exceptions import ArkAPIError
 import byteplussdkark
 
 from . import resources
+from .resources.batch import batch
 from ._base_client import SyncAPIClient, AsyncAPIClient
 from ._constants import (
     DEFAULT_MAX_RETRIES,
@@ -36,8 +37,12 @@ __all__ = ["Ark", "AsyncArk"]
 
 class Ark(SyncAPIClient):
     chat: resources.Chat
+    embeddings: resources.Embeddings
     context: resources.Context
+    multimodal_embeddings: resources.MultimodalEmbeddings
     batch_chat: resources.BatchChat
+    """ `batch_chat` is deprecated, use `batch.chat` instead """
+    batch: batch.Batch
     content_generation : resources.ContentGeneration
     images : resources.Images
     model_breaker_map: dict[str, ModelBreaker]
@@ -96,8 +101,11 @@ class Ark(SyncAPIClient):
         self._certificate_manager: E2ECertificateManager | None = None
 
         self.chat = resources.Chat(self)
+        self.embeddings = resources.Embeddings(self)
         self.context = resources.Context(self)
+        self.multimodal_embeddings = resources.MultimodalEmbeddings(self)
         self.batch_chat = resources.BatchChat(self)
+        self.batch = batch.Batch(self)
         self.content_generation = resources.ContentGeneration(self)
         self.images = resources.Images(self)
         self.model_breaker_map = defaultdict(ModelBreaker)
@@ -139,8 +147,12 @@ class Ark(SyncAPIClient):
 
 class AsyncArk(AsyncAPIClient):
     chat: resources.AsyncChat
+    embeddings: resources.AsyncEmbeddings
     context: resources.AsyncContext
+    multimodal_embeddings: resources.AsyncMultimodalEmbeddings
     batch_chat: resources.AsyncBatchChat
+    """ `batch_chat` is deprecated, use `batch.chat` instead """
+    batch: batch.AsyncBatch
     content_generation: resources.AsyncContentGeneration
     images: resources.AsyncImages
     model_breaker_map: dict[str, ModelBreaker]
@@ -198,8 +210,11 @@ class AsyncArk(AsyncAPIClient):
         self._certificate_manager: E2ECertificateManager | None = None
 
         self.chat = resources.AsyncChat(self)
+        self.embeddings = resources.AsyncEmbeddings(self)
         self.context = resources.AsyncContext(self)
+        self.multimodal_embeddings = resources.AsyncMultimodalEmbeddings(self)
         self.batch_chat = resources.AsyncBatchChat(self)
+        self.batch = batch.AsyncBatch(self)
         self.content_generation = resources.AsyncContentGeneration(self)
         self.images = resources.AsyncImages(self)
         self.model_breaker_map = defaultdict(ModelBreaker)
