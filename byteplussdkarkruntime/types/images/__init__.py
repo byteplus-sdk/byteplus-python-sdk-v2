@@ -1,1 +1,3 @@
-from .images import ImagesResponse
+from .images import SequentialImageGenerationOptions, ImagesResponse
+
+__all__ = ["SequentialImageGenerationOptions", "ImagesResponse"]
