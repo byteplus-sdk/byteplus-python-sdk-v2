@@ -76,7 +76,7 @@ class Stream(Generic[_T]):
             if sse.data.startswith("[DONE]"):
                 break
 
-            if sse.event is None:
+            if sse.event is None or (isinstance(sse.event, str) and len(sse.event) > 0):
                 data = sse.json()
                 if is_mapping(data) and data.get("error"):
                     message = None
