@@ -127,12 +127,6 @@ class ModifyQuotaRequest(object):
         """
         if self._configuration.client_side_validation and uid is None:
             raise ValueError("Invalid value for `uid`, must not be `None`")  # noqa: E501
-        if (self._configuration.client_side_validation and
-                uid is not None and uid > 10):  # noqa: E501
-            raise ValueError("Invalid value for `uid`, must be a value less than or equal to `10`")  # noqa: E501
-        if (self._configuration.client_side_validation and
-                uid is not None and uid < 10):  # noqa: E501
-            raise ValueError("Invalid value for `uid`, must be a value greater than or equal to `10`")  # noqa: E501
 
         self._uid = uid
 
