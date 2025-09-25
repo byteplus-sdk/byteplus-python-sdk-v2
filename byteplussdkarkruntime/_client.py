@@ -1,3 +1,14 @@
+# Copyright (c) [2025] [OpenAI]
+# Copyright (c) [2025] [ByteDance Ltd. and/or its affiliates.]
+# SPDX-License-Identifier: Apache-2.0
+#
+# This file has been modified by [ByteDance Ltd. and/or its affiliates.] on 2025.7
+#
+# Original file was released under Apache License Version 2.0, with the full license text
+# available at https://github.com/openai/openai-python/blob/main/LICENSE.
+#
+# This modified file is released under the same license.
+
 from __future__ import annotations
 
 import asyncio
@@ -16,6 +27,7 @@ from ._exceptions import ArkAPIError
 import byteplussdkark
 
 from . import resources
+from .resources.beta import beta
 from .resources.batch import batch
 from ._base_client import SyncAPIClient, AsyncAPIClient
 from ._constants import (
@@ -25,7 +37,7 @@ from ._constants import (
     _DEFAULT_MANDATORY_REFRESH_TIMEOUT,
     _DEFAULT_STS_TIMEOUT,
     _DEFAULT_RESOURCE_TYPE,
-    DEFAULT_TIMEOUT
+    DEFAULT_TIMEOUT,
 )
 from ._streaming import Stream
 
@@ -36,15 +48,18 @@ __all__ = ["Ark", "AsyncArk"]
 
 
 class Ark(SyncAPIClient):
+    beta: beta.Beta
     chat: resources.Chat
     embeddings: resources.Embeddings
     context: resources.Context
     multimodal_embeddings: resources.MultimodalEmbeddings
+    content_generation: resources.ContentGeneration
+    images: resources.Images
     batch_chat: resources.BatchChat
+    responses: resources.Responses
+    input_items: resources.InputItems
     """ `batch_chat` is deprecated, use `batch.chat` instead """
     batch: batch.Batch
-    content_generation : resources.ContentGeneration
-    images : resources.Images
     model_breaker_map: dict[str, ModelBreaker]
     model_breaker_lock: threading.Lock
 
@@ -73,7 +88,6 @@ class Ark(SyncAPIClient):
             Returns:
                 ark client
         """
-
         if ak is None:
             ak = os.environ.get("BYTEPLUS_ACCESSKEY")
         if sk is None:
@@ -86,7 +100,9 @@ class Ark(SyncAPIClient):
         self.api_key = api_key
         self.region = region
 
-        assert (api_key is not None) or (ak is not None and sk is not None), "you need to support api_key or ak&sk"
+        assert (api_key is not None) or (
+            ak is not None and sk is not None
+        ), "you need to support api_key or ak&sk"
 
         super().__init__(
             base_url=base_url,
@@ -100,6 +116,7 @@ class Ark(SyncAPIClient):
         self._sts_token_manager: StsTokenManager | None = None
         self._certificate_manager: E2ECertificateManager | None = None
 
+        self.beta = beta.Beta(self)
         self.chat = resources.Chat(self)
         self.embeddings = resources.Embeddings(self)
         self.context = resources.Context(self)
@@ -108,6 +125,8 @@ class Ark(SyncAPIClient):
         self.batch = batch.Batch(self)
         self.content_generation = resources.ContentGeneration(self)
         self.images = resources.Images(self)
+        self.responses = resources.Responses(self)
+        self.input_items = resources.InputItems(self)
         self.model_breaker_map = defaultdict(ModelBreaker)
         self.model_breaker_lock = threading.Lock()
         # self.classification = resources.Classification(self)
@@ -122,10 +141,18 @@ class Ark(SyncAPIClient):
     def _get_endpoint_certificate(self, endpoint_id: str) -> key_agreement_client:
         if self._certificate_manager is None:
             cert_path = os.environ.get("E2E_CERTIFICATE_PATH")
-            if (self.ak is None or self.sk is None) and cert_path is None and self.api_key is None:
-                raise ArkAPIError("must set (api_key) or (ak and sk) \
-                                  or (E2E_CERTIFICATE_PATH) before get endpoint token.")
-            self._certificate_manager = E2ECertificateManager(self.ak, self.sk, self.region, self._base_url, self.api_key)
+            if (
+                (self.ak is None or self.sk is None)
+                and cert_path is None
+                and self.api_key is None
+            ):
+                raise ArkAPIError(
+                    "must set (api_key) or (ak and sk) \
+                                  or (E2E_CERTIFICATE_PATH) before get endpoint token."
+                )
+            self._certificate_manager = E2ECertificateManager(
+                self.ak, self.sk, self.region, self._base_url, self.api_key
+            )
         return self._certificate_manager.get(endpoint_id)
 
     def _get_bot_sts_token(self, bot_id: str):
@@ -139,18 +166,21 @@ class Ark(SyncAPIClient):
     def auth_headers(self) -> dict[str, str]:
         api_key = self.api_key
         return {"Authorization": f"Bearer {api_key}"}
-    
+
     def get_model_breaker(self, model_name: str) -> ModelBreaker:
         with self.model_breaker_lock:
             return self.model_breaker_map[model_name]
 
 
 class AsyncArk(AsyncAPIClient):
+    beta: beta.Beta
     chat: resources.AsyncChat
     embeddings: resources.AsyncEmbeddings
     context: resources.AsyncContext
     multimodal_embeddings: resources.AsyncMultimodalEmbeddings
     batch_chat: resources.AsyncBatchChat
+    responses: resources.AsyncResponses
+    input_items: resources.AsyncInputItems
     """ `batch_chat` is deprecated, use `batch.chat` instead """
     batch: batch.AsyncBatch
     content_generation: resources.AsyncContentGeneration
@@ -172,15 +202,15 @@ class AsyncArk(AsyncAPIClient):
     ) -> None:
         """init async ark client, this client is thread unsafe
 
-            Args:
-                ak: access key id
-                sk: secret access key
-                api_key: api key，this api key will not be refreshed
-                timeout: timeout of client. default httpx.Timeout(timeout=60.0, connect=60.0)
-                max_retries: times of retry when request failed. default 1
-                http_client: specify customized http_client
-            Returns:
-                async ark client
+        Args:
+            ak: access key id
+            sk: secret access key
+            api_key: api key，this api key will not be refreshed
+            timeout: timeout of client. default httpx.Timeout(timeout=60.0, connect=60.0)
+            max_retries: times of retry when request failed. default 1
+            http_client: specify customized http_client
+        Returns:
+            async ark client
         """
 
         if ak is None:
@@ -195,7 +225,9 @@ class AsyncArk(AsyncAPIClient):
         self.api_key = api_key
         self.region = region
 
-        assert (api_key is not None) or (ak is not None and sk is not None), "you need to support api_key or ak&sk"
+        assert (api_key is not None) or (
+            ak is not None and sk is not None
+        ), "you need to support api_key or ak&sk"
 
         super().__init__(
             base_url=base_url,
@@ -209,6 +241,7 @@ class AsyncArk(AsyncAPIClient):
         self._sts_token_manager: StsTokenManager | None = None
         self._certificate_manager: E2ECertificateManager | None = None
 
+        self.beta = beta.AsyncBeta(self)
         self.chat = resources.AsyncChat(self)
         self.embeddings = resources.AsyncEmbeddings(self)
         self.context = resources.AsyncContext(self)
@@ -217,6 +250,8 @@ class AsyncArk(AsyncAPIClient):
         self.batch = batch.AsyncBatch(self)
         self.content_generation = resources.AsyncContentGeneration(self)
         self.images = resources.AsyncImages(self)
+        self.responses = resources.AsyncResponses(self)
+        self.input_items = resources.AsyncInputItems(self)
         self.model_breaker_map = defaultdict(ModelBreaker)
         self.model_breaker_lock = asyncio.Lock()
         # self.classification = resources.AsyncClassification(self)
@@ -231,17 +266,25 @@ class AsyncArk(AsyncAPIClient):
     def _get_endpoint_certificate(self, endpoint_id: str) -> key_agreement_client:
         if self._certificate_manager is None:
             cert_path = os.environ.get("E2E_CERTIFICATE_PATH")
-            if (self.ak is None or self.sk is None) and cert_path is None and self.api_key is None:
-                raise ArkAPIError("must set (api_key) or (ak and sk) \
-                                  or (E2E_CERTIFICATE_PATH) before get endpoint token.")
-            self._certificate_manager = E2ECertificateManager(self.ak, self.sk, self.region, self._base_url, self.api_key)
+            if (
+                (self.ak is None or self.sk is None)
+                and cert_path is None
+                and self.api_key is None
+            ):
+                raise ArkAPIError(
+                    "must set (api_key) or (ak and sk) \
+                                  or (E2E_CERTIFICATE_PATH) before get endpoint token."
+                )
+            self._certificate_manager = E2ECertificateManager(
+                self.ak, self.sk, self.region, self._base_url, self.api_key
+            )
         return self._certificate_manager.get(endpoint_id)
 
     @property
     def auth_headers(self) -> dict[str, str]:
         api_key = self.api_key
         return {"Authorization": f"Bearer {api_key}"}
-    
+
     async def get_model_breaker(self, model_name: str) -> ModelBreaker:
         async with self.model_breaker_lock:
             return self.model_breaker_map[model_name]
@@ -256,7 +299,9 @@ class StsTokenManager(object):
     _mandatory_refresh_timeout: int = _DEFAULT_MANDATORY_REFRESH_TIMEOUT
 
     def __init__(self, ak: str, sk: str, region: str):
-        self._endpoint_sts_tokens: Dict[str, Tuple[str, int]] = defaultdict(lambda: ("", 0))
+        self._endpoint_sts_tokens: Dict[str, Tuple[str, int]] = defaultdict(
+            lambda: ("", 0)
+        )
         self._refresh_lock = threading.Lock()
 
         import byteplussdkcore
@@ -276,10 +321,19 @@ class StsTokenManager(object):
 
         return self._endpoint_sts_tokens[ep][1] - time.time() < refresh_in
 
-    def _protected_refresh(self, ep: str, ttl: int = _DEFAULT_STS_TIMEOUT, is_mandatory: bool = False,
-                           resource_type: str = _DEFAULT_RESOURCE_TYPE):
+    def _protected_refresh(
+        self,
+        ep: str,
+        ttl: int = _DEFAULT_STS_TIMEOUT,
+        is_mandatory: bool = False,
+        resource_type: str = _DEFAULT_RESOURCE_TYPE,
+    ):
         if ttl < self._advisory_refresh_timeout * 2:
-            raise ArkAPIError("ttl should not be under {} seconds.".format(self._advisory_refresh_timeout * 2))
+            raise ArkAPIError(
+                "ttl should not be under {} seconds.".format(
+                    self._advisory_refresh_timeout * 2
+                )
+            )
 
         try:
             api_key, expired_time = self._load_api_key(
@@ -305,7 +359,9 @@ class StsTokenManager(object):
                     ep, self._mandatory_refresh_timeout
                 )
 
-                self._protected_refresh(ep, is_mandatory=is_mandatory_refresh, resource_type=resource_type)
+                self._protected_refresh(
+                    ep, is_mandatory=is_mandatory_refresh, resource_type=resource_type
+                )
                 return
             finally:
                 self._refresh_lock.release()
@@ -314,14 +370,20 @@ class StsTokenManager(object):
                 if not self._need_refresh(ep, self._mandatory_refresh_timeout):
                     return
 
-                self._protected_refresh(ep, is_mandatory=True, resource_type=resource_type)
+                self._protected_refresh(
+                    ep, is_mandatory=True, resource_type=resource_type
+                )
 
     def get(self, ep: str, resource_type: str = _DEFAULT_RESOURCE_TYPE) -> str:
         self._refresh(ep, resource_type=resource_type)
         return self._endpoint_sts_tokens[ep][0]
 
-    def _load_api_key(self, ep: str, duration_seconds: int,
-                      resource_type: str = _DEFAULT_RESOURCE_TYPE) -> Tuple[str, int]:
+    def _load_api_key(
+        self,
+        ep: str,
+        duration_seconds: int,
+        resource_type: str = _DEFAULT_RESOURCE_TYPE,
+    ) -> Tuple[str, int]:
         get_api_key_request = byteplussdkark.GetApiKeyRequest(
             duration_seconds=duration_seconds,
             resource_type=resource_type,
@@ -336,11 +398,18 @@ class StsTokenManager(object):
 
 class E2ECertificateManager(object):
 
-    class CertificateResponse():
+    class CertificateResponse:
         Certificate: str
         """The certificate content."""
 
-    def __init__(self, ak: str, sk: str, region: str, base_url: str | URL = BASE_URL, api_key: str | None = None):
+    def __init__(
+        self,
+        ak: str,
+        sk: str,
+        region: str,
+        base_url: str | URL = BASE_URL,
+        api_key: str | None = None,
+    ):
         self._certificate_manager: Dict[str, key_agreement_client] = {}
 
         # local cache prepare
@@ -348,6 +417,7 @@ class E2ECertificateManager(object):
 
         # api instance prepare
         import byteplussdkcore
+
         configuration = byteplussdkcore.Configuration()
         configuration.ak = ak
         configuration.sk = sk
@@ -369,10 +439,10 @@ class E2ECertificateManager(object):
                 api_key=api_key,
             )
         self._e2e_uri = "/e2e/get/certificate"
-        self._x_session_token = {'X-Session-Token': self._e2e_uri}
+        self._x_session_token = {"X-Session-Token": self._e2e_uri}
 
     def _load_cert_by_cert_path(self) -> str:
-        with open(self.cert_path, 'r') as f:
+        with open(self.cert_path, "r") as f:
             cert_pem = f.read()
         return cert_pem
 
@@ -381,26 +451,35 @@ class E2ECertificateManager(object):
             id=ep
         )
         try:
-            resp: byteplussdkark.GetEndpointCertificateResponse = self.api_instance.get_endpoint_certificate(
-                get_endpoint_certificate_request)
+            resp: byteplussdkark.GetEndpointCertificateResponse = (
+                self.api_instance.get_endpoint_certificate(
+                    get_endpoint_certificate_request
+                )
+            )
         except ApiException as e:
-            raise ArkAPIError("Getting model vendor encryption certificate failed: %s\n" % e)
+            raise ArkAPIError(
+                "Getting model vendor encryption certificate failed: %s\n" % e
+            )
 
         return resp.pca_instance_certificate
 
     def _sync_load_cert_by_auth(self, ep: str) -> str:
         try:  # try to make request with session header (used for header statistic)
-            resp = self.client.post(self._e2e_uri, options={"headers": self._x_session_token},
-                                    body={"model": ep}, cast_to=self.CertificateResponse)
+            resp = self.client.post(
+                self._e2e_uri,
+                options={"headers": self._x_session_token},
+                body={"model": ep},
+                cast_to=self.CertificateResponse,
+            )
         except Exception as e:
             raise ArkAPIError("Getting Certificate failed: %s\n" % e)
-        if 'error' in resp:
-            raise ArkAPIError("Getting Certificate failed: %s\n" % resp['error'])
-        return resp['Certificate']
+        if "error" in resp:
+            raise ArkAPIError("Getting Certificate failed: %s\n" % resp["error"])
+        return resp["Certificate"]
 
     def _save_cert_to_file(self, ep: str, cert_pem: str):
         cert_file_path = os.path.join(self._cert_storage_path, f"{ep}.pem")
-        with open(cert_file_path, 'w') as f:
+        with open(cert_file_path, "w") as f:
             f.write(cert_pem)
 
     def _load_cert_locally(self, ep: str) -> str | None:
@@ -410,7 +489,7 @@ class E2ECertificateManager(object):
             current_time = time.time()
             time_difference = current_time - last_modified_time
             if time_difference <= self._cert_expiration_seconds:
-                with open(cert_file_path, 'r') as f:
+                with open(cert_file_path, "r") as f:
                     return f.read()
             else:
                 os.remove(cert_file_path)
