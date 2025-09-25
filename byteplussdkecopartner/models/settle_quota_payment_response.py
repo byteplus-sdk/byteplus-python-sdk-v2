@@ -40,6 +40,7 @@ class SettleQuotaPaymentResponse(object):
         'quota_balance': 'float',
         'quota_unit': 'str',
         'repayment_amount': 'float',
+        'success': 'bool',
         'uid': 'int'
     }
 
@@ -51,10 +52,11 @@ class SettleQuotaPaymentResponse(object):
         'quota_balance': 'QuotaBalance',
         'quota_unit': 'QuotaUnit',
         'repayment_amount': 'RepaymentAmount',
+        'success': 'Success',
         'uid': 'Uid'
     }
 
-    def __init__(self, last_updated_time=None, outstanding_amount_after=None, outstanding_amount_before=None, quota_allocated=None, quota_balance=None, quota_unit=None, repayment_amount=None, uid=None, _configuration=None):  # noqa: E501
+    def __init__(self, last_updated_time=None, outstanding_amount_after=None, outstanding_amount_before=None, quota_allocated=None, quota_balance=None, quota_unit=None, repayment_amount=None, success=None, uid=None, _configuration=None):  # noqa: E501
         """SettleQuotaPaymentResponse - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
@@ -67,6 +69,7 @@ class SettleQuotaPaymentResponse(object):
         self._quota_balance = None
         self._quota_unit = None
         self._repayment_amount = None
+        self._success = None
         self._uid = None
         self.discriminator = None
 
@@ -84,6 +87,8 @@ class SettleQuotaPaymentResponse(object):
             self.quota_unit = quota_unit
         if repayment_amount is not None:
             self.repayment_amount = repayment_amount
+        if success is not None:
+            self.success = success
         if uid is not None:
             self.uid = uid
 
@@ -233,6 +238,27 @@ class SettleQuotaPaymentResponse(object):
         """
 
         self._repayment_amount = repayment_amount
+
+    @property
+    def success(self):
+        """Gets the success of this SettleQuotaPaymentResponse.  # noqa: E501
+
+
+        :return: The success of this SettleQuotaPaymentResponse.  # noqa: E501
+        :rtype: bool
+        """
+        return self._success
+
+    @success.setter
+    def success(self, success):
+        """Sets the success of this SettleQuotaPaymentResponse.
+
+
+        :param success: The success of this SettleQuotaPaymentResponse.  # noqa: E501
+        :type: bool
+        """
+
+        self._success = success
 
     @property
     def uid(self):
