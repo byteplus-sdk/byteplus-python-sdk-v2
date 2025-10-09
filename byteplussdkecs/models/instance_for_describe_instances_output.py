@@ -43,6 +43,7 @@ class InstanceForDescribeInstancesOutput(object):
         'description': 'str',
         'eip_address': 'EipAddressForDescribeInstancesOutput',
         'elastic_scheduled_instance_type': 'str',
+        'enable_jumbo_frame': 'bool',
         'expired_at': 'str',
         'host_name': 'str',
         'hostname': 'str',
@@ -63,6 +64,7 @@ class InstanceForDescribeInstancesOutput(object):
         'placement': 'PlacementForDescribeInstancesOutput',
         'project_name': 'str',
         'rdma_ip_addresses': 'list[str]',
+        'rdma_network_interface_details': 'list[RdmaNetworkInterfaceDetailForDescribeInstancesOutput]',
         'scheduled_instance_id': 'str',
         'spot_price_limit': 'float',
         'spot_strategy': 'str',
@@ -87,6 +89,7 @@ class InstanceForDescribeInstancesOutput(object):
         'description': 'Description',
         'eip_address': 'EipAddress',
         'elastic_scheduled_instance_type': 'ElasticScheduledInstanceType',
+        'enable_jumbo_frame': 'EnableJumboFrame',
         'expired_at': 'ExpiredAt',
         'host_name': 'HostName',
         'hostname': 'Hostname',
@@ -107,6 +110,7 @@ class InstanceForDescribeInstancesOutput(object):
         'placement': 'Placement',
         'project_name': 'ProjectName',
         'rdma_ip_addresses': 'RdmaIpAddresses',
+        'rdma_network_interface_details': 'RdmaNetworkInterfaceDetails',
         'scheduled_instance_id': 'ScheduledInstanceId',
         'spot_price_limit': 'SpotPriceLimit',
         'spot_strategy': 'SpotStrategy',
@@ -120,7 +124,7 @@ class InstanceForDescribeInstancesOutput(object):
         'zone_id': 'ZoneId'
     }
 
-    def __init__(self, affinity_group_id=None, cpu_options=None, cpus=None, created_at=None, deletion_protection=None, deployment_set_group_number=None, deployment_set_id=None, description=None, eip_address=None, elastic_scheduled_instance_type=None, expired_at=None, host_name=None, hostname=None, hpc_cluster_id=None, image_id=None, instance_charge_type=None, instance_id=None, instance_name=None, instance_type_id=None, key_pair_id=None, key_pair_name=None, local_volumes=None, memory_size=None, metadata_options=None, network_interfaces=None, os_name=None, os_type=None, placement=None, project_name=None, rdma_ip_addresses=None, scheduled_instance_id=None, spot_price_limit=None, spot_strategy=None, status=None, stopped_mode=None, tags=None, updated_at=None, uuid=None, volumes=None, vpc_id=None, zone_id=None, _configuration=None):  # noqa: E501
+    def __init__(self, affinity_group_id=None, cpu_options=None, cpus=None, created_at=None, deletion_protection=None, deployment_set_group_number=None, deployment_set_id=None, description=None, eip_address=None, elastic_scheduled_instance_type=None, enable_jumbo_frame=None, expired_at=None, host_name=None, hostname=None, hpc_cluster_id=None, image_id=None, instance_charge_type=None, instance_id=None, instance_name=None, instance_type_id=None, key_pair_id=None, key_pair_name=None, local_volumes=None, memory_size=None, metadata_options=None, network_interfaces=None, os_name=None, os_type=None, placement=None, project_name=None, rdma_ip_addresses=None, rdma_network_interface_details=None, scheduled_instance_id=None, spot_price_limit=None, spot_strategy=None, status=None, stopped_mode=None, tags=None, updated_at=None, uuid=None, volumes=None, vpc_id=None, zone_id=None, _configuration=None):  # noqa: E501
         """InstanceForDescribeInstancesOutput - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
@@ -136,6 +140,7 @@ class InstanceForDescribeInstancesOutput(object):
         self._description = None
         self._eip_address = None
         self._elastic_scheduled_instance_type = None
+        self._enable_jumbo_frame = None
         self._expired_at = None
         self._host_name = None
         self._hostname = None
@@ -156,6 +161,7 @@ class InstanceForDescribeInstancesOutput(object):
         self._placement = None
         self._project_name = None
         self._rdma_ip_addresses = None
+        self._rdma_network_interface_details = None
         self._scheduled_instance_id = None
         self._spot_price_limit = None
         self._spot_strategy = None
@@ -189,6 +195,8 @@ class InstanceForDescribeInstancesOutput(object):
             self.eip_address = eip_address
         if elastic_scheduled_instance_type is not None:
             self.elastic_scheduled_instance_type = elastic_scheduled_instance_type
+        if enable_jumbo_frame is not None:
+            self.enable_jumbo_frame = enable_jumbo_frame
         if expired_at is not None:
             self.expired_at = expired_at
         if host_name is not None:
@@ -229,6 +237,8 @@ class InstanceForDescribeInstancesOutput(object):
             self.project_name = project_name
         if rdma_ip_addresses is not None:
             self.rdma_ip_addresses = rdma_ip_addresses
+        if rdma_network_interface_details is not None:
+            self.rdma_network_interface_details = rdma_network_interface_details
         if scheduled_instance_id is not None:
             self.scheduled_instance_id = scheduled_instance_id
         if spot_price_limit is not None:
@@ -461,6 +471,27 @@ class InstanceForDescribeInstancesOutput(object):
         """
 
         self._elastic_scheduled_instance_type = elastic_scheduled_instance_type
+
+    @property
+    def enable_jumbo_frame(self):
+        """Gets the enable_jumbo_frame of this InstanceForDescribeInstancesOutput.  # noqa: E501
+
+
+        :return: The enable_jumbo_frame of this InstanceForDescribeInstancesOutput.  # noqa: E501
+        :rtype: bool
+        """
+        return self._enable_jumbo_frame
+
+    @enable_jumbo_frame.setter
+    def enable_jumbo_frame(self, enable_jumbo_frame):
+        """Sets the enable_jumbo_frame of this InstanceForDescribeInstancesOutput.
+
+
+        :param enable_jumbo_frame: The enable_jumbo_frame of this InstanceForDescribeInstancesOutput.  # noqa: E501
+        :type: bool
+        """
+
+        self._enable_jumbo_frame = enable_jumbo_frame
 
     @property
     def expired_at(self):
@@ -881,6 +912,27 @@ class InstanceForDescribeInstancesOutput(object):
         """
 
         self._rdma_ip_addresses = rdma_ip_addresses
+
+    @property
+    def rdma_network_interface_details(self):
+        """Gets the rdma_network_interface_details of this InstanceForDescribeInstancesOutput.  # noqa: E501
+
+
+        :return: The rdma_network_interface_details of this InstanceForDescribeInstancesOutput.  # noqa: E501
+        :rtype: list[RdmaNetworkInterfaceDetailForDescribeInstancesOutput]
+        """
+        return self._rdma_network_interface_details
+
+    @rdma_network_interface_details.setter
+    def rdma_network_interface_details(self, rdma_network_interface_details):
+        """Sets the rdma_network_interface_details of this InstanceForDescribeInstancesOutput.
+
+
+        :param rdma_network_interface_details: The rdma_network_interface_details of this InstanceForDescribeInstancesOutput.  # noqa: E501
+        :type: list[RdmaNetworkInterfaceDetailForDescribeInstancesOutput]
+        """
+
+        self._rdma_network_interface_details = rdma_network_interface_details
 
     @property
     def scheduled_instance_id(self):

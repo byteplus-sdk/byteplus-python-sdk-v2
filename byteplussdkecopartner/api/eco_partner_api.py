@@ -109,13 +109,13 @@ class ECOPARTNERApi(object):
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['text/plain'])  # noqa: E501
+            ['application/json'])  # noqa: E501
 
         # Authentication setting
         auth_settings = ['byteplusSign']  # noqa: E501
 
         return self.api_client.call_api(
-            '/CheckInvitationStatus/2025-05-29/eco_partner/get/text_plain/', 'GET',
+            '/CheckInvitationStatus/2025-05-29/eco_partner/post/application_json/', 'POST',
             path_params,
             query_params,
             header_params,
@@ -206,13 +206,13 @@ class ECOPARTNERApi(object):
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['text/plain'])  # noqa: E501
+            ['application/json'])  # noqa: E501
 
         # Authentication setting
         auth_settings = ['byteplusSign']  # noqa: E501
 
         return self.api_client.call_api(
-            '/CreateInvitationLink/2025-05-29/eco_partner/get/text_plain/', 'GET',
+            '/CreateInvitationLink/2025-05-29/eco_partner/post/application_json/', 'POST',
             path_params,
             query_params,
             header_params,
@@ -303,13 +303,13 @@ class ECOPARTNERApi(object):
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['text/plain'])  # noqa: E501
+            ['application/json'])  # noqa: E501
 
         # Authentication setting
         auth_settings = ['byteplusSign']  # noqa: E501
 
         return self.api_client.call_api(
-            '/CreateUniqueInvitationLink/2025-05-29/eco_partner/get/text_plain/', 'GET',
+            '/CreateUniqueInvitationLink/2025-05-29/eco_partner/post/application_json/', 'POST',
             path_params,
             query_params,
             header_params,
@@ -400,13 +400,13 @@ class ECOPARTNERApi(object):
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['text/plain'])  # noqa: E501
+            ['application/json'])  # noqa: E501
 
         # Authentication setting
         auth_settings = ['byteplusSign']  # noqa: E501
 
         return self.api_client.call_api(
-            '/GetCustomerDetailsByType/2025-05-29/eco_partner/get/text_plain/', 'GET',
+            '/GetCustomerDetailsByType/2025-05-29/eco_partner/post/application_json/', 'POST',
             path_params,
             query_params,
             header_params,
@@ -497,13 +497,13 @@ class ECOPARTNERApi(object):
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['text/plain'])  # noqa: E501
+            ['application/json'])  # noqa: E501
 
         # Authentication setting
         auth_settings = ['byteplusSign']  # noqa: E501
 
         return self.api_client.call_api(
-            '/GetCustomerDetailsByUID/2025-05-29/eco_partner/get/text_plain/', 'GET',
+            '/GetCustomerDetailsByUID/2025-05-29/eco_partner/post/application_json/', 'POST',
             path_params,
             query_params,
             header_params,
@@ -594,13 +594,13 @@ class ECOPARTNERApi(object):
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['text/plain'])  # noqa: E501
+            ['application/json'])  # noqa: E501
 
         # Authentication setting
         auth_settings = ['byteplusSign']  # noqa: E501
 
         return self.api_client.call_api(
-            '/GetQuotaInformation/2025-05-29/eco_partner/get/text_plain/', 'GET',
+            '/GetQuotaInformation/2025-05-29/eco_partner/post/application_json/', 'POST',
             path_params,
             query_params,
             header_params,
@@ -691,13 +691,13 @@ class ECOPARTNERApi(object):
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['text/plain'])  # noqa: E501
+            ['application/json'])  # noqa: E501
 
         # Authentication setting
         auth_settings = ['byteplusSign']  # noqa: E501
 
         return self.api_client.call_api(
-            '/ModifyQuota/2025-05-29/eco_partner/get/text_plain/', 'GET',
+            '/ModifyQuota/2025-05-29/eco_partner/post/application_json/', 'POST',
             path_params,
             query_params,
             header_params,
@@ -788,13 +788,13 @@ class ECOPARTNERApi(object):
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['text/plain'])  # noqa: E501
+            ['application/json'])  # noqa: E501
 
         # Authentication setting
         auth_settings = ['byteplusSign']  # noqa: E501
 
         return self.api_client.call_api(
-            '/SettleQuotaPayment/2025-05-29/eco_partner/get/text_plain/', 'GET',
+            '/SettleQuotaPayment/2025-05-29/eco_partner/post/application_json/', 'POST',
             path_params,
             query_params,
             header_params,
