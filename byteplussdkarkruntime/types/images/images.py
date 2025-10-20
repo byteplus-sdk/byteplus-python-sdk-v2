@@ -2,7 +2,12 @@ from typing import List, Optional
 
 from byteplussdkarkruntime._models import BaseModel
 
-__all__ = ["SequentialImageGenerationOptions", "ImagesResponse"]
+__all__ = ["OptimizePromptOptions", "SequentialImageGenerationOptions", "ImagesResponse"]
+
+
+class OptimizePromptOptions(BaseModel):
+    thinking: Optional[str] = None
+    mode: Optional[str] = None
 
 
 class SequentialImageGenerationOptions(BaseModel):
