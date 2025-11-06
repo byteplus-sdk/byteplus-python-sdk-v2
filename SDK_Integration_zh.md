@@ -11,6 +11,7 @@
   - [自定义RegionId](#自定义regionid)
   - [自动化Endpoint寻址](#自动化endpoint寻址)
     - [Endpoint默认寻址](#endpoint默认寻址)
+    - [Endpoint标准寻址](#endpoint标准寻址)
 - [Http连接池配置](#http连接池配置)
 - [Https请求配置](#https请求配置)
   - [指定scheme](#指定scheme)
@@ -231,6 +232,33 @@ configuration.custom_bootstrap_region = {
 byteplussdkcore.Configuration.set_default(configuration)
 ```
 
+### Endpoint标准寻址
+**标准寻址规则**  
+
+目前为止只有`cn-hongkong`表示非大陆地区，其它`cn`开头的region表示大陆地区。
+
+| Global服务 | 双栈 | 格式                                                                                                       | 备注             |
+|----------|----|----------------------------------------------------------------------------------------------------------|----------------|
+| 是        | 是  | `{Service}.byteplus-api.com`                                                                               |                |
+| 是        | 否  | `{Service}.byteplusapi.com`                                                                                |                |
+| 否        | 是  | 非中国大陆(cn-hongkong)：`{Service}.{region}.byteplus-api.com` <br/>  中国大陆：`{Service}.{region}.byteplus-api.com.cn` | 非gloabl服务，中国大陆地区会在末尾加上cn |
+| 否        | 否  | 非中国大陆(cn-hongkong)：`{Service}.{region}.byteplusapi.com` <br/> 中国大陆：`{Service}.{region}.byteplusapi.com.cn`   | 非gloabl服务，中国大陆地区会在末尾加上cn        |
+
+**代码示例：**  
+
+是否global服务根据具体调用的服务决定的，是否global无法修改的。  
+可以参考列表：[./byteplussdkcore/endpoint/providers/standard_provider.py#ServiceInfos](./byteplussdkcore/endpoint/providers/standard_provider.py#L53)  
+```python
+import byteplussdkcore
+from byteplussdkcore.endpoint.providers.standard_provider import StandardEndpointResolver
+configuration = byteplussdkcore.Configuration()
+configuration.ak = "Your ak"
+configuration.sk = "Your sk"
+configuration.endpoint_provider = StandardEndpointResolver() # 配置标准寻址
+configuration.use_dual_stack = True # 配置是否双栈
+configuration.region = "cn-hongkong" # 配置region
+byteplussdkcore.Configuration.set_default(configuration)
+```
 # Http连接池配置
 
 > **默认**  
