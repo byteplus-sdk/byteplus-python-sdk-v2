@@ -1,5 +1,8 @@
 # coding: utf-8
-from typing import TYPE_CHECKING
+try:
+    from typing import TYPE_CHECKING
+except ImportError:
+    TYPE_CHECKING = False
 from byteplussdkcore.retryer.backoff_strategy import ExponentialWithRandomJitterBackoffStrategy
 from byteplussdkcore.retryer.retry_condition import DefaultRetryCondition
 if TYPE_CHECKING:

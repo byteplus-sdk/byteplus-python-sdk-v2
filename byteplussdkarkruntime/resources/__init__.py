@@ -6,6 +6,7 @@ from .context import AsyncContext, Context
 from .embeddings import AsyncEmbeddings, Embeddings
 from .images import AsyncImages, Images
 from .multimodal_embeddings import AsyncMultimodalEmbeddings, MultimodalEmbeddings
+from .responses import AsyncResponses, Responses, AsyncInputItems, InputItems
 
 __all__ = [
     "Chat",
@@ -24,4 +25,8 @@ __all__ = [
     "AsyncBatchChat",
     "Batch",
     "AsyncBatch",
+    "AsyncResponses",
+    "Responses",
+    "InputItems",
+    "AsyncInputItems",
 ]
