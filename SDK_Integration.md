@@ -13,6 +13,7 @@ English | [简体中文](./SDK_Integration_zh.md)
   - [Custom RegionId](#custom-regionid)
   - [Automatic Endpoint Resolution](#automatic-endpoint-resolution)
     - [Default Endpoint Resolution](#default-endpoint-resolution)
+    - [Standard Endpoint Resolution](#standard-endpoint-resolution)
 - [HTTP Connection-Pool Settings](#http-connection-pool-settings)
 - [HTTPS Request Settings](#https-request-settings)
   - [Specify the Scheme](#specify-the-scheme)
@@ -232,6 +233,33 @@ configuration.custom_bootstrap_region = {
   "custom_example_region1": {},
   "custom_example_region2": {},
 } # Customize the automatic addressing region list
+byteplussdkcore.Configuration.set_default(configuration)
+```
+### Standard Endpoint Resolution
+**Standard Endpoint Resolution Rules**  
+
+Currently, only `cn-hongkong` indicates regions outside mainland China; other regions starting with `cn` indicate regions outside mainland China.
+
+| Global Services | Dual stack | Format                                                                                                | 备注             |
+|--------------|-----------|-------------------------------------------------------------------------------------------------------|----------------|
+| Yes          | Yes       | `{Service}.byteplus-api.com`                                                                          |                |
+| Yes             | No        | `{Service}.byteplusapi.com`                                                                           |                |
+| No             | Yes       | Non-mainland China(cn-hongkong)：`{Service}.{region}.byteplus-api.com` <br/>  Chinese mainland：`{Service}.{region}.byteplus-api.com.cn` | For non-global services, "cn" will be added to the end. |
+| No             | No          | Non-mainland China(cn-hongkong)：`{Service}.{region}.byteplusapi.com` <br/> Chinese mainland：`{Service}.{region}.byteplusapi.com.cn` | For non-global services, "cn" will be added to the end.        |
+
+**Code Example：**  
+
+Whether a service is global depends on the specific service being called, and whether it is global cannot be modified.  
+You can refer to the list：[./byteplussdkcore/endpoint/providers/standard_provider.py#ServiceInfos](./byteplussdkcore/endpoint/providers/standard_provider.py#L53)  
+```python
+import byteplussdkcore
+from byteplussdkcore.endpoint.providers.standard_provider import StandardEndpointResolver
+configuration = byteplussdkcore.Configuration()
+configuration.ak = "Your ak"
+configuration.sk = "Your sk"
+configuration.endpoint_provider = StandardEndpointResolver() # Configure standard addressing
+configuration.use_dual_stack = True # Configure whether to use dual stack
+configuration.region = "cn-hongkong" # Configure region
 byteplussdkcore.Configuration.set_default(configuration)
 ```
 

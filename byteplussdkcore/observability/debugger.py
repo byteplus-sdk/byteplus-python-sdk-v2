@@ -227,7 +227,7 @@ class SdkCoreLogger(logging.Logger):
         else:
             self.debugx(LogLevel.LOG_DEBUG_WITH_REQUEST, "[Request] " + msg, *args, **kwargs)
 
-    def debug_response(self, msg, *args, **kwargs):
+    def debug_response(self, msg, *args,  **kwargs):
         is_body = kwargs.pop('is_body', False)
         if is_body:
             self.debugx(LogLevel.LOG_DEBUG_WITH_RESPONSE_BODY, "[Response] " + msg, *args, **kwargs)
