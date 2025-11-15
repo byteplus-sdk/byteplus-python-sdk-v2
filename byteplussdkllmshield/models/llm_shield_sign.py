@@ -30,14 +30,14 @@ ServiceCodeDev = "llmshield_dev"
 ServiceCodeOnline = "llmshield"
 Service = ServiceCodeOnline
 
-def SetServiceCode(self, IsDev :bool):
+def SetServiceCode(IsDev :bool):
     global Service, ServiceCodeDev, ServiceCodeOnline
     if IsDev:
         Service = ServiceCodeDev
     else:
         Service = ServiceCodeOnline
 
-def GetServiceCode(self):
+def GetServiceCode():
     return Service
 
 def norm_query(params):
