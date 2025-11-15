@@ -5,7 +5,7 @@ from uuid import UUID
 import requests
 import json
 
-from ..models.llm_shield_sign import request_sign, Version, ServiceCodeDev, ServiceCodeOnline, Service
+from ..models.llm_shield_sign import request_sign, Version, SetServiceCode, GetServiceCode
 
 LLM_STREAM_SEND_BASE_WINDOW_V2 = 10
 LLM_STREAM_SEND_EXPONENT_V2 = 2
@@ -56,7 +56,7 @@ class MessageV2(BaseModel):
     role: str = Field("", alias="Role")
     content: str = Field("", alias="Content")
     content_type: int = Field(ContentTypeV2.TEXT, alias="ContentType")
-    multi_part: Optional[MultiPart] = Field(None, alias="MultiPart")
+    multi_part: Optional[List[MultiPart]] = Field(None, alias="MultiPart")
 
     class Config:
         populate_by_name = True
@@ -316,16 +316,6 @@ class ClientV2:
 
     def SetProxy(self, proxy: dict):
         self.http_client.proxies = proxy
-
-    def SetServiceCode(self, IsDev :bool):
-        global Service, ServiceCodeDev, ServiceCodeOnline
-        if IsDev:
-            Service = ServiceCodeDev
-        else:
-            Service = ServiceCodeOnline
-
-    def GetServiceCode(self):
-        return Service
 
     def Moderate(self, request: Optional[ModerateV2Request] = None) -> ModerateV2Response:
         path = "/v2/moderate"

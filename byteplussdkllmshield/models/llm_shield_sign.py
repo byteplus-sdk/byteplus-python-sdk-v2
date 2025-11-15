@@ -29,6 +29,17 @@ Method = "POST"
 ServiceCodeDev = "llmshield_dev"
 ServiceCodeOnline = "llmshield"
 Service = ServiceCodeOnline
+
+def SetServiceCode(self, IsDev :bool):
+    global Service, ServiceCodeDev, ServiceCodeOnline
+    if IsDev:
+        Service = ServiceCodeDev
+    else:
+        Service = ServiceCodeOnline
+
+def GetServiceCode(self):
+    return Service
+
 def norm_query(params):
     query = ""
     for key in sorted(params.keys()):
