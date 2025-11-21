@@ -1,3 +1,14 @@
+# Copyright (c) [2025] [OpenAI]
+# Copyright (c) [2025] [ByteDance Ltd. and/or its affiliates.]
+# SPDX-License-Identifier: Apache-2.0
+#
+# This file has been modified by [ByteDance Ltd. and/or its affiliates.] on 2025.7
+#
+# Original file was released under Apache License Version 2.0, with the full license text
+# available at https://github.com/openai/openai-python/blob/main/LICENSE.
+#
+# This modified file is released under the same license.
+
 from typing import List, Optional
 from typing_extensions import Literal
 
@@ -70,6 +81,9 @@ class ChoiceDelta(BaseModel):
 
     tool_calls: Optional[List[ChoiceDeltaToolCall]] = None
 
+    reasoning_content: Optional[str] = None
+    """The reasoning content of the message."""
+
 
 class ChoiceLogprobs(BaseModel):
     content: Optional[List[ChatCompletionTokenLogprob]] = None
@@ -91,6 +105,9 @@ class Choice(BaseModel):
     filters, `tool_calls` if the model called a tool, or `function_call`
     (deprecated) if the model called a function.
     """
+
+    moderation_hit_type: Optional[Literal["violence", "severe_violation"]] = None
+    """The type of content moderation service hit."""
 
     index: int
     """The index of the choice in the list of choices."""
@@ -117,6 +134,24 @@ class ChatCompletionChunk(BaseModel):
 
     model: str
     """The model to generate the completion."""
+
+    service_tier: Optional[Literal["auto", "default"]]
+    """Specifies the latency tier to use for processing the request.
+
+    This parameter is relevant for customers subscribed to the scale tier service:
+
+    - If set to 'auto', and the endpoint is Scale tier enabled, the system will
+      utilize scale tier credits until they are exhausted.
+    - If set to 'auto', and the endpoint is not Scale tier enabled, the request will
+      be processed using the default service tier with a lower uptime SLA and no
+      latency guarentee.
+    - If set to 'default', the request will be processed using the default service
+      tier with a lower uptime SLA and no latency guarentee.
+    - When not set, the default behavior is 'auto'.
+
+    When this parameter is set, the response body will include the `service_tier`
+    utilized.
+    """
 
     object: Literal["chat.completion.chunk"]
     """The object type, which is always `chat.completion.chunk`."""

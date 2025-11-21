@@ -55,6 +55,8 @@ from ....types.chat.chat_completion_stream_options_param import (
 from ....types.chat.chat_completion_tool_choice_option_param import (
     ChatCompletionToolChoiceOptionParam,
 )
+from ....types.shared.reasoning_effort import ReasoningEffort
+
 
 __all__ = ["Completions", "AsyncCompletions"]
 
@@ -91,15 +93,15 @@ class Completions(SyncAPIResource):
         presence_penalty: Optional[float] | NotGiven = NOT_GIVEN,
         service_tier: Optional[Literal["auto", "default"]] | NotGiven = NOT_GIVEN,
         stop: Union[Optional[str], List[str], None] | NotGiven = NOT_GIVEN,
-        stream_options: (
-            Optional[ChatCompletionStreamOptionsParam] | NotGiven
-        ) = NOT_GIVEN,
+        stream_options: Optional[ChatCompletionStreamOptionsParam]
+        | NotGiven = NOT_GIVEN,
         temperature: Optional[float] | NotGiven = NOT_GIVEN,
         tool_choice: ChatCompletionToolChoiceOptionParam | NotGiven = NOT_GIVEN,
         tools: Iterable[ChatCompletionToolParam] | NotGiven = NOT_GIVEN,
         top_logprobs: Optional[int] | NotGiven = NOT_GIVEN,
         top_p: Optional[float] | NotGiven = NOT_GIVEN,
         user: str | NotGiven = NOT_GIVEN,
+        reasoning_effort: Optional[ReasoningEffort] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -147,6 +149,7 @@ class Completions(SyncAPIResource):
                     "top_logprobs": top_logprobs,
                     "top_p": top_p,
                     "user": user,
+                    "reasoning_effort": reasoning_effort,
                 },
                 completion_create_params.CompletionCreateParams,
             ),
@@ -168,9 +171,9 @@ class Completions(SyncAPIResource):
         *,
         messages: Iterable[ChatCompletionMessageParam],
         model: str,
-        response_format: (
-            completion_create_params.ResponseFormat | type[ResponseFormatT] | NotGiven
-        ) = NOT_GIVEN,
+        response_format: completion_create_params.ResponseFormat
+        | type[ResponseFormatT]
+        | NotGiven = NOT_GIVEN,
         frequency_penalty: Optional[float] | NotGiven = NOT_GIVEN,
         logit_bias: Optional[Dict[str, int]] | NotGiven = NOT_GIVEN,
         logprobs: Optional[bool] | NotGiven = NOT_GIVEN,
@@ -180,15 +183,15 @@ class Completions(SyncAPIResource):
         presence_penalty: Optional[float] | NotGiven = NOT_GIVEN,
         service_tier: Optional[Literal["auto", "default"]] | NotGiven = NOT_GIVEN,
         stop: Union[Optional[str], List[str], None] | NotGiven = NOT_GIVEN,
-        stream_options: (
-            Optional[ChatCompletionStreamOptionsParam] | NotGiven
-        ) = NOT_GIVEN,
+        stream_options: Optional[ChatCompletionStreamOptionsParam]
+        | NotGiven = NOT_GIVEN,
         temperature: Optional[float] | NotGiven = NOT_GIVEN,
         tool_choice: ChatCompletionToolChoiceOptionParam | NotGiven = NOT_GIVEN,
         tools: Iterable[ChatCompletionToolParam] | NotGiven = NOT_GIVEN,
         top_logprobs: Optional[int] | NotGiven = NOT_GIVEN,
         top_p: Optional[float] | NotGiven = NOT_GIVEN,
         user: str | NotGiven = NOT_GIVEN,
+        reasoning_effort: Optional[ReasoningEffort] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -203,6 +206,7 @@ class Completions(SyncAPIResource):
 
         api_request: partial[Stream[ChatCompletionChunk]] = partial(
             self._client.chat.completions.create,
+            reasoning_effort=reasoning_effort,
             messages=messages,
             model=model,
             stream=True,
@@ -267,15 +271,15 @@ class AsyncCompletions(AsyncAPIResource):
         presence_penalty: Optional[float] | NotGiven = NOT_GIVEN,
         service_tier: Optional[Literal["auto", "default"]] | NotGiven = NOT_GIVEN,
         stop: Union[Optional[str], List[str], None] | NotGiven = NOT_GIVEN,
-        stream_options: (
-            Optional[ChatCompletionStreamOptionsParam] | NotGiven
-        ) = NOT_GIVEN,
+        stream_options: Optional[ChatCompletionStreamOptionsParam]
+        | NotGiven = NOT_GIVEN,
         temperature: Optional[float] | NotGiven = NOT_GIVEN,
         tool_choice: ChatCompletionToolChoiceOptionParam | NotGiven = NOT_GIVEN,
         tools: Iterable[ChatCompletionToolParam] | NotGiven = NOT_GIVEN,
         top_logprobs: Optional[int] | NotGiven = NOT_GIVEN,
         top_p: Optional[float] | NotGiven = NOT_GIVEN,
         user: str | NotGiven = NOT_GIVEN,
+        reasoning_effort: Optional[ReasoningEffort] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -323,6 +327,7 @@ class AsyncCompletions(AsyncAPIResource):
                     "top_logprobs": top_logprobs,
                     "top_p": top_p,
                     "user": user,
+                    "reasoning_effort": reasoning_effort,
                 },
                 completion_create_params.CompletionCreateParams,
             ),
@@ -344,9 +349,9 @@ class AsyncCompletions(AsyncAPIResource):
         *,
         messages: Iterable[ChatCompletionMessageParam],
         model: str,
-        response_format: (
-            completion_create_params.ResponseFormat | type[ResponseFormatT] | NotGiven
-        ) = NOT_GIVEN,
+        response_format: completion_create_params.ResponseFormat
+        | type[ResponseFormatT]
+        | NotGiven = NOT_GIVEN,
         frequency_penalty: Optional[float] | NotGiven = NOT_GIVEN,
         logit_bias: Optional[Dict[str, int]] | NotGiven = NOT_GIVEN,
         logprobs: Optional[bool] | NotGiven = NOT_GIVEN,
@@ -356,15 +361,15 @@ class AsyncCompletions(AsyncAPIResource):
         presence_penalty: Optional[float] | NotGiven = NOT_GIVEN,
         service_tier: Optional[Literal["auto", "default"]] | NotGiven = NOT_GIVEN,
         stop: Union[Optional[str], List[str], None] | NotGiven = NOT_GIVEN,
-        stream_options: (
-            Optional[ChatCompletionStreamOptionsParam] | NotGiven
-        ) = NOT_GIVEN,
+        stream_options: Optional[ChatCompletionStreamOptionsParam]
+        | NotGiven = NOT_GIVEN,
         temperature: Optional[float] | NotGiven = NOT_GIVEN,
         tool_choice: ChatCompletionToolChoiceOptionParam | NotGiven = NOT_GIVEN,
         tools: Iterable[ChatCompletionToolParam] | NotGiven = NOT_GIVEN,
         top_logprobs: Optional[int] | NotGiven = NOT_GIVEN,
         top_p: Optional[float] | NotGiven = NOT_GIVEN,
         user: str | NotGiven = NOT_GIVEN,
+        reasoning_effort: Optional[ReasoningEffort] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -400,6 +405,7 @@ class AsyncCompletions(AsyncAPIResource):
             top_logprobs=top_logprobs,
             top_p=top_p,
             user=user,
+            reasoning_effort=reasoning_effort,
             extra_headers=extra_headers,
             extra_query=extra_query,
             extra_body=extra_body,
