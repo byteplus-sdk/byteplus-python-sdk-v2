@@ -222,7 +222,7 @@ from byteplussdkcore.auth.providers.sts_oidc_provider import StsOidcCredentialPr
 if __name__ == '__main__':
     # 注意示例代码安全，代码泄漏会导致AK/SK泄漏，有极大的安全风险。
     configuration = byteplussdkcore.Configuration()
-    configuration.region = "ap-singapore-1"
+    configuration.region = "ap-southeast-1"
 
     # 这里是使用STS ASSUMEROLE_OIDC角色的方式
     configuration.credential_provider = StsOidcCredentialProvider(
@@ -231,8 +231,8 @@ if __name__ == '__main__':
         oidc_token="your oidc token",  # 必填，生成的oidcToken，如ey********
         duration_seconds=3600,  # 非必填，有效期默认3600秒
         scheme="https",  # 非必填，域名前缀，默认https
-        host="sts.volcengineapi.com",  # 非必填，请求域名，默认sts.volcengineapi.com
-        region="ap-singapore-1",  # 非必填，请求服务器区域地址，默认ap-singapore-1
+        host="sts.ap-southeast-1.volcengineapi.com",  # 必填，请求域名
+        region="ap-southeast-1",  # 必填，请求服务器区域地址
         timeout=30,  # 非必填，请求超时时间，默认30秒
         expired_buffer_seconds=60,  # 非必填，session有效期前多久过期，剩余时间小于这个设置就要请求新的token了，默认60秒
         policy='{"Statement":[{"Effect":"Allow","Action":["vpc:CreateVpc"],"Resource":["*"],"Condition":{"StringEquals":{"volc:RequestedRegion":["cn-beijing"]}}}]}' # 非必填，授权策略，默认为空
@@ -282,7 +282,7 @@ from byteplussdkcore.auth.providers.sts_saml_provider import StsSamlCredentialPr
 if __name__ == '__main__':
     # 注意示例代码安全，代码泄漏会导致AK/SK泄漏，有极大的安全风险。
     configuration = byteplussdkcore.Configuration()
-    configuration.region = "ap-singapore-1"
+    configuration.region = "ap-southeast-1"
 
     # 这里是使用STS ASSUMEROLE_SAML角色的方式
     configuration.credential_provider = StsSamlCredentialProvider(
@@ -292,8 +292,8 @@ if __name__ == '__main__':
         saml_resp="your saml resp",  # 必填，认证获取到的SAML的断言
         duration_seconds=3600,  # 非必填，有效期默认3600秒
         scheme="https",  # 非必填，域名前缀，默认https
-        host="sts.volcengineapi.com",  # 非必填，请求域名，默认sts.volcengineapi.com
-        region="ap-singapore-1",  # 非必填，请求服务器区域地址，默认ap-singapore-1
+        host="sts.ap-southeast-1.volcengineapi.com",  # 必填，请求域名
+        region="ap-southeast-1",  # 必填，请求服务器区域地址
         timeout=30,  # 非必填，请求超时时间，默认30秒
         expired_buffer_seconds=60,  # 非必填，session有效期前多久过期，剩余时间小于这个设置就要请求新的token了，默认60秒
         policy='{"Statement":[{"Effect":"Allow","Action":["vpc:CreateVpc"],"Resource":["*"],"Condition":{"StringEquals":{"volc:RequestedRegion":["cn-beijing"]}}}]}' # 非必填，授权策略，默认为空

@@ -218,7 +218,7 @@ from byteplussdkcore.auth.providers.sts_oidc_provider import StsOidcCredentialPr
 
 if __name__ == '__main__':
     configuration = byteplussdkcore.Configuration()
-    configuration.region = "ap-singapore-1"
+    configuration.region = "ap-southeast-1"
 
     configuration.credential_provider = StsOidcCredentialProvider(
         role_name="Your role name",  
@@ -226,8 +226,8 @@ if __name__ == '__main__':
         oidc_token="your oidc token", 
         duration_seconds=3600,  
         scheme="https", 
-        host="sts.volcengineapi.com",  
-        region="ap-singapore-1",  
+        host='sts.ap-southeast-1.volcengineapi.com',
+        region='ap-southeast-1',
         timeout=30,  
         expired_buffer_seconds=60,  
         policy='{"Statement":[{"Effect":"Allow","Action":["vpc:CreateVpc"],"Resource":["*"],"Condition":{"StringEquals":{"volc:RequestedRegion":["ap-singapore-1"]}}}]}' 
@@ -268,7 +268,7 @@ from byteplussdkcore.auth.providers.sts_saml_provider import StsSamlCredentialPr
 
 if __name__ == '__main__':
     configuration = byteplussdkcore.Configuration()
-    configuration.region = "ap-singapore-1"
+    configuration.region = "ap-southeast-1"
 
     configuration.credential_provider = StsSamlCredentialProvider(
         role_name="Your role name",  
@@ -277,8 +277,8 @@ if __name__ == '__main__':
         saml_resp="your saml resp",  
         duration_seconds=3600,  
         scheme="https",  
-        host="sts.volcengineapi.com", 
-        region="ap-singapore-1", 
+        host='sts.ap-southeast-1.volcengineapi.com',
+        region='ap-southeast-1',
         timeout=30,  
         expired_buffer_seconds=60,  
         policy='{"Statement":[{"Effect":"Allow","Action":["vpc:CreateVpc"],"Resource":["*"],"Condition":{"StringEquals":{"volc:RequestedRegion":["ap-singapore-1"]}}}]}' 

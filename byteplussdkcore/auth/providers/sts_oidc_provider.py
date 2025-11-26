@@ -20,8 +20,7 @@ class AssumeRoleOidcCredentials:
 
 class StsOidcCredentialProvider(Provider):
     def __init__(self, role_name, account_id, oidc_token, duration_seconds=3600, scheme='https',
-                 host='open.byteplusapi.com', region='ap-singapore-1', timeout=30, expired_buffer_seconds=60, policy=None):
-
+                 host=None, region=None, timeout=30, expired_buffer_seconds=60, policy=None):
         self.role_name = role_name
         self.account_id = account_id
         self.oidc_token = oidc_token
@@ -34,6 +33,10 @@ class StsOidcCredentialProvider(Provider):
         self.scheme = scheme
         self.policy = policy
         self.expired_time = None
+        if host is None:
+            raise ValueError('host is required')
+        if region is None:
+            raise ValueError('region is required')
         if expired_buffer_seconds > 600:
             raise ValueError('expired_buffer_seconds must be less than or equal to 600')
         self.expired_buffer_seconds = expired_buffer_seconds
