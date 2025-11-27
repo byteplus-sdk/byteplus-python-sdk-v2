@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import base64
 from typing import Tuple
 
@@ -132,3 +133,46 @@ class key_agreement_client:
 
         token = marshal_cryptography_pub_key(R)
         return key, nonce, base64.b64encode(token).decode()
+
+
+def aes_gcm_decrypt_base64_string(key: bytes, nonce: bytes, ciphertext: str) -> str:
+    # Decrypt message(base64.std.string) using AES-GCM
+    cipher_bytes = base64.decodebytes(ciphertext.encode())
+    return aes_gcm_decrypt_bytes(key, nonce, cipher_bytes).decode()
+
+
+base64_pattern = (
+    r"(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{4})"
+)
+
+def decrypt_corner_case(key: bytes, nonce: bytes, data: str) -> str:
+    """decrypt_corner_case Decrypt corner case data"""
+    if len(data) < 24:
+        return ""
+    for i in range(20, len(data), 4):
+        try:
+            decrypted = aes_gcm_decrypt_base64_string(key, nonce, data[: i + 4])
+            if i + 4 == len(data):
+                return decrypted
+            return decrypted + decrypt_corner_case(key, nonce, data[i + 4:])
+        except Exception:
+            pass
+
+def aes_gcm_decrypt_base64_list(key: bytes, nonce: bytes, ciphertext: str) -> str:
+    # Decrypt
+    base64_array = re.findall(base64_pattern, ciphertext)
+    result = []
+    for b64 in base64_array:
+        try:
+            result.append(aes_gcm_decrypt_base64_string(key, nonce, b64))
+        except Exception:
+            result.append(decrypt_corner_case(key, nonce, b64))
+    return "".join(result)
+
+
+def decrypt_validate(ciphertext: str) -> bool:
+    cipher_bytes = ciphertext.encode()
+    cipher_b64_bytes = base64.decodebytes(cipher_bytes)
+    return (
+        len(cipher_bytes) / 4 >= len(cipher_b64_bytes) / 3 >= len(cipher_bytes) / 4 - 1
+    )
