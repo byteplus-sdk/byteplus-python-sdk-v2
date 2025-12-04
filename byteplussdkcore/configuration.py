@@ -138,6 +138,7 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
         self.client_side_validation = True
 
         self.endpoint_provider = DefaultEndpointProvider()
+        self.credential_provider = None
         # Retryer setting
         self.auto_retry = True
         self.__retryer = DEFAULT_RETRYER
@@ -267,7 +268,7 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
                "OS: {env}\n" \
                "Python Version: {pyversion}\n" \
                "Version of the API: 0.1.0\n" \
-               "SDK Package Version: 3.0.21".\
+               "SDK Package Version: 3.0.22".\
             format(env=sys.platform, pyversion=sys.version)
 
     @property
