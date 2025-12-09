@@ -69,3 +69,9 @@ class ContentGenerationTask(BaseModel):
 
     revised_prompt: str
     """The revised prompt the model uses to generate content"""
+
+    service_tier: str
+    """The service tier under which the task runs."""
+
+    execution_expires_after: int
+    """Seconds after which execution expires for the task."""

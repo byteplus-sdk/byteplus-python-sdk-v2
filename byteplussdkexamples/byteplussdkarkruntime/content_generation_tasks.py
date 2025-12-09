@@ -47,3 +47,46 @@ if __name__ == "__main__":
         print(create_result.id)
     except Exception as e:
         print(f"failed to delete task: {e}")
+
+    print("----- create request (service_tier='flex') -----")
+    create_result_flex = client.content_generation.tasks.create(
+        model="ep-20251209175451-tctqz",
+        service_tier="flex",
+        execution_expires_after=12200,
+        content=[
+            {
+                "type": "text",
+                "text": "Bird soaring above vast grasslands"
+            },
+            {
+                "type": "image_url",
+                "image_url": {
+                    "url": "https://ark-doc.tos-ap-southeast-1.bytepluses.com/seepro_i2v%20.png"
+                },
+            }
+        ],
+        # callback_url="${YOUR_CALLBACK_URL}"
+    )
+    print(create_result_flex)
+
+    print("----- get request (service_tier='flex') -----")
+    get_result_flex = client.content_generation.tasks.get(task_id=create_result_flex.id)
+    print(get_result_flex)
+
+    print("----- list request (service_tier='flex') -----")
+    list_result_flex = client.content_generation.tasks.list(
+        page_num=1,
+        page_size=2,
+#         status="queued",  # succeeded, failed, running, cancelled
+        # model="${YOUR_MODEL_EP}", # Filter by model
+        # task_ids=["test-id-1", "test-id-2"] # Filter by task_ids
+        service_tier="flex",
+    )
+    print(list_result_flex)
+
+    print("----- delete request -----")
+    try:
+        client.content_generation.tasks.delete(task_id=create_result_flex.id)
+        print(create_result_flex.id)
+    except Exception as e:
+        print(f"failed to delete task: {e}")
