@@ -577,7 +577,7 @@ configuration.sk = "Your sk"
 # Global Configuration
 configuration.auto_retry = True # Enable automatic retry, enabled by default
 configuration.num_max_retries = 4 # The maximum number of retries is 3 by default.
-configuration.min_retry_delay_ms = 200 # Minimum retry delay in milliseconds, default 30 milliseconds
+configuration.min_retry_delay_ms = 200 # Minimum retry delay in milliseconds, default 300 milliseconds
 configuration.max_retry_delay_ms = 6000 # Maximum retry delay in milliseconds, default 300000 milliseconds
 configuration.backoff_strategy = ExponentialWithRandomJitterBackoffStrategy() # Retry strategy, default ExponentialWithRandomJitterBackoffStrategy
 configuration.retry_condition = DefaultRetryCondition() # Retry condition, default DefaultRetryCondition
@@ -588,7 +588,7 @@ byteplussdkcore.Configuration.set_default(configuration)
 runtime_options = RuntimeOption(
   auto_retry = True, # Enable automatic retry, enabled by default
   num_max_retries = 4, # The maximum number of retries is 3 by default.
-  min_retry_delay_ms = 200, # Minimum retry delay in milliseconds, default 30 milliseconds
+  min_retry_delay_ms = 200, # Minimum retry delay in milliseconds, default 300 milliseconds
   max_retry_delay_ms = 6000, # Maximum retry delay in milliseconds, default 300000 milliseconds
   backoff_strategy = ExponentialWithRandomJitterBackoffStrategy(), # Retry strategy, default ExponentialWithRandomJitterBackoffStrategy
   retry_condition = DefaultRetryCondition(), # Retry condition, default DefaultRetryCondition
