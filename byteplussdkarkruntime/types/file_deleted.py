@@ -9,13 +9,16 @@
 #
 # This modified file is released under the same license.
 
-from .response_format_text import ResponseFormatText as ResponseFormatText
-from .response_format_json_object import (
-    ResponseFormatJSONObject as ResponseFormatJSONObject,
-)
-from .response_format_json_schema import (
-    ResponseFormatJSONSchema as ResponseFormatJSONSchema,
-)
-from .reasoning import Reasoning as Reasoning
+from typing_extensions import Literal
 
-from .reasoning_effort import ReasoningEffort as ReasoningEffort
+from .._models import BaseModel
+
+__all__ = ["FileDeleted"]
+
+
+class FileDeleted(BaseModel):
+    id: str
+
+    deleted: bool
+
+    object: Literal["file"]

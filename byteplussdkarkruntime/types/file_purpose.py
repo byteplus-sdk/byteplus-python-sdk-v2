@@ -9,13 +9,8 @@
 #
 # This modified file is released under the same license.
 
-from .response_format_text import ResponseFormatText as ResponseFormatText
-from .response_format_json_object import (
-    ResponseFormatJSONObject as ResponseFormatJSONObject,
-)
-from .response_format_json_schema import (
-    ResponseFormatJSONSchema as ResponseFormatJSONSchema,
-)
-from .reasoning import Reasoning as Reasoning
+from typing_extensions import Literal, TypeAlias
 
-from .reasoning_effort import ReasoningEffort as ReasoningEffort
+__all__ = ["FilePurpose"]
+
+FilePurpose: TypeAlias = Literal["user_data"]
