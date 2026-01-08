@@ -1,3 +1,14 @@
+# Copyright (c) [2025] [OpenAI]
+# Copyright (c) [2025] [ByteDance Ltd. and/or its affiliates.]
+# SPDX-License-Identifier: Apache-2.0
+#
+# This file has been modified by [ByteDance Ltd. and/or its affiliates.] on 2025.7
+#
+# Original file was released under Apache License Version 2.0, with the full license text
+# available at https://github.com/openai/openai-python/blob/main/LICENSE.
+#
+# This modified file is released under the same license.
+
 from __future__ import annotations
 
 import asyncio
@@ -7,19 +18,20 @@ import time
 from random import random
 from types import TracebackType
 from typing import (
-    Type,
-    Dict,
-    TypeVar,
-    Any,
-    Optional,
-    cast,
     TYPE_CHECKING,
+    Any,
+    Dict,
+    Type,
     Union,
     Generic,
+    Mapping,
+    TypeVar,
     Iterable,
-    AsyncIterator,
     Iterator,
+    Optional,
     Generator,
+    AsyncIterator,
+    cast,
 )
 from typing_extensions import override
 
@@ -32,6 +44,7 @@ from httpx import URL, Timeout, Limits
 from httpx._types import RequestFiles
 
 from . import _exceptions  # type: ignore
+from ._qs import Querystring
 from ._constants import (
     DEFAULT_MAX_RETRIES,
     DEFAULT_TIMEOUT,
@@ -48,6 +61,7 @@ from ._exceptions import (
     ArkAPIStatusError,
     ArkAPIResponseValidationError,
 )
+from ._files import to_httpx_files, async_to_httpx_files
 from ._models import construct_type, GenericModel
 from ._request_options import RequestOptions, ExtraRequestOptions
 from ._response import ArkAPIResponse, ArkAsyncAPIResponse
@@ -59,15 +73,17 @@ from ._types import (
     PostParser,
     Body,
     Query,
+    HttpxRequestFiles,
 )
-from ._utils._utils import _gen_request_id, is_given, is_mapping
-from ._compat import model_copy, PYDANTIC_V2
-
+from ._utils._utils import _gen_request_id, is_given, is_mapping, is_dict, is_list
+from ._compat import model_copy, PYDANTIC_V2, model_dump
 
 SyncPageT = TypeVar("SyncPageT", bound="BaseSyncPage[Any]")
 AsyncPageT = TypeVar("AsyncPageT", bound="BaseAsyncPage[Any]")
 
 _T = TypeVar("_T")
+_T_co = TypeVar("_T_co", covariant=True)
+
 _StreamT = TypeVar("_StreamT", bound=Stream[Any])
 _AsyncStreamT = TypeVar("_AsyncStreamT", bound=AsyncStream[Any])
 
@@ -167,6 +183,10 @@ class BaseClient(Generic[_HttpxClientT]):
             )
 
     @property
+    def qs(self) -> Querystring:
+        return Querystring()
+
+    @property
     def auth_headers(self) -> dict[str, str]:
         return {}
 
@@ -208,9 +228,13 @@ class BaseClient(Generic[_HttpxClientT]):
     def _build_request(
         self,
         options: RequestOptions,
+        *,
+        retries_taken: int = 0,
     ) -> httpx.Request:
         if log.isEnabledFor(logging.DEBUG):
-            log.debug("Request options: %s", options.model_dump(exclude_unset=True))
+            log.debug("Request options: %s", model_dump(options, exclude_unset=True))
+
+        kwargs: dict[str, Any] = {}
 
         body = options.body
         if options.extra_body is not None:
@@ -225,15 +249,104 @@ class BaseClient(Generic[_HttpxClientT]):
 
         headers = self._build_headers(options)
         params = options.params
+        content_type = headers.get("Content-Type")
+        files = options.files
 
+        # If the given Content-Type header is multipart/form-data then it
+        # has to be removed so that httpx can generate the header with
+        # additional information for us as it has to be in this form
+        # for the server to be able to correctly parse the request:
+        # multipart/form-data; boundary=---abc--
+        if content_type is not None and content_type.startswith("multipart/form-data"):
+            if "boundary" not in content_type:
+                # only remove the header if the boundary hasn't been explicitly set
+                # as the caller doesn't want httpx to come up with their own boundary
+                headers.pop("Content-Type")
+
+            # As we are now sending multipart/form-data instead of application/json
+            # we need to tell httpx to use it, https://www.python-httpx.org/advanced/clients/#multipart-file-encoding
+            if body:
+                if not is_dict(body):
+                    raise TypeError(
+                        f"Expected query input to be a dictionary for multipart requests but got {type(body)} instead."
+                    )
+                kwargs["data"] = self._serialize_multipartform(body)
+
+            # httpx determines whether or not to send a "multipart/form-data"
+            # request based on the truthiness of the "files" argument.
+            # This gets around that issue by generating a dict value that
+            # evaluates to true.
+            #
+            # https://github.com/encode/httpx/discussions/2399#discussioncomment-3814186
+            if not files:
+                files = cast(HttpxRequestFiles, ForceMultipartDict())
+
+        prepared_url = self._prepare_url(options.url)
+        if "_" in prepared_url.host:
+            # work around https://github.com/encode/httpx/discussions/2880
+            kwargs["extensions"] = {"sni_hostname": prepared_url.host.replace("_", "-")}
+
+        is_body_allowed = options.method.lower() != "get"
+
+        if is_body_allowed:
+            if isinstance(body, bytes):
+                kwargs["content"] = body
+            else:
+                kwargs["json"] = body if is_given(body) else None
+            kwargs["files"] = files
+        else:
+            headers.pop("Content-Type", None)
+            kwargs.pop("data", None)
+
+        # TODO: report this error to httpx
         return self._client.build_request(  # pyright: ignore[reportUnknownMemberType]
             headers=headers,
-            timeout=options.timeout if options.timeout else self.timeout,
+            timeout=self.timeout
+            if isinstance(options.timeout, NotGiven)
+            else options.timeout,
             method=options.method,
-            url=self._prepare_url(options.url),
-            params=params,  # type: ignore
-            json=body,
+            url=prepared_url,
+            # the `Query` type that we use is incompatible with qs'
+            # `Params` type as it needs to be typed as `Mapping[str, object]`
+            # so that passing a `TypedDict` doesn't cause an error.
+            # https://github.com/microsoft/pyright/issues/3526#event-6715453066
+            params=self.qs.stringify(cast(Mapping[str, Any], params))
+            if params
+            else None,
+            **kwargs,
         )
+
+    def _serialize_multipartform(
+        self, data: Mapping[object, object]
+    ) -> dict[str, object]:
+        items = self.qs.stringify_items(
+            # TODO: type ignore is required as stringify_items is well typed but we can't be
+            # well typed without heavy validation.
+            data,  # type: ignore
+            array_format="brackets",
+        )
+        serialized: dict[str, object] = {}
+        for key, value in items:
+            existing = serialized.get(key)
+
+            if not existing:
+                serialized[key] = value
+                continue
+
+            # If a value has already been set for this key then that
+            # means we're sending data like `array[]=[1, 2, 3]` and we
+            # need to tell httpx that we want to send multiple values with
+            # the same key which is done by using a list or a tuple.
+            #
+            # Note: 2d arrays should never result in the same key at both
+            # levels so it's safe to assume that if the value is a list,
+            # it was because we changed it to be a list.
+            if is_list(existing):
+                existing.append(value)
+            else:
+                serialized[key] = [existing, value]
+
+        return serialized
 
     def _calculate_retry_timeout(
         self,
@@ -408,9 +521,7 @@ class SyncAPIClient(BaseClient):
         custom_headers: Dict[str, str] | None = None,
         custom_query: Dict[str, object] | None = None,
     ) -> None:
-        if http_client is not None and not isinstance(
-            http_client, httpx.Client
-        ):  # pyright: ignore[reportUnnecessaryIsInstance]
+        if http_client is not None and not isinstance(http_client, httpx.Client):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError(
                 f"Invalid `http_client` argument; Expected an instance of `httpx.Client` but got {type(http_client)}"
             )
@@ -562,9 +673,7 @@ class SyncAPIClient(BaseClient):
         api_response = ArkAPIResponse(
             raw=response,
             client=self,
-            cast_to=cast(
-                "type[ResponseT]", cast_to
-            ),  # pyright: ignore[reportUnnecessaryCast]
+            cast_to=cast("type[ResponseT]", cast_to),  # pyright: ignore[reportUnnecessaryCast]
             stream=stream,
             stream_cls=stream_cls,
             options=options,
@@ -588,6 +697,7 @@ class SyncAPIClient(BaseClient):
         opts = RequestOptions.construct(  # type: ignore
             method="post",
             url=path,
+            files=to_httpx_files(files),
             body=body,
             **options,
         )
@@ -649,6 +759,7 @@ class SyncAPIClient(BaseClient):
             method="post",
             url=path,
             body=body,
+            files=files,
             **options,
         )
 
@@ -775,9 +886,7 @@ class AsyncAPIClient(BaseClient):
         custom_headers: Dict[str, str] | None = None,
         custom_query: Dict[str, object] | None = None,
     ) -> None:
-        if http_client is not None and not isinstance(
-            http_client, httpx.AsyncClient
-        ):  # pyright: ignore[reportUnnecessaryIsInstance]
+        if http_client is not None and not isinstance(http_client, httpx.AsyncClient):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError(
                 f"Invalid `http_client` argument; Expected an instance of `httpx.Client` but got {type(http_client)}"
             )
@@ -810,6 +919,7 @@ class AsyncAPIClient(BaseClient):
             method="post",
             url=path,
             body=body,
+            files=await async_to_httpx_files(files),
             **options,
         )
 
@@ -866,6 +976,7 @@ class AsyncAPIClient(BaseClient):
             method="post",
             url=path,
             body=body,
+            files=files,
             **options,
         )
 
@@ -894,7 +1005,7 @@ class AsyncAPIClient(BaseClient):
         page: Type[AsyncPageT],
         options: RequestOptions,
     ) -> AsyncPageT:
-        def _parser(resp: AsyncPageT) -> AsyncPageT:
+        def _parser(resp: AsyncPageT) -> SyncPageT:
             resp._set_private_attributes(
                 client=self,
                 model=model,
@@ -1049,16 +1160,13 @@ class AsyncAPIClient(BaseClient):
         stream: bool,
         stream_cls: type[Stream[Any]] | type[AsyncStream[Any]] | None,
     ) -> ResponseT:
-
         if cast_to == httpx.Response:
             return cast(ResponseT, response)
 
         api_response = ArkAsyncAPIResponse(
             raw=response,
             client=self,
-            cast_to=cast(
-                "type[ResponseT]", cast_to
-            ),  # pyright: ignore[reportUnnecessaryCast]
+            cast_to=cast("type[ResponseT]", cast_to),  # pyright: ignore[reportUnnecessaryCast]
             stream=stream,
             stream_cls=stream_cls,
             options=options,
@@ -1312,3 +1420,20 @@ class BaseAsyncPage(BasePage[_T], Generic[_T]):
         return await self._client._request_api_list(
             self._model, page=self.__class__, options=options
         )
+
+
+class ForceMultipartDict(Dict[str, None]):
+    def __bool__(self) -> bool:
+        return True
+
+
+def _merge_mappings(
+    obj1: Mapping[_T_co, Union[_T, None]],
+    obj2: Mapping[_T_co, Union[_T, None]],
+) -> Dict[_T_co, _T]:
+    """Merge two mappings of the same type, removing any values that are instances of `Omit`.
+
+    In cases with duplicate keys the second mapping takes precedence.
+    """
+    merged = {**obj1, **obj2}
+    return {key: value for key, value in merged.items() if value is not None}
