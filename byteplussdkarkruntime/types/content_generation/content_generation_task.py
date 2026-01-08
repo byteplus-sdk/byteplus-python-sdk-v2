@@ -75,3 +75,6 @@ class ContentGenerationTask(BaseModel):
 
     execution_expires_after: int
     """Seconds after which execution expires for the task."""
+
+    generate_audio: bool
+    """Whether to generate audio."""
