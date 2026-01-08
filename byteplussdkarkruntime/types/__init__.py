@@ -1,12 +1,28 @@
+# Copyright (c) [2025] [OpenAI]
+# Copyright (c) [2025] [ByteDance Ltd. and/or its affiliates.]
+# SPDX-License-Identifier: Apache-2.0
+#
+# This file has been modified by [ByteDance Ltd. and/or its affiliates.] on 2025.7
+#
+# Original file was released under Apache License Version 2.0, with the full license text
+# available at https://github.com/openai/openai-python/blob/main/LICENSE.
+#
+# This modified file is released under the same license.
+
 from __future__ import annotations
 
-from .shared_params import (
+from .shared import (
     ResponseFormatText as ResponseFormatText,
     ResponseFormatJSONObject as ResponseFormatJSONObject,
     ResponseFormatJSONSchema as ResponseFormatJSONSchema,
+    Reasoning as Reasoning,
+    ReasoningEffort as ReasoningEffort,
 )
+from .embedding import Embedding as Embedding
 from .completion_usage import CompletionUsage as CompletionUsage
 from .create_embedding_response import (
     CreateEmbeddingResponse as CreateEmbeddingResponse,
 )
-from .embedding import Embedding as Embedding
+from .file_purpose import FilePurpose as FilePurpose
+from .file_list_params import FileListParams as FileListParams
+from .file_create_params import PreprocessConfigs as PreprocessConfigs
