@@ -24,7 +24,7 @@ from ..._resource import SyncAPIResource, AsyncAPIResource
 from ...types.images import OptimizePromptOptions, SequentialImageGenerationOptions, ImagesResponse
 from ...types.images.image_gen_stream_event import ImageGenStreamEvent
 from ..._types import Body, Query, Headers
-from ..._streaming import Stream
+from ..._streaming import Stream, AsyncStream
 
 
 class Images(SyncAPIResource):
@@ -213,7 +213,7 @@ class AsyncImages(AsyncAPIResource):
         sequential_image_generation: str | None = None,
         sequential_image_generation_options: SequentialImageGenerationOptions | None = None,
         stream: Literal[True],
-    ) -> Stream[ImageGenStreamEvent]:
+    ) -> AsyncStream[ImageGenStreamEvent]:
         ...
 
     @overload
@@ -237,7 +237,7 @@ class AsyncImages(AsyncAPIResource):
         sequential_image_generation: str | None = None,
         sequential_image_generation_options: SequentialImageGenerationOptions | None = None,
         stream: bool,
-    ) -> ImagesResponse | Stream[ImageGenStreamEvent]:
+    ) -> ImagesResponse | AsyncStream[ImageGenStreamEvent]:
         ...
 
     @async_apikey_required
@@ -261,7 +261,7 @@ class AsyncImages(AsyncAPIResource):
         sequential_image_generation: str | None = None,
         sequential_image_generation_options: SequentialImageGenerationOptions | None = None,
         stream: Optional[Literal[False]] | Literal[True] | NotGiven = NOT_GIVEN,
-    ) -> ImagesResponse | Stream[ImageGenStreamEvent]:
+    ) -> ImagesResponse | AsyncStream[ImageGenStreamEvent]:
         return await self._post(
             "/images/generations",
             body={
@@ -293,5 +293,5 @@ class AsyncImages(AsyncAPIResource):
             ),
             cast_to=ImagesResponse,
             stream=stream or False,
-            stream_cls=Stream[ImageGenStreamEvent],
+            stream_cls=AsyncStream[ImageGenStreamEvent],
         )
