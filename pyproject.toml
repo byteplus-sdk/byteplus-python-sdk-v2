@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "byteplus-python-sdk-v2"
+version = "3.0.29"
+description = "Byteplus SDK for Python"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=2.7"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 2",
+    "Programming Language :: Python :: 2.7",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "certifi>=2017.4.17",
+    "python-dateutil>=2.1",
+    "six>=1.16",
+    "urllib3>=1.26.5",
+]
+
+[project.optional-dependencies]
+ark = [
+    "cryptography>=44.0.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/byteplus-sdk/byteplus-python-sdk-v2"
+Documentation = "https://github.com/byteplus-sdk/byteplus-python-sdk-v2/blob/main/SDK_Integration.md"
+Repository = "https://github.com/byteplus-sdk/byteplus-python-sdk-v2"
+
+[tool.setuptools]
+include-package-data = true
+platforms = ["any"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["byteplus*"]
