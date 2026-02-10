@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "byteplus-python-sdk-v2"
-version = "3.0.31"
+version = "3.0.32"
 description = "Byteplus SDK for Python"
 readme = "README.md"
 license = "Apache-2.0"
