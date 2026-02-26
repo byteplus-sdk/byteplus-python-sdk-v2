@@ -21,7 +21,7 @@ from ..._types import NOT_GIVEN, NotGiven
 from ..._base_client import make_request_options
 from ..._utils._utils import apikey_required, async_apikey_required
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ...types.images import OptimizePromptOptions, SequentialImageGenerationOptions, ImagesResponse
+from ...types.images import OptimizePromptOptions, SequentialImageGenerationOptions, ImagesResponse, ContentGenerationTool
 from ...types.images.image_gen_stream_event import ImageGenStreamEvent
 from ..._types import Body, Query, Headers
 from ..._streaming import Stream, AsyncStream
@@ -48,6 +48,8 @@ class Images(SyncAPIResource):
         timeout: float | httpx.Timeout | None = None,
         sequential_image_generation: str | None = None,
         sequential_image_generation_options: SequentialImageGenerationOptions | None = None,
+        tools: list[ContentGenerationTool] | None = None,
+        output_format: str | None = None,
         stream: Optional[Literal[False]] | NotGiven = NOT_GIVEN,
     ) -> ImagesResponse:
         ...
@@ -80,6 +82,8 @@ class Images(SyncAPIResource):
         timeout: float | httpx.Timeout | None = None,
         sequential_image_generation: str | None = None,
         sequential_image_generation_options: SequentialImageGenerationOptions | None = None,
+        tools: list[ContentGenerationTool] | None = None,
+        output_format: str | None = None,
         stream: Literal[True],
     ) -> Stream[ImageGenStreamEvent]:
         ...
@@ -104,6 +108,8 @@ class Images(SyncAPIResource):
         timeout: float | httpx.Timeout | None = None,
         sequential_image_generation: str | None = None,
         sequential_image_generation_options: SequentialImageGenerationOptions | None = None,
+        tools: list[ContentGenerationTool] | None = None,
+        output_format: str | None = None,
         stream: bool,
     ) -> ImagesResponse | Stream[ImageGenStreamEvent]:
         ...
@@ -128,6 +134,8 @@ class Images(SyncAPIResource):
         timeout: float | httpx.Timeout | None = None,
         sequential_image_generation: str | None = None,
         sequential_image_generation_options: SequentialImageGenerationOptions | None = None,
+        tools: list[ContentGenerationTool] | None = None,
+        output_format: str | None = None,
         stream: Optional[Literal[False]] | Literal[True] | NotGiven = NOT_GIVEN,
     ) -> ImagesResponse | Stream[ImageGenStreamEvent]:
         resp = self._post(
@@ -151,6 +159,12 @@ class Images(SyncAPIResource):
                     sequential_image_generation_options.model_dump(mode="json")
                     if sequential_image_generation_options is not None else None
                 ),
+                "tools": (
+                    [t.model_dump(mode="json") for t in tools]
+                    if tools is not None
+                    else None
+                ),
+                "output_format": output_format,
                 "stream": stream,
             },
             options=make_request_options(
@@ -188,6 +202,8 @@ class AsyncImages(AsyncAPIResource):
         timeout: float | httpx.Timeout | None = None,
         sequential_image_generation: str | None = None,
         sequential_image_generation_options: SequentialImageGenerationOptions | None = None,
+        tools: list[ContentGenerationTool] | None = None,
+        output_format: str | None = None,
         stream: Optional[Literal[False]] | NotGiven = NOT_GIVEN,
     ) -> ImagesResponse:
         ...
@@ -212,6 +228,8 @@ class AsyncImages(AsyncAPIResource):
         timeout: float | httpx.Timeout | None = None,
         sequential_image_generation: str | None = None,
         sequential_image_generation_options: SequentialImageGenerationOptions | None = None,
+        tools: list[ContentGenerationTool] | None = None,
+        output_format: str | None = None,
         stream: Literal[True],
     ) -> AsyncStream[ImageGenStreamEvent]:
         ...
@@ -236,6 +254,8 @@ class AsyncImages(AsyncAPIResource):
         timeout: float | httpx.Timeout | None = None,
         sequential_image_generation: str | None = None,
         sequential_image_generation_options: SequentialImageGenerationOptions | None = None,
+        tools: list[ContentGenerationTool] | None = None,
+        output_format: str | None = None,
         stream: bool,
     ) -> ImagesResponse | AsyncStream[ImageGenStreamEvent]:
         ...
@@ -260,6 +280,8 @@ class AsyncImages(AsyncAPIResource):
         timeout: float | httpx.Timeout | None = None,
         sequential_image_generation: str | None = None,
         sequential_image_generation_options: SequentialImageGenerationOptions | None = None,
+        tools: list[ContentGenerationTool] | None = None,
+        output_format: str | None = None,
         stream: Optional[Literal[False]] | Literal[True] | NotGiven = NOT_GIVEN,
     ) -> ImagesResponse | AsyncStream[ImageGenStreamEvent]:
         return await self._post(
@@ -283,6 +305,12 @@ class AsyncImages(AsyncAPIResource):
                     sequential_image_generation_options.model_dump(mode="json")
                     if sequential_image_generation_options is not None else None
                 ),
+                "tools": (
+                    [t.model_dump(mode="json") for t in tools]
+                    if tools is not None
+                    else None
+                ),
+                "output_format": output_format,
                 "stream": stream,
             },
             options=make_request_options(
