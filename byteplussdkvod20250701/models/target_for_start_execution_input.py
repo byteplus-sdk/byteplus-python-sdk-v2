@@ -33,6 +33,7 @@ class TargetForStartExecutionInput(object):
                             and the value is json key in definition.
     """
     swagger_types = {
+        'bitrate': 'int',
         'fps': 'float',
         'res': 'str',
         'res_limit': 'int',
@@ -40,24 +41,28 @@ class TargetForStartExecutionInput(object):
     }
 
     attribute_map = {
+        'bitrate': 'Bitrate',
         'fps': 'Fps',
         'res': 'Res',
         'res_limit': 'ResLimit',
         'scale_ratio': 'ScaleRatio'
     }
 
-    def __init__(self, fps=None, res=None, res_limit=None, scale_ratio=None, _configuration=None):  # noqa: E501
+    def __init__(self, bitrate=None, fps=None, res=None, res_limit=None, scale_ratio=None, _configuration=None):  # noqa: E501
         """TargetForStartExecutionInput - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
         self._configuration = _configuration
 
+        self._bitrate = None
         self._fps = None
         self._res = None
         self._res_limit = None
         self._scale_ratio = None
         self.discriminator = None
 
+        if bitrate is not None:
+            self.bitrate = bitrate
         if fps is not None:
             self.fps = fps
         if res is not None:
@@ -66,6 +71,27 @@ class TargetForStartExecutionInput(object):
             self.res_limit = res_limit
         if scale_ratio is not None:
             self.scale_ratio = scale_ratio
+
+    @property
+    def bitrate(self):
+        """Gets the bitrate of this TargetForStartExecutionInput.  # noqa: E501
+
+
+        :return: The bitrate of this TargetForStartExecutionInput.  # noqa: E501
+        :rtype: int
+        """
+        return self._bitrate
+
+    @bitrate.setter
+    def bitrate(self, bitrate):
+        """Sets the bitrate of this TargetForStartExecutionInput.
+
+
+        :param bitrate: The bitrate of this TargetForStartExecutionInput.  # noqa: E501
+        :type: int
+        """
+
+        self._bitrate = bitrate
 
     @property
     def fps(self):
