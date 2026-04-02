@@ -43,6 +43,7 @@ class UpdateRuleRequest(object):
         'effect_start_at': 'str',
         'enable_state': 'str',
         'evaluation_count': 'int',
+        'evaluation_interval': 'int',
         'id': 'str',
         'level': 'str',
         'level_conditions': 'list[LevelConditionForUpdateRuleInput]',
@@ -51,6 +52,7 @@ class UpdateRuleRequest(object):
         'no_data': 'NoDataForUpdateRuleInput',
         'notification_id': 'str',
         'notify_templates': 'list[NotifyTemplateForUpdateRuleInput]',
+        'object_group_id': 'str',
         'original_dimensions': 'dict(str, list[str])',
         'recovery_notify': 'RecoveryNotifyForUpdateRuleInput',
         'regions': 'list[str]',
@@ -74,6 +76,7 @@ class UpdateRuleRequest(object):
         'effect_start_at': 'EffectStartAt',
         'enable_state': 'EnableState',
         'evaluation_count': 'EvaluationCount',
+        'evaluation_interval': 'EvaluationInterval',
         'id': 'Id',
         'level': 'Level',
         'level_conditions': 'LevelConditions',
@@ -82,6 +85,7 @@ class UpdateRuleRequest(object):
         'no_data': 'NoData',
         'notification_id': 'NotificationId',
         'notify_templates': 'NotifyTemplates',
+        'object_group_id': 'ObjectGroupId',
         'original_dimensions': 'OriginalDimensions',
         'recovery_notify': 'RecoveryNotify',
         'regions': 'Regions',
@@ -94,7 +98,7 @@ class UpdateRuleRequest(object):
         'webhook_ids': 'WebhookIds'
     }
 
-    def __init__(self, alert_methods=None, condition_operator=None, conditions=None, contact_group_ids=None, description=None, dimension_conditions=None, effect_end_at=None, effect_start_at=None, enable_state=None, evaluation_count=None, id=None, level=None, level_conditions=None, multiple_conditions=None, namespace=None, no_data=None, notification_id=None, notify_templates=None, original_dimensions=None, recovery_notify=None, regions=None, rule_name=None, rule_type=None, silence_time=None, sub_namespace=None, tags=None, webhook=None, webhook_ids=None, _configuration=None):  # noqa: E501
+    def __init__(self, alert_methods=None, condition_operator=None, conditions=None, contact_group_ids=None, description=None, dimension_conditions=None, effect_end_at=None, effect_start_at=None, enable_state=None, evaluation_count=None, evaluation_interval=None, id=None, level=None, level_conditions=None, multiple_conditions=None, namespace=None, no_data=None, notification_id=None, notify_templates=None, object_group_id=None, original_dimensions=None, recovery_notify=None, regions=None, rule_name=None, rule_type=None, silence_time=None, sub_namespace=None, tags=None, webhook=None, webhook_ids=None, _configuration=None):  # noqa: E501
         """UpdateRuleRequest - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
@@ -110,6 +114,7 @@ class UpdateRuleRequest(object):
         self._effect_start_at = None
         self._enable_state = None
         self._evaluation_count = None
+        self._evaluation_interval = None
         self._id = None
         self._level = None
         self._level_conditions = None
@@ -118,6 +123,7 @@ class UpdateRuleRequest(object):
         self._no_data = None
         self._notification_id = None
         self._notify_templates = None
+        self._object_group_id = None
         self._original_dimensions = None
         self._recovery_notify = None
         self._regions = None
@@ -146,6 +152,8 @@ class UpdateRuleRequest(object):
         self.effect_start_at = effect_start_at
         self.enable_state = enable_state
         self.evaluation_count = evaluation_count
+        if evaluation_interval is not None:
+            self.evaluation_interval = evaluation_interval
         self.id = id
         self.level = level
         if level_conditions is not None:
@@ -159,6 +167,8 @@ class UpdateRuleRequest(object):
             self.notification_id = notification_id
         if notify_templates is not None:
             self.notify_templates = notify_templates
+        if object_group_id is not None:
+            self.object_group_id = object_group_id
         if original_dimensions is not None:
             self.original_dimensions = original_dimensions
         if recovery_notify is not None:
@@ -403,6 +413,27 @@ class UpdateRuleRequest(object):
         self._evaluation_count = evaluation_count
 
     @property
+    def evaluation_interval(self):
+        """Gets the evaluation_interval of this UpdateRuleRequest.  # noqa: E501
+
+
+        :return: The evaluation_interval of this UpdateRuleRequest.  # noqa: E501
+        :rtype: int
+        """
+        return self._evaluation_interval
+
+    @evaluation_interval.setter
+    def evaluation_interval(self, evaluation_interval):
+        """Sets the evaluation_interval of this UpdateRuleRequest.
+
+
+        :param evaluation_interval: The evaluation_interval of this UpdateRuleRequest.  # noqa: E501
+        :type: int
+        """
+
+        self._evaluation_interval = evaluation_interval
+
+    @property
     def id(self):
         """Gets the id of this UpdateRuleRequest.  # noqa: E501
 
@@ -575,6 +606,27 @@ class UpdateRuleRequest(object):
         """
 
         self._notify_templates = notify_templates
+
+    @property
+    def object_group_id(self):
+        """Gets the object_group_id of this UpdateRuleRequest.  # noqa: E501
+
+
+        :return: The object_group_id of this UpdateRuleRequest.  # noqa: E501
+        :rtype: str
+        """
+        return self._object_group_id
+
+    @object_group_id.setter
+    def object_group_id(self, object_group_id):
+        """Sets the object_group_id of this UpdateRuleRequest.
+
+
+        :param object_group_id: The object_group_id of this UpdateRuleRequest.  # noqa: E501
+        :type: str
+        """
+
+        self._object_group_id = object_group_id
 
     @property
     def original_dimensions(self):
