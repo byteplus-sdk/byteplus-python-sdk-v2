@@ -1,5 +1,7 @@
 __all__ = ["ContentGenerationTask"]
 
+from typing import Optional
+
 from byteplussdkarkruntime._models import BaseModel
 
 
@@ -33,6 +35,9 @@ class ContentGenerationTask(BaseModel):
 
     model: str
     """The model used for the task."""
+
+    safety_identifier: Optional[str] = None
+    """The safety identifier associated with the task."""
 
     status: str
     """The status of the task (running, failed, queued, succeeded, cancelled)."""
