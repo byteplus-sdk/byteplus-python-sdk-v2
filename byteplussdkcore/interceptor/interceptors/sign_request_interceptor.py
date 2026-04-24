@@ -1,7 +1,11 @@
 import json
+import threading
 
 from byteplussdkcore.signv4 import SignerV4
 from .interceptor import RequestInterceptor
+
+
+_DEFAULT_PROVIDER_INIT_LOCK = threading.Lock()
 
 
 class SignRequestInterceptor(RequestInterceptor):
