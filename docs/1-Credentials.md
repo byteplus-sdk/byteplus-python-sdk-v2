@@ -330,6 +330,8 @@ Supported modes in profile (case-insensitive):
 Example: explicitly use CLI provider with a specified profile and config path.
 
 ```python
+import os
+
 import byteplussdkcore
 from byteplussdkcore.auth.providers.cli_config_provider import CLIConfigCredentialProvider
 
@@ -337,7 +339,7 @@ configuration = byteplussdkcore.Configuration()
 configuration.region = "ap-singapore-1"
 configuration.credential_provider = CLIConfigCredentialProvider(
     profile_name="prod",
-    config_path="~/.byteplus/config.json",
+    config_path=os.path.expanduser("~/.byteplus/config.json"),
 )
 byteplussdkcore.Configuration.set_default(configuration)
 ```
