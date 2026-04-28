@@ -155,7 +155,10 @@ class StsOidcCredentialProvider(Provider):
         if self.policy:
             params['Policy'] = self.policy
 
-        resp_result = self._sts_call(
+        # Late imports to avoid circular deps (auth.providers is imported
+        # indirectly by byteplussdkcore/__init__.py).
+        from byteplussdkcore import ApiClient, Configuration
+        resp_result = ApiClient(Configuration())._sts_call(
             action='AssumeRoleWithOIDC',
             version='2018-01-01',
             params=params,
@@ -165,10 +168,11 @@ class StsOidcCredentialProvider(Provider):
             timeout=self.timeout,
             max_retries=self.max_retries,
             retry_interval=self.retry_interval,
+            provider_name=self.PROVIDER_NAME,
         )
         if 'Credentials' not in resp_result:
             raise RuntimeError(
-                '{}: failed to retrieve credentials from STS: {}'.format(
+                'failed to retrieve credentials from sts {}:{}'.format(
                     self.PROVIDER_NAME, str(resp_result)
                 )
             )

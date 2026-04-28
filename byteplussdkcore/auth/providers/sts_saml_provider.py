@@ -117,7 +117,8 @@ class StsSamlCredentialProvider(Provider):
         }
         if self.policy is not None:
             params['Policy'] = self.policy
-        resp_result = self._sts_call(
+        from byteplussdkcore import ApiClient, Configuration
+        resp_result = ApiClient(Configuration())._sts_call(
             action='AssumeRoleWithSAML',
             version='2018-01-01',
             params=params,
@@ -127,10 +128,11 @@ class StsSamlCredentialProvider(Provider):
             timeout=self.timeout,
             max_retries=self.max_retries,
             retry_interval=self.retry_interval,
+            provider_name=self.PROVIDER_NAME,
         )
         if 'Credentials' not in resp_result:
             raise RuntimeError(
-                '{}: failed to retrieve credentials from STS: {}'.format(
+                'failed to retrieve credentials from sts: {}:{}'.format(
                     self.PROVIDER_NAME, str(resp_result)
                 )
             )

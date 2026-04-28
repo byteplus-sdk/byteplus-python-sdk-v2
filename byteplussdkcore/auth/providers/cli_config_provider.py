@@ -489,7 +489,13 @@ class SsoCredentialProvider(Provider):
             _OAUTH_BASE_URL_TEMPLATE.format(self._region)
         )
 
-        resp_body = self._do_http_request(
+        # Late imports to avoid circular deps (auth.providers is imported
+        # indirectly by byteplussdkcore/__init__.py).
+        from byteplussdkcore import ApiClient, Configuration
+        # Pass a dict body; RESTClient auto-serializes with Content-Type:
+        # application/json (see byteplussdkcore/rest.py). Do NOT json.dumps
+        # here or it will be double-encoded.
+        resp_body = ApiClient(Configuration())._do_http_request(
             oauth_url,
             method="POST",
             data={
@@ -503,7 +509,11 @@ class SsoCredentialProvider(Provider):
             max_retries=_HTTP_MAX_RETRIES,
             retry_interval=_HTTP_RETRY_INTERVAL,
             request_name="OAuth token refresh",
+            # OAuth refresh_token grants may rotate the refresh token on use;
+            # replaying a successful-but-response-lost POST would invalidate
+            # the local refresh_token. Fail fast on 5xx instead.
             retry_on_5xx=False,
+            provider_name=self.PROVIDER_NAME,
         )
 
         try:
@@ -554,7 +564,10 @@ class SsoCredentialProvider(Provider):
             urlencode({"account_id": self._account_id, "role_name": self._role_name}),
         )
 
-        resp_body = self._do_http_request(
+        # Late imports to avoid circular deps (auth.providers is imported
+        # indirectly by byteplussdkcore/__init__.py).
+        from byteplussdkcore import ApiClient, Configuration
+        resp_body = ApiClient(Configuration())._do_http_request(
             portal_url,
             method="GET",
             headers={
@@ -565,6 +578,7 @@ class SsoCredentialProvider(Provider):
             max_retries=_HTTP_MAX_RETRIES,
             retry_interval=_HTTP_RETRY_INTERVAL,
             request_name="Portal GetRoleCredentials",
+            provider_name=self.PROVIDER_NAME,
         )
 
         try:
