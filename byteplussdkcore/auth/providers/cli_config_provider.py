@@ -324,6 +324,14 @@ def _parse_rfc3339(value):
     raise ValueError("cannot parse expires_at: {}".format(value))
 
 
+def _rfc3339_to_epoch(value):
+    exp_dt = _parse_rfc3339(value)
+    if exp_dt.tzinfo:
+        utc_dt = exp_dt - exp_dt.utcoffset()
+        return calendar.timegm(utc_dt.timetuple())
+    return calendar.timegm(exp_dt.timetuple())
+
+
 def _write_json_file_atomic(path, data):
     dir_name = os.path.dirname(path)
     if not os.path.exists(dir_name):
@@ -420,12 +428,7 @@ class SsoCredentialProvider(Provider):
         token_expired = False
         if expires_at:
             try:
-                exp_dt = _parse_rfc3339(expires_at)
-                if exp_dt.tzinfo:
-                    utc_dt = exp_dt - exp_dt.utcoffset()
-                    exp_epoch = calendar.timegm(utc_dt.timetuple())
-                else:
-                    exp_epoch = calendar.timegm(exp_dt.timetuple())
+                exp_epoch = _rfc3339_to_epoch(expires_at)
                 token_expired = time.time() > exp_epoch
             except ValueError as e:
                 raise RuntimeError(

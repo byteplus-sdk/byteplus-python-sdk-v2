@@ -1,5 +1,6 @@
 # coding=utf-8
 import logging
+import os
 import threading
 
 from .provider import Provider
@@ -24,11 +25,33 @@ class DefaultCredentialProvider(Provider):
                 EnvironmentVariableCredentialProvider(),
                 StsOidcCredentialProvider(),
                 CLIConfigCredentialProvider(),
-                EcsRoleCredentialProvider(role_name=role_name),
             ]
+            if os.environ.get("BYTEPLUS_ECS_METADATA_DISABLED", "").lower() != "true":
+                self._providers.append(
+                    EcsRoleCredentialProvider(role_name=role_name)
+                )
         self._reuse_last_provider_enabled = reuse_last_provider_enabled
         self._last_provider = None
         self._lock = threading.Lock()
+
+    @staticmethod
+    def _truncate_error_message(err):
+        err_msg = str(err)
+        if len(err_msg) > 200:
+            return err_msg[:200] + "...(truncated)"
+        return err_msg
+
+    def _drop_cached_provider(self, provider, err, action):
+        logger.warning(
+            "%s: cached provider %s failed to %s (%s: %s); falling back to full chain",
+            self.PROVIDER_NAME,
+            type(provider).__name__,
+            action,
+            type(err).__name__,
+            self._truncate_error_message(err),
+        )
+        with self._lock:
+            self._last_provider = None
 
     def retrieve(self):
         return self.get_credentials()
@@ -46,17 +69,7 @@ class DefaultCredentialProvider(Provider):
                 provider.refresh()
                 return
             except Exception as e:
-                err_msg = str(e)
-                if len(err_msg) > 200:
-                    err_msg = err_msg[:200] + "...(truncated)"
-                logger.warning(
-                    "%s: cached provider %s failed to refresh credentials (%s: %s); "
-                    "falling back to full chain",
-                    self.PROVIDER_NAME, type(provider).__name__,
-                    type(e).__name__, err_msg,
-                )
-                with self._lock:
-                    self._last_provider = None
+                self._drop_cached_provider(provider, e, "refresh credentials")
         self.get_credentials()
 
     def get_credentials(self):
@@ -68,17 +81,7 @@ class DefaultCredentialProvider(Provider):
                     if creds is not None:
                         return creds
                 except Exception as e:
-                    err_msg = str(e)
-                    if len(err_msg) > 200:
-                        err_msg = err_msg[:200] + "...(truncated)"
-                    logger.warning(
-                        "%s: cached provider %s failed to return credentials (%s: %s); "
-                        "falling back to full chain",
-                        self.PROVIDER_NAME, type(provider).__name__,
-                        type(e).__name__, err_msg,
-                    )
-                    with self._lock:
-                        self._last_provider = None
+                    self._drop_cached_provider(provider, e, "return credentials")
 
         errors = []
         for provider in self._providers:
