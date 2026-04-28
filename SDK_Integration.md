@@ -1,33 +1,19 @@
-English | [简体中文](./SDK_Integration_zh.md)
+# SDK Integration Guide has moved
 
-# Table of Contents
+This document has been split and migrated to the [`docs/`](./docs/) directory. Start from the overview page:
 
-- [Table of Contents](#table-of-contents)
-- [Integrate the SDK](#integrate-the-sdk)
-- [Environment Requirements](#environment-requirements)
-- [Credentials](#credentials)
-  - [AK/SK](#aksk)
-  - [STS Token Settings](#sts-token-settings)
-  - [STS AssumeRole Settings](#sts-assumerole-settings)
-  - [STS AssumeRoleWithOidc Settings](#sts-assumerolewithoidc-settings)
-  - [STS AssumeRoleWithSaml Settings](#sts-assumerolewithsaml-settings)
-- [Endpoint Configuration](#endpoint-configuration)
-  - [Custom Endpoint](#custom-endpoint)
-  - [Custom RegionId](#custom-regionid)
-  - [Automatic Endpoint Resolution](#automatic-endpoint-resolution)
-    - [Default Endpoint Resolution](#default-endpoint-resolution)
-    - [Standard Endpoint Resolution](#standard-endpoint-resolution)
-- [HTTP Connection-Pool Settings](#http-connection-pool-settings)
-- [HTTPS Request Settings](#https-request-settings)
-  - [Specify the Scheme](#specify-the-scheme)
-  - [Skip SSL Verification](#skip-ssl-verification)
-- [Http(s) Proxy Configuration](#https-proxy-configuration)
-  - [Set Http(s) Proxy](#set-https-proxy)
-  - [Notice](#notice)
-- [Timeouts](#timeouts)
-- [Retry Mechanism](#retry-mechanism)
-  - [Retry code configuration](#retry-code-configuration)
-  - [Retry conditions](#retry-conditions)
+➡️ **[SDK Integration Guide — Overview](./docs/0-Overview.md)**
+
+## Section Index
+
+1. [Credentials](./docs/1-Credentials.md) — AK/SK, STS, AssumeRole, OIDC, SAML, ECS role, default credential chain
+2. [Endpoint Configuration](./docs/2-Endpoint.md) — Custom endpoint, region ID, automatic resolution
+3. [Transport](./docs/3-Transport.md) — HTTP connection pool, HTTPS scheme, SSL verification, HTTP(S) proxy
+4. [Timeouts](./docs/4-Timeout.md) — Global and per-API timeouts
+5. [Retries](./docs/5-Retry.md) — Retry conditions, backoff strategies
+6. [Error Handling](./docs/6-ErrorHandling.md) — Exception handling
+7. [Debugging](./docs/7-Debugging.md) — Debug mode, log output
+- [Environment Variables](./docs/EnvironmentVariables.md) — All environment variables supported by the SDK
     - [Default retry conditions](#default-retry-conditions)
     - [Custom retry conditions](#custom-retry-conditions)
   - [Backoff strategy](#backoff-strategy)
