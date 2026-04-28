@@ -15,9 +15,9 @@ logger = logging.getLogger(__name__)
 
 # ECS IMDSv2 endpoint and protocol
 _IMDS_ENDPOINT = "http://100.96.0.96"
-_IMDS_CREDENTIALS_PATH = "/volcstack/latest/iam/security_credentials/{role_name}"  # POST
-_IMDS_ROLE_NAME_PATH = "/volcstack/latest/iam/security_credentials?type=user"  # GET
-_IMDS_TOKEN_PATH = "/latest/api/token"  # GET
+_IMDS_CREDENTIALS_PATH = "/volcstack/latest/iam/security_credentials/{role_name}"  # GET
+_IMDS_ROLE_NAME_PATH = "/volcstack/latest/iam/security_credentials?fetchuserrole=true"  # GET
+_IMDS_TOKEN_PATH = "/latest/api/token"  # PUT
 
 # ECS IMDSv2 headers
 _IMDS_TOKEN_TTL_HEADER = "X-volc-ecs-metadata-token-ttl-seconds"
@@ -73,7 +73,7 @@ class EcsRoleCredentialProvider(Provider):
     def _get_imdsv2_token(self):
         url = _IMDS_ENDPOINT + _IMDS_TOKEN_PATH
         headers = {_IMDS_TOKEN_TTL_HEADER: _IMDS_TOKEN_TTL_SECONDS}
-        body = self._do_request(url, method="GET", extra_headers=headers)
+        body = self._do_request(url, method="PUT", extra_headers=headers)
         token = body.strip()
         if not token:
             raise RuntimeError(
@@ -132,7 +132,7 @@ class EcsRoleCredentialProvider(Provider):
 
         url = _IMDS_ENDPOINT + _IMDS_CREDENTIALS_PATH.format(role_name=role_name)
         headers = {_IMDS_TOKEN_HEADER: imds_token}
-        body = self._do_request(url, method="POST", extra_headers=headers)
+        body = self._do_request(url, method="GET", extra_headers=headers)
 
         try:
             data = json.loads(body)
