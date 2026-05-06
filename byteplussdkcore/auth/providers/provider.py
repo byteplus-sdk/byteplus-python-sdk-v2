@@ -4,7 +4,7 @@ import json
 
 
 class CredentialValue:
-    def __init__(self, ak, sk, session_token, provider_name):
+    def __init__(self, ak, sk, session_token=None, provider_name=None):
         self.ak = ak
         self.sk = sk
         self.session_token = session_token

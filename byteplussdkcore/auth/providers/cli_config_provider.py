@@ -11,9 +11,9 @@ from datetime import datetime
 
 from .provider import Provider, CredentialValue
 
-_DEFAULT_REGION = "ap-singapore-1"
-_OAUTH_BASE_URL_TEMPLATE = "https://cloudidentity-oauth.{}.byteplus.com"
-_PORTAL_BASE_URL_TEMPLATE = "https://cloudidentity-portal.{}.byteplus.com"
+_DEFAULT_REGION = "ap-southeast-1"
+_OAUTH_BASE_URL_TEMPLATE = "https://cloudidentity-oauth.{}.bytepluses.com"
+_PORTAL_BASE_URL_TEMPLATE = "https://cloudidentity-portal.{}.bytepluses.com"
 _PORTAL_ACCESS_TOKEN_HEADER = "x-bd-cloudidentity-bearer-token"
 _HTTP_TIMEOUT = 30
 _HTTP_MAX_RETRIES = 3

@@ -23,7 +23,7 @@ class StsSamlCredentialProvider(Provider):
 
     def __init__(self, role_name=None, account_id=None, provider_name=None, saml_resp=None,
                  duration_seconds=3600, scheme='https',
-                 host='open.byteplusapi.com', region='ap-singapore-1', timeout=30, expired_buffer_seconds=60,
+                 host='sts.volcengineapi.com', region='cn-beijing', timeout=30, expired_buffer_seconds=60,
                  policy=None, role_trn=None, saml_provider_trn=None, max_retries=3, retry_interval=1):
         self.role_name = role_name
         self.account_id = account_id

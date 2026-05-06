@@ -20,7 +20,7 @@ class AssumeRoleCredentials:
 
 class StsCredentialProvider(Provider):
     def __init__(self, ak, sk, role_name, account_id, duration_seconds=3600, scheme='https',
-                 host='open.byteplusapi.com', region='ap-singapore-1', timeout=30, expired_buffer_seconds=60, policy=None, max_retries=3, retry_interval=1):
+                 host='sts.volcengineapi.com', region='cn-beijing', timeout=30, expired_buffer_seconds=60, policy=None, max_retries=3, retry_interval=1):
         self.ak = ak
         self.sk = sk
         self.role_name = role_name

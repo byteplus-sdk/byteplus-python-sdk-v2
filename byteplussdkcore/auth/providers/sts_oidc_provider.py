@@ -24,7 +24,7 @@ class StsOidcCredentialProvider(Provider):
 
     def __init__(self, role_name=None, account_id=None, oidc_token=None,
                  duration_seconds=3600, scheme='https',
-                 host=None, region='ap-singapore-1', timeout=30,
+                 host=None, region='cn-beijing', timeout=30,
                  expired_buffer_seconds=60, policy=None,
                  role_trn=None, oidc_token_file=None, session_name=None,
                  max_retries=3, retry_interval=1):
@@ -67,9 +67,9 @@ class StsOidcCredentialProvider(Provider):
         if host:
             self.host = host
         elif not self._legacy_mode:
-            self.host = os.environ.get("BYTEPLUS_OIDC_STS_ENDPOINT", "") or "open.byteplusapi.com"
+            self.host = os.environ.get("BYTEPLUS_OIDC_STS_ENDPOINT", "") or "sts.volcengineapi.com"
         else:
-            self.host = "open.byteplusapi.com"
+            self.host = "sts.volcengineapi.com"
 
         self.timeout = timeout
         self.max_retries = max(max_retries, 1)

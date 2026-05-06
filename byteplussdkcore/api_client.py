@@ -403,7 +403,7 @@ class ApiClient(object):
         sdk_core_logger.debug_config("".join(sb))
 
     def _sts_call(self, action, version, params,
-                  host=None, scheme='https', region='ap-singapore-1',
+                  host=None, scheme='https', region='cn-beijing',
                   timeout=30, service='sts',
                   max_retries=3, retry_interval=1,
                   provider_name="ApiClient"):
