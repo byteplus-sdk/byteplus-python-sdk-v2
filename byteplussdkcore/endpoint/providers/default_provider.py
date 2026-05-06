@@ -121,6 +121,13 @@ default_endpoint = {
         region_endpoint_map={},
         fallback_endpoint=fallback_endpoint,
     ),
+    'iam': ServiceEndpointInfo(
+        service='iam',
+        is_global=True,
+        global_endpoint='',
+        region_endpoint_map={},
+        fallback_endpoint=fallback_endpoint,
+    ),
 }
 
 
