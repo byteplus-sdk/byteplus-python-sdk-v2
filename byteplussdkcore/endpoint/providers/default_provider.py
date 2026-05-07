@@ -128,6 +128,13 @@ default_endpoint = {
         region_endpoint_map={},
         fallback_endpoint=fallback_endpoint,
     ),
+    'cloudmonitor': ServiceEndpointInfo(
+        service='cloudmonitor',
+        is_global=False,
+        global_endpoint='',
+        region_endpoint_map={},
+        fallback_endpoint=fallback_endpoint,
+    ),
 }
 
 
