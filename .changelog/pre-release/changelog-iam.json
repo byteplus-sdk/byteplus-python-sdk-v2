@@ -1,0 +1,5 @@
+{
+  "description": "IAM: modified GetProject",
+  "modules": "service/iam",
+  "type": "breaking-change"
+}
