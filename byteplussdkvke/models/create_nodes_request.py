@@ -37,12 +37,15 @@ class CreateNodesRequest(object):
         'client_token': 'str',
         'cluster_id': 'str',
         'container_storage_path': 'str',
+        'gpu_driver_version': 'str',
         'image_id': 'str',
         'initialize_script': 'str',
         'instance_ids': 'list[str]',
         'keep_instance_name': 'bool',
         'kubernetes_config': 'KubernetesConfigForCreateNodesInput',
-        'node_pool_id': 'str'
+        'node_pool_id': 'str',
+        'pre_script': 'str',
+        'skip_replace_system': 'bool'
     }
 
     attribute_map = {
@@ -50,15 +53,18 @@ class CreateNodesRequest(object):
         'client_token': 'ClientToken',
         'cluster_id': 'ClusterId',
         'container_storage_path': 'ContainerStoragePath',
+        'gpu_driver_version': 'GpuDriverVersion',
         'image_id': 'ImageId',
         'initialize_script': 'InitializeScript',
         'instance_ids': 'InstanceIds',
         'keep_instance_name': 'KeepInstanceName',
         'kubernetes_config': 'KubernetesConfig',
-        'node_pool_id': 'NodePoolId'
+        'node_pool_id': 'NodePoolId',
+        'pre_script': 'PreScript',
+        'skip_replace_system': 'SkipReplaceSystem'
     }
 
-    def __init__(self, additional_container_storage_enabled=None, client_token=None, cluster_id=None, container_storage_path=None, image_id=None, initialize_script=None, instance_ids=None, keep_instance_name=None, kubernetes_config=None, node_pool_id=None, _configuration=None):  # noqa: E501
+    def __init__(self, additional_container_storage_enabled=None, client_token=None, cluster_id=None, container_storage_path=None, gpu_driver_version=None, image_id=None, initialize_script=None, instance_ids=None, keep_instance_name=None, kubernetes_config=None, node_pool_id=None, pre_script=None, skip_replace_system=None, _configuration=None):  # noqa: E501
         """CreateNodesRequest - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
@@ -68,12 +74,15 @@ class CreateNodesRequest(object):
         self._client_token = None
         self._cluster_id = None
         self._container_storage_path = None
+        self._gpu_driver_version = None
         self._image_id = None
         self._initialize_script = None
         self._instance_ids = None
         self._keep_instance_name = None
         self._kubernetes_config = None
         self._node_pool_id = None
+        self._pre_script = None
+        self._skip_replace_system = None
         self.discriminator = None
 
         if additional_container_storage_enabled is not None:
@@ -83,6 +92,8 @@ class CreateNodesRequest(object):
         self.cluster_id = cluster_id
         if container_storage_path is not None:
             self.container_storage_path = container_storage_path
+        if gpu_driver_version is not None:
+            self.gpu_driver_version = gpu_driver_version
         if image_id is not None:
             self.image_id = image_id
         if initialize_script is not None:
@@ -95,6 +106,10 @@ class CreateNodesRequest(object):
             self.kubernetes_config = kubernetes_config
         if node_pool_id is not None:
             self.node_pool_id = node_pool_id
+        if pre_script is not None:
+            self.pre_script = pre_script
+        if skip_replace_system is not None:
+            self.skip_replace_system = skip_replace_system
 
     @property
     def additional_container_storage_enabled(self):
@@ -181,6 +196,27 @@ class CreateNodesRequest(object):
         """
 
         self._container_storage_path = container_storage_path
+
+    @property
+    def gpu_driver_version(self):
+        """Gets the gpu_driver_version of this CreateNodesRequest.  # noqa: E501
+
+
+        :return: The gpu_driver_version of this CreateNodesRequest.  # noqa: E501
+        :rtype: str
+        """
+        return self._gpu_driver_version
+
+    @gpu_driver_version.setter
+    def gpu_driver_version(self, gpu_driver_version):
+        """Sets the gpu_driver_version of this CreateNodesRequest.
+
+
+        :param gpu_driver_version: The gpu_driver_version of this CreateNodesRequest.  # noqa: E501
+        :type: str
+        """
+
+        self._gpu_driver_version = gpu_driver_version
 
     @property
     def image_id(self):
@@ -307,6 +343,48 @@ class CreateNodesRequest(object):
         """
 
         self._node_pool_id = node_pool_id
+
+    @property
+    def pre_script(self):
+        """Gets the pre_script of this CreateNodesRequest.  # noqa: E501
+
+
+        :return: The pre_script of this CreateNodesRequest.  # noqa: E501
+        :rtype: str
+        """
+        return self._pre_script
+
+    @pre_script.setter
+    def pre_script(self, pre_script):
+        """Sets the pre_script of this CreateNodesRequest.
+
+
+        :param pre_script: The pre_script of this CreateNodesRequest.  # noqa: E501
+        :type: str
+        """
+
+        self._pre_script = pre_script
+
+    @property
+    def skip_replace_system(self):
+        """Gets the skip_replace_system of this CreateNodesRequest.  # noqa: E501
+
+
+        :return: The skip_replace_system of this CreateNodesRequest.  # noqa: E501
+        :rtype: bool
+        """
+        return self._skip_replace_system
+
+    @skip_replace_system.setter
+    def skip_replace_system(self, skip_replace_system):
+        """Sets the skip_replace_system of this CreateNodesRequest.
+
+
+        :param skip_replace_system: The skip_replace_system of this CreateNodesRequest.  # noqa: E501
+        :type: bool
+        """
+
+        self._skip_replace_system = skip_replace_system
 
     def to_dict(self):
         """Returns the model properties as a dict"""
