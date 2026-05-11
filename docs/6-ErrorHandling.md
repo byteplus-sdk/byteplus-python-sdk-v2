@@ -1,12 +1,12 @@
-[← Retry](5-Retry.md) | [Debugging →](7-Debugging.md)
+[← Retry](5-Retry.md) | Error Handling[(中文)](6-ErrorHandling-zh.md) | [Debugging →](7-Debugging.md)
 
 ---
 
-# Error Handling
+## Error Handling
 
 When calling APIs, different types of errors may be returned. You can adopt targeted handling strategies based on the specific error type and error code. For example, you can retry on network errors, and adjust parameters or fix business logic for business errors, thereby improving system robustness and user experience.
 
-Error Classification:
+### Error Classification
 
 | Error Type | Description | Returned Error Type | Notes |
 |---|---|---|---|
@@ -15,7 +15,7 @@ Error Classification:
 | `3. Server Error` | Request reaches the server, returns a business logic error | `byteplussdkcore.rest.ApiException` | status != 0 indicates a server-side error |
 | `4. Other Errors` | Any other errors not covered above | `Exception` | Catch-all error handling |
 
-**Code Example:**
+### Code Example
 
 ```python
 import json
@@ -68,4 +68,4 @@ except Exception as e:
 
 ---
 
-[← Retry](5-Retry.md) | [Debugging →](7-Debugging.md)
+[← Retry](5-Retry.md) | Error Handling[(中文)](6-ErrorHandling-zh.md) | [Debugging →](7-Debugging.md)

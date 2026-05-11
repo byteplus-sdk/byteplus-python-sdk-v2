@@ -1,10 +1,16 @@
-[← Error Handling](6-ErrorHandling.md) | [Environment Variables →](EnvironmentVariables.md)
+[← Error Handling](6-ErrorHandling.md) | Debugging[(中文)](7-Debugging-zh.md) | [Overview →](0-Overview.md)
 
 ---
 
-# Debugging
+## Debugging
 
-## Enable Debug Mode
+To help with troubleshooting and debugging when handling requests, the SDK supports logging with multiple levels. Configure your logging settings based on your needs to get detailed request/response information and improve observability.
+
+### Enable Debug Mode
+
+> **Default**
+>
+> - `debug` - `False`
 
 ```python
 import byteplussdkcore
@@ -15,7 +21,9 @@ configuration.debug = True
 byteplussdkcore.Configuration.set_default(configuration)
 ```
 
-## Set Debug Level
+### Set Debug Level
+
+By default, when debug is enabled the SDK emits all debug logs. To filter the output, configure `configuration.log_level` as follows:
 
 ```python
 import byteplussdkcore
@@ -43,4 +51,4 @@ byteplussdkcore.Configuration.set_default(configuration)
 
 ---
 
-[← Error Handling](6-ErrorHandling.md) | [Environment Variables →](EnvironmentVariables.md)
+[← Error Handling](6-ErrorHandling.md) | Debugging[(中文)](7-Debugging-zh.md) | [Overview →](0-Overview.md)

@@ -1,12 +1,12 @@
-[← Overview](../README.md) | [Endpoint →](2-Endpoint.md)
+[← Overview](0-Overview.md) | Credentials[(中文)](1-Credentials-zh.md) | [Endpoint →](2-Endpoint.md)
 
 ---
 
-# Credentials
+## Credentials
 
 The BytePlus Python SDK supports explicit credentials and `CredentialProvider`-based automatic resolution.
 
-## Credential Providers Overview
+### Credential Providers Overview
 
 | Provider | Purpose | Refresh Support | Typical Scenario |
 | --- | --- | --- | --- |
@@ -19,11 +19,11 @@ The BytePlus Python SDK supports explicit credentials and `CredentialProvider`-b
 | `EcsRoleCredentialProvider` | Read from ECS IMDS | Yes | ECS instance role credentials |
 | `DefaultCredentialProvider` | Chain wrapper | Depends on delegated provider | No AK/SK in application code |
 
-## AK/SK
+### AK/SK
 
 AK/SK is a pair of permanent access keys created in the BytePlus console. The SDK signs each request to authenticate.
 
-> ⚠️ Notes
+> ⚠️ **Notes**
 >
 > 1. Do not embed or expose AK/SK in client-side applications.
 > 2. Use a configuration center or environment variables.
@@ -65,11 +65,11 @@ except ApiException:
     pass
 ```
 
-## STS Token
+### STS Token
 
 STS (Security Token Service) provides temporary credentials (temporary AK/SK and Token).
 
-> ⚠️ Notes
+> ⚠️ **Notes**
 >
 > 1. Least privilege.
 > 2. Use a reasonable TTL. Shorter is safer; avoid exceeding 1 hour.
@@ -110,7 +110,7 @@ except ApiException:
     pass
 ```
 
-## STS AssumeRole
+### STS AssumeRole
 
 STS AssumeRole obtains temporary credentials by assuming an IAM role. Use the role credentials to perform actual API calls.
 
@@ -153,7 +153,7 @@ if __name__ == '__main__':
         pass
 ```
 
-## STS AssumeRoleWithOidc
+### STS AssumeRoleWithOidc
 
 STS AssumeRoleWithOidc obtains temporary credentials via an OIDC token.
 
@@ -182,7 +182,7 @@ from byteplussdkcore.auth.providers.sts_oidc_provider import StsOidcCredentialPr
 
 if __name__ == '__main__':
     configuration = byteplussdkcore.Configuration()
-    configuration.region = "ap-singapore-1"
+    configuration.region = "ap-southeast-1"
 
     configuration.credential_provider = StsOidcCredentialProvider(
         role_name="Your role name",
@@ -192,11 +192,11 @@ if __name__ == '__main__':
         oidc_token="your oidc token",
         duration_seconds=3600,
         scheme="https",
-        host="open.byteplusapi.com",
-        region="ap-singapore-1",
+        host="sts.byteplusapi.com",
+        region="ap-southeast-1",
         timeout=30,
         expired_buffer_seconds=60,
-        policy='{"Statement":[{"Effect":"Allow","Action":["vpc:CreateVpc"],"Resource":["*"],"Condition":{"StringEquals":{"byteplus:RequestedRegion":["ap-singapore-1"]}}}]}',
+        policy='{"Statement":[{"Effect":"Allow","Action":["vpc:CreateVpc"],"Resource":["*"],"Condition":{"StringEquals":{"byteplus:RequestedRegion":["ap-southeast-1"]}}}]}',
         max_retries=3,     # optional, HTTP retry attempts (min 1), defaults to 3
         retry_interval=1,  # optional, seconds between retries, defaults to 1
     )
@@ -225,12 +225,12 @@ os.environ["BYTEPLUS_OIDC_ROLE_TRN"] = "trn:iam::1234567890:role/oidc-role"
 os.environ["BYTEPLUS_OIDC_TOKEN_FILE"] = "/var/run/secrets/oidc/token"
 
 configuration = byteplussdkcore.Configuration()
-configuration.region = "ap-singapore-1"
+configuration.region = "ap-southeast-1"
 configuration.credential_provider = StsOidcCredentialProvider()
 byteplussdkcore.Configuration.set_default(configuration)
 ```
 
-## STS AssumeRoleWithSaml
+### STS AssumeRoleWithSaml
 
 STS AssumeRoleWithSaml obtains temporary credentials via a SAML assertion.
 
@@ -254,7 +254,7 @@ from byteplussdkcore.auth.providers.sts_saml_provider import StsSamlCredentialPr
 
 if __name__ == '__main__':
     configuration = byteplussdkcore.Configuration()
-    configuration.region = "ap-singapore-1"
+    configuration.region = "ap-southeast-1"
 
     configuration.credential_provider = StsSamlCredentialProvider(
         role_name="Your role name",
@@ -267,11 +267,11 @@ if __name__ == '__main__':
         saml_resp="your saml resp",
         duration_seconds=3600,
         scheme="https",
-        host="open.byteplusapi.com",
-        region="ap-singapore-1",
+        host="sts.byteplusapi.com",
+        region="ap-southeast-1",
         timeout=30,
         expired_buffer_seconds=60,
-        policy='{"Statement":[{"Effect":"Allow","Action":["vpc:CreateVpc"],"Resource":["*"],"Condition":{"StringEquals":{"byteplus:RequestedRegion":["ap-singapore-1"]}}}]}',
+        policy='{"Statement":[{"Effect":"Allow","Action":["vpc:CreateVpc"],"Resource":["*"],"Condition":{"StringEquals":{"byteplus:RequestedRegion":["ap-southeast-1"]}}}]}',
         max_retries=3,     # optional, HTTP retry attempts (min 1), defaults to 3
         retry_interval=1,  # optional, seconds between retries, defaults to 1
     )
@@ -289,7 +289,7 @@ if __name__ == '__main__':
         pass
 ```
 
-## Environment Variable Credential Provider
+### Environment Variable Credential Provider
 
 `EnvironmentVariableCredentialProvider` reads credentials from:
 
@@ -306,12 +306,12 @@ os.environ["BYTEPLUS_ACCESSKEY"] = "YourAK"
 os.environ["BYTEPLUS_SECRETKEY"] = "YourSK"
 
 configuration = byteplussdkcore.Configuration()
-configuration.region = "ap-singapore-1"
+configuration.region = "ap-southeast-1"
 configuration.credential_provider = EnvironmentVariableCredentialProvider()
 byteplussdkcore.Configuration.set_default(configuration)
 ```
 
-## CLI Config Credential Provider
+### CLI Config Credential Provider
 
 `CLIConfigCredentialProvider` reads `~/.byteplus/config.json` by default.
 
@@ -336,7 +336,7 @@ import byteplussdkcore
 from byteplussdkcore.auth.providers.cli_config_provider import CLIConfigCredentialProvider
 
 configuration = byteplussdkcore.Configuration()
-configuration.region = "ap-singapore-1"
+configuration.region = "ap-southeast-1"
 configuration.credential_provider = CLIConfigCredentialProvider(
     profile_name="prod",
     config_path=os.path.expanduser("~/.byteplus/config.json"),
@@ -344,11 +344,15 @@ configuration.credential_provider = CLIConfigCredentialProvider(
 byteplussdkcore.Configuration.set_default(configuration)
 ```
 
-## ECS Role Credential Provider
+### ECS Role Credential Provider
+
+> 🚨 **Current version limitation**
+>
+> **Auto-detection of the role name from IMDS is not yet supported in the current release.** You must pass the role name explicitly via the constructor argument or the `BYTEPLUS_ECS_METADATA` environment variable. Auto-detection will be supported in a future version — please watch the release notes.
 
 `EcsRoleCredentialProvider` reads temporary credentials from ECS IMDS.
 
-- `role_name` priority: constructor arg > `BYTEPLUS_ECS_METADATA` > error (no auto-detect)
+- `role_name` priority: constructor arg > `BYTEPLUS_ECS_METADATA` > auto-detect from IMDS
 - disable switch: `BYTEPLUS_ECS_METADATA_DISABLED=true`
 
 ```python
@@ -356,12 +360,12 @@ import byteplussdkcore
 from byteplussdkcore.auth.providers.ecs_role_provider import EcsRoleCredentialProvider
 
 configuration = byteplussdkcore.Configuration()
-configuration.region = "ap-singapore-1"
+configuration.region = "ap-southeast-1"
 configuration.credential_provider = EcsRoleCredentialProvider(role_name="your-ecs-role-name")
 byteplussdkcore.Configuration.set_default(configuration)
 ```
 
-## Default Credential Provider
+### Default Credential Provider
 
 When `ak`, `sk`, and `credential_provider` are all unset, the SDK automatically uses `DefaultCredentialProvider` — no manual configuration is needed.
 
@@ -381,11 +385,11 @@ import byteplussdkcore
 from byteplussdkcore.auth.providers.default_provider import DefaultCredentialProvider
 
 configuration = byteplussdkcore.Configuration()
-configuration.region = "ap-singapore-1"
+configuration.region = "ap-southeast-1"
 configuration.credential_provider = DefaultCredentialProvider()
 byteplussdkcore.Configuration.set_default(configuration)
 ```
 
 ---
 
-[← Overview](../README.md) | [Endpoint →](2-Endpoint.md)
+[← Overview](0-Overview.md) | Credentials[(中文)](1-Credentials-zh.md) | [Endpoint →](2-Endpoint.md)

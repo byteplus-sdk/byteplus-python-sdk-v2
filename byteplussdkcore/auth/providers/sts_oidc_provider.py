@@ -67,9 +67,9 @@ class StsOidcCredentialProvider(Provider):
         if host:
             self.host = host
         elif not self._legacy_mode:
-            self.host = os.environ.get("BYTEPLUS_OIDC_STS_ENDPOINT", "") or "sts.volcengineapi.com"
+            self.host = os.environ.get("BYTEPLUS_OIDC_STS_ENDPOINT", "") or "sts.byteplusapi.com"
         else:
-            self.host = "sts.volcengineapi.com"
+            self.host = "sts.byteplusapi.com"
 
         self.timeout = timeout
         self.max_retries = max(max_retries, 1)

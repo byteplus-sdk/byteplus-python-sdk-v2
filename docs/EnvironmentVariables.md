@@ -1,48 +1,48 @@
-[← Debugging](7-Debugging.md)
+[← Overview](0-Overview.md) | Environment Variables[(中文)](EnvironmentVariables-zh.md)
 
 ---
 
-# Environment Variables
+## Environment Variables
 
-This page consolidates all credential-related environment variables supported by the SDK, for easy deployment / CI injection.
+This page consolidates all credential-related environment variables supported by the SDK, for easy deployment / CI injection. Other categories (Region, TLS, etc.) can be appended here as new sections later.
 
-## How to Set
+### How to Set
 
-### Linux / macOS
+#### Linux / macOS
 
 Temporary (current shell only):
 
 ```shell
-export BYTEPLUS_ACCESSKEY=your-ak
-export BYTEPLUS_SECRETKEY=your-sk
+export BYTEPLUS_ACCESS_KEY=your-ak
+export BYTEPLUS_SECRET_KEY=your-sk
 export BYTEPLUS_SESSION_TOKEN=your-session-token
 ```
 
 To persist, put the `export` lines in `~/.bashrc`, `~/.zshrc`, or your shell's startup file.
 
-Verify with `echo $BYTEPLUS_ACCESSKEY`.
+Verify with `echo $BYTEPLUS_ACCESS_KEY`.
 
-### Windows
+#### Windows
 
 Command line (run as Administrator):
 
 ```cmd
-setx BYTEPLUS_ACCESSKEY your-ak /M
-setx BYTEPLUS_SECRETKEY your-sk /M
+setx BYTEPLUS_ACCESS_KEY your-ak /M
+setx BYTEPLUS_SECRET_KEY your-sk /M
 setx BYTEPLUS_SESSION_TOKEN your-session-token /M
 ```
 
 ## Credentials
 
-### Basic AK/SK/Token
+#### Basic AK/SK/Token
 
 | Variable | Description | Required |
 |---|---|:-:|
-| `BYTEPLUS_ACCESSKEY` | Access Key | ✅ |
-| `BYTEPLUS_SECRETKEY` | Secret Key | ✅ |
+| `BYTEPLUS_ACCESS_KEY` | Access Key | ✅ |
+| `BYTEPLUS_SECRET_KEY` | Secret Key | ✅ |
 | `BYTEPLUS_SESSION_TOKEN` | STS session token | ❌ |
 
-### OIDC (AssumeRoleWithOIDC)
+#### OIDC (AssumeRoleWithOIDC)
 
 | Variable | Description | Required |
 |---|---|:-:|
@@ -52,14 +52,14 @@ setx BYTEPLUS_SESSION_TOKEN your-session-token /M
 | `BYTEPLUS_OIDC_ROLE_POLICY` | Session policy JSON | ❌ |
 | `BYTEPLUS_OIDC_STS_ENDPOINT` | STS endpoint host | ❌ |
 
-### ECS IMDS
+#### ECS IMDS
 
 | Variable | Description |
 |---|---|
 | `BYTEPLUS_ECS_METADATA` | ECS instance role name; if unset, auto-discovered from IMDS |
 | `BYTEPLUS_ECS_METADATA_DISABLED` | Set to `true` to disable IMDS credential retrieval |
 
-### CLI Config File
+#### CLI Config File
 
 | Variable | Description |
 |---|---|
@@ -70,15 +70,23 @@ setx BYTEPLUS_SESSION_TOKEN your-session-token /M
 
 When no credentials are explicitly configured, all four SDKs try the following providers in order; the first one that succeeds is used:
 
-1. Environment Variable Provider (`BYTEPLUS_ACCESSKEY` / `BYTEPLUS_SECRETKEY`[/`BYTEPLUS_SESSION_TOKEN`])
+1. Environment Variable Provider (`BYTEPLUS_ACCESS_KEY` / `BYTEPLUS_SECRET_KEY`[/`BYTEPLUS_SESSION_TOKEN`])
 2. OIDC Provider (reads `BYTEPLUS_OIDC_*`)
 3. CLI Config Provider (`~/.byteplus/config.json`)
 4. ECS IMDS Provider
 
-## See Also
+#### Priority Summary
+
+| Item | Priority (high → low) |
+|---|---|
+| CLI config file path | constructor arg > `BYTEPLUS_CLI_CONFIG_FILE` > `~/.byteplus/config.json` |
+| Profile | constructor arg > `BYTEPLUS_PROFILE` > `BYTEPLUS_PROFILE` (Go/PHP only) > `current` field in config > `default` |
+| ECS role name | constructor arg > `BYTEPLUS_ECS_METADATA` > IMDS auto-discovery |
+
+### See Also
 
 - [Credentials](1-Credentials.md) — Per-provider code-level usage
 
 ---
 
-[← Debugging](7-Debugging.md)
+[← Overview](0-Overview.md) | Environment Variables[(中文)](EnvironmentVariables-zh.md)

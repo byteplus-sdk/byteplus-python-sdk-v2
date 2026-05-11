@@ -1,12 +1,12 @@
-[← Timeout](4-Timeout.md) | [Error Handling →](6-ErrorHandling.md)
+[← Timeout](4-Timeout.md) | Retry[(中文)](5-Retry-zh.md) | [Error Handling →](6-ErrorHandling.md)
 
 ---
 
-# Retries
+## Retries
 
 The SDK retries on network errors and throttling. Business logic errors are not retried.
 
-## Retry Code Configuration
+### Retry Code Configuration
 
 ```python
 import byteplussdkcore
@@ -26,9 +26,9 @@ configuration.retry_error_codes = {"AccessDenied"}
 byteplussdkcore.Configuration.set_default(configuration)
 ```
 
-## Retry Conditions
+### Retry Conditions
 
-### Default Retry Conditions
+#### Default Retry Conditions
 
 The default retry condition includes:
 
@@ -36,7 +36,7 @@ The default retry condition includes:
 2. Retry on server throttling errors.
 3. Retry on user-specified error codes (`retry_error_codes`).
 
-### Custom Retry Conditions
+#### Custom Retry Conditions
 
 1. Implement your own retry condition:
 
@@ -44,9 +44,9 @@ The default retry condition includes:
 from byteplussdkcore.retryer.retry_condition import RetryCondition
 
 class CustomRetryCondition(RetryCondition):
-  def should_retry(self, response, err):
-      retry_error_codes = self.retry_error_codes
-      return False
+    def should_retry(self, response, err):
+        retry_error_codes = self.retry_error_codes
+        return False
 ```
 
 2. Reuse the default condition logic:
@@ -55,22 +55,22 @@ class CustomRetryCondition(RetryCondition):
 from byteplussdkcore.retryer.retry_condition import DefaultRetryCondition
 
 class CustomRetryCondition(DefaultRetryCondition):
-  def should_retry(self, response, err):
-      should_retry = super(CustomRetryCondition, self).should_retry(response, err)
-      return False
+    def should_retry(self, response, err):
+        should_retry = super(CustomRetryCondition, self).should_retry(response, err)
+        return False
 ```
 
-## Backoff Strategy
+### Backoff Strategy
 
-### Built-in Backoff Strategies
+#### Built-in Backoff Strategies
 
 | Name | Description | Formula |
 |---|---|---|
-| `NoBackoffStrategy` | No backoff, retry immediately | `delay=0.0` |
-| `ExponentialBackoffStrategy` | Exponential backoff with bounds | `delay=min(min_retry_delay*2^n, max_retry_delay)` |
-| `ExponentialWithRandomJitterBackoffStrategy` | Exponential with jitter | `base=min(min_retry_delay*2^n, max_retry_delay)`; `delay=base+U(0,base)` |
+| `NoBackoffStrategy` | No backoff, retry immediately | `delay = 0.0` |
+| `ExponentialBackoffStrategy` | Exponential backoff with bounds | `delay = min(min_retry_delay * 2ⁿ, max_retry_delay)` |
+| `ExponentialWithRandomJitterBackoffStrategy` | Exponential with jitter | `base = min(min_retry_delay · 2ⁿ, max_retry_delay)`<br/>`delay = base + U(0, base)` |
 
-### Custom Backoff Strategies
+#### Custom Backoff Strategies
 
 1. Implement your own strategy:
 
@@ -97,4 +97,4 @@ class CustomBackoffStrategy(ExponentialBackoffStrategy):
 
 ---
 
-[← Timeout](4-Timeout.md) | [Error Handling →](6-ErrorHandling.md)
+[← Timeout](4-Timeout.md) | Retry[(中文)](5-Retry-zh.md) | [Error Handling →](6-ErrorHandling.md)

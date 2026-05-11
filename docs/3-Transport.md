@@ -1,10 +1,11 @@
-[← Endpoint](2-Endpoint.md) | [Timeout →](4-Timeout.md)
+[← Endpoint](2-Endpoint.md) | Transport[(中文)](3-Transport-zh.md) | [Timeout →](4-Timeout.md)
 
 ---
 
-# HTTP Connection Pool
+## HTTP Connection Pool
 
 > **Default**
+>
 > - `num_pools`: 4 — Maximum number of hosts supported; increase this when making concurrent requests to the same host.
 > - `connection_pool_maxsize`: `multiprocessing.cpu_count() * 5` — Maximum connections per host; increase this when connecting to many different hosts simultaneously.
 
@@ -20,11 +21,13 @@ configuration.connection_pool_maxsize = 10 # Maximum connections per host
 byteplussdkcore.Configuration.set_default(configuration)
 ```
 
-# HTTPS Request Configuration
+## HTTPS Request Configuration
 
-## Specify Scheme
+### Specify Scheme
 
-> **Default**: `scheme=https`
+> **Default**
+>
+> - `scheme`: `https`
 
 **Code Example:**
 
@@ -44,8 +47,8 @@ byteplussdkcore.Configuration.set_default(configuration)
 
 # API-level runtime parameter settings, overrides global configuration
 runtime_options = RuntimeOption(
-  scheme="http",
-  client_side_validation=True, # Enable client-side validation, enabled by default
+    scheme="http",
+    client_side_validation=True, # Enable client-side validation, enabled by default
 )
 api_instance = byteplussdkecs.ECSApi()
 create_command_request = byteplussdkecs.CreateCommandRequest(
@@ -61,12 +64,30 @@ except ApiException as e:
     pass
 ```
 
-# HTTP(S) Proxy
+### Ignore SSL Verification
 
 > **Default**
-> No proxy.
+>
+> - `verify_ssl`: `True`
 
-## Configure HTTP(S) Proxy
+**Code Example:**
+
+```python
+import byteplussdkcore
+configuration = byteplussdkcore.Configuration()
+configuration.ak = "Your ak"
+configuration.sk = "Your sk"
+configuration.verify_ssl = False # Ignore SSL verification
+byteplussdkcore.Configuration.set_default(configuration)
+```
+
+## HTTP(S) Proxy
+
+> **Default**
+>
+> - No proxy
+
+### Configure HTTP(S) Proxy
 
 ```python
 import byteplussdkcore, byteplussdkecs
@@ -82,29 +103,16 @@ byteplussdkcore.Configuration.set_default(configuration)
 api_instance = byteplussdkecs.ECSApi()
 ```
 
-## Notes
+### Notes
 
 Supported environment variables for proxy configuration:
 
-- `http_proxy`/`HTTP_PROXY`, `https_proxy`/`HTTPS_PROXY`, `no_proxy`/`NO_PROXY`
+- `http_proxy` / `HTTP_PROXY`
+- `https_proxy` / `HTTPS_PROXY`
+- `no_proxy` / `NO_PROXY`
 
 Priority: code > environment variables.
 
-## Ignore SSL Verification
-
-> **Default**: `verify_ssl=True`
-
-**Code Example:**
-
-```python
-import byteplussdkcore
-configuration = byteplussdkcore.Configuration()
-configuration.ak = "Your ak"
-configuration.sk = "Your sk"
-configuration.verify_ssl = False # Ignore SSL verification
-byteplussdkcore.Configuration.set_default(configuration)
-```
-
 ---
 
-[← Endpoint](2-Endpoint.md) | [Timeout →](4-Timeout.md)
+[← Endpoint](2-Endpoint.md) | Transport[(中文)](3-Transport-zh.md) | [Timeout →](4-Timeout.md)
