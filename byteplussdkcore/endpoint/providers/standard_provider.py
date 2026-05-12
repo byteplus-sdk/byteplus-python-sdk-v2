@@ -167,6 +167,7 @@ ServiceInfos = {
     "vms": ServiceInfo("vms", False),
     "eco_partner": ServiceInfo("eco_partner", True),
     "smc": ServiceInfo("smc", True),
+    "cpaas": ServiceInfo("cpaas", True),
 }
 
 
