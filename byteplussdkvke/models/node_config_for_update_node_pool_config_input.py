@@ -34,15 +34,23 @@ class NodeConfigForUpdateNodePoolConfigInput(object):
     """
     swagger_types = {
         'additional_container_storage_enabled': 'bool',
+        'affinity_group_config': 'AffinityGroupConfigForUpdateNodePoolConfigInput',
         'auto_renew': 'bool',
         'auto_renew_period': 'int',
         'data_volumes': 'list[DataVolumeForUpdateNodePoolConfigInput]',
+        'gpu_driver_version': 'str',
+        'hostname': 'str',
         'hpc_cluster_ids': 'list[str]',
         'image_id': 'str',
         'initialize_script': 'str',
+        'instance_charge_type': 'str',
+        'instance_name': 'str',
         'instance_type_ids': 'list[str]',
+        'instances_distribution': 'InstancesDistributionForUpdateNodePoolConfigInput',
         'name_prefix': 'str',
+        'network_traffic_mode': 'str',
         'period': 'int',
+        'pre_script': 'str',
         'project_name': 'str',
         'public_access_config': 'PublicAccessConfigForUpdateNodePoolConfigInput',
         'public_access_enabled': 'bool',
@@ -54,15 +62,23 @@ class NodeConfigForUpdateNodePoolConfigInput(object):
 
     attribute_map = {
         'additional_container_storage_enabled': 'AdditionalContainerStorageEnabled',
+        'affinity_group_config': 'AffinityGroupConfig',
         'auto_renew': 'AutoRenew',
         'auto_renew_period': 'AutoRenewPeriod',
         'data_volumes': 'DataVolumes',
+        'gpu_driver_version': 'GpuDriverVersion',
+        'hostname': 'Hostname',
         'hpc_cluster_ids': 'HpcClusterIds',
         'image_id': 'ImageId',
         'initialize_script': 'InitializeScript',
+        'instance_charge_type': 'InstanceChargeType',
+        'instance_name': 'InstanceName',
         'instance_type_ids': 'InstanceTypeIds',
+        'instances_distribution': 'InstancesDistribution',
         'name_prefix': 'NamePrefix',
+        'network_traffic_mode': 'NetworkTrafficMode',
         'period': 'Period',
+        'pre_script': 'PreScript',
         'project_name': 'ProjectName',
         'public_access_config': 'PublicAccessConfig',
         'public_access_enabled': 'PublicAccessEnabled',
@@ -72,22 +88,30 @@ class NodeConfigForUpdateNodePoolConfigInput(object):
         'tags': 'Tags'
     }
 
-    def __init__(self, additional_container_storage_enabled=None, auto_renew=None, auto_renew_period=None, data_volumes=None, hpc_cluster_ids=None, image_id=None, initialize_script=None, instance_type_ids=None, name_prefix=None, period=None, project_name=None, public_access_config=None, public_access_enabled=None, security=None, subnet_ids=None, system_volume=None, tags=None, _configuration=None):  # noqa: E501
+    def __init__(self, additional_container_storage_enabled=None, affinity_group_config=None, auto_renew=None, auto_renew_period=None, data_volumes=None, gpu_driver_version=None, hostname=None, hpc_cluster_ids=None, image_id=None, initialize_script=None, instance_charge_type=None, instance_name=None, instance_type_ids=None, instances_distribution=None, name_prefix=None, network_traffic_mode=None, period=None, pre_script=None, project_name=None, public_access_config=None, public_access_enabled=None, security=None, subnet_ids=None, system_volume=None, tags=None, _configuration=None):  # noqa: E501
         """NodeConfigForUpdateNodePoolConfigInput - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
         self._configuration = _configuration
 
         self._additional_container_storage_enabled = None
+        self._affinity_group_config = None
         self._auto_renew = None
         self._auto_renew_period = None
         self._data_volumes = None
+        self._gpu_driver_version = None
+        self._hostname = None
         self._hpc_cluster_ids = None
         self._image_id = None
         self._initialize_script = None
+        self._instance_charge_type = None
+        self._instance_name = None
         self._instance_type_ids = None
+        self._instances_distribution = None
         self._name_prefix = None
+        self._network_traffic_mode = None
         self._period = None
+        self._pre_script = None
         self._project_name = None
         self._public_access_config = None
         self._public_access_enabled = None
@@ -99,24 +123,40 @@ class NodeConfigForUpdateNodePoolConfigInput(object):
 
         if additional_container_storage_enabled is not None:
             self.additional_container_storage_enabled = additional_container_storage_enabled
+        if affinity_group_config is not None:
+            self.affinity_group_config = affinity_group_config
         if auto_renew is not None:
             self.auto_renew = auto_renew
         if auto_renew_period is not None:
             self.auto_renew_period = auto_renew_period
         if data_volumes is not None:
             self.data_volumes = data_volumes
+        if gpu_driver_version is not None:
+            self.gpu_driver_version = gpu_driver_version
+        if hostname is not None:
+            self.hostname = hostname
         if hpc_cluster_ids is not None:
             self.hpc_cluster_ids = hpc_cluster_ids
         if image_id is not None:
             self.image_id = image_id
         if initialize_script is not None:
             self.initialize_script = initialize_script
+        if instance_charge_type is not None:
+            self.instance_charge_type = instance_charge_type
+        if instance_name is not None:
+            self.instance_name = instance_name
         if instance_type_ids is not None:
             self.instance_type_ids = instance_type_ids
+        if instances_distribution is not None:
+            self.instances_distribution = instances_distribution
         if name_prefix is not None:
             self.name_prefix = name_prefix
+        if network_traffic_mode is not None:
+            self.network_traffic_mode = network_traffic_mode
         if period is not None:
             self.period = period
+        if pre_script is not None:
+            self.pre_script = pre_script
         if project_name is not None:
             self.project_name = project_name
         if public_access_config is not None:
@@ -152,6 +192,27 @@ class NodeConfigForUpdateNodePoolConfigInput(object):
         """
 
         self._additional_container_storage_enabled = additional_container_storage_enabled
+
+    @property
+    def affinity_group_config(self):
+        """Gets the affinity_group_config of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+
+
+        :return: The affinity_group_config of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+        :rtype: AffinityGroupConfigForUpdateNodePoolConfigInput
+        """
+        return self._affinity_group_config
+
+    @affinity_group_config.setter
+    def affinity_group_config(self, affinity_group_config):
+        """Sets the affinity_group_config of this NodeConfigForUpdateNodePoolConfigInput.
+
+
+        :param affinity_group_config: The affinity_group_config of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+        :type: AffinityGroupConfigForUpdateNodePoolConfigInput
+        """
+
+        self._affinity_group_config = affinity_group_config
 
     @property
     def auto_renew(self):
@@ -217,6 +278,48 @@ class NodeConfigForUpdateNodePoolConfigInput(object):
         self._data_volumes = data_volumes
 
     @property
+    def gpu_driver_version(self):
+        """Gets the gpu_driver_version of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+
+
+        :return: The gpu_driver_version of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+        :rtype: str
+        """
+        return self._gpu_driver_version
+
+    @gpu_driver_version.setter
+    def gpu_driver_version(self, gpu_driver_version):
+        """Sets the gpu_driver_version of this NodeConfigForUpdateNodePoolConfigInput.
+
+
+        :param gpu_driver_version: The gpu_driver_version of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+        :type: str
+        """
+
+        self._gpu_driver_version = gpu_driver_version
+
+    @property
+    def hostname(self):
+        """Gets the hostname of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+
+
+        :return: The hostname of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+        :rtype: str
+        """
+        return self._hostname
+
+    @hostname.setter
+    def hostname(self, hostname):
+        """Sets the hostname of this NodeConfigForUpdateNodePoolConfigInput.
+
+
+        :param hostname: The hostname of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+        :type: str
+        """
+
+        self._hostname = hostname
+
+    @property
     def hpc_cluster_ids(self):
         """Gets the hpc_cluster_ids of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
 
@@ -280,6 +383,55 @@ class NodeConfigForUpdateNodePoolConfigInput(object):
         self._initialize_script = initialize_script
 
     @property
+    def instance_charge_type(self):
+        """Gets the instance_charge_type of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+
+
+        :return: The instance_charge_type of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+        :rtype: str
+        """
+        return self._instance_charge_type
+
+    @instance_charge_type.setter
+    def instance_charge_type(self, instance_charge_type):
+        """Sets the instance_charge_type of this NodeConfigForUpdateNodePoolConfigInput.
+
+
+        :param instance_charge_type: The instance_charge_type of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+        :type: str
+        """
+        allowed_values = ["PostPaid", "PrePaid"]  # noqa: E501
+        if (self._configuration.client_side_validation and
+                instance_charge_type not in allowed_values):
+            raise ValueError(
+                "Invalid value for `instance_charge_type` ({0}), must be one of {1}"  # noqa: E501
+                .format(instance_charge_type, allowed_values)
+            )
+
+        self._instance_charge_type = instance_charge_type
+
+    @property
+    def instance_name(self):
+        """Gets the instance_name of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+
+
+        :return: The instance_name of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+        :rtype: str
+        """
+        return self._instance_name
+
+    @instance_name.setter
+    def instance_name(self, instance_name):
+        """Sets the instance_name of this NodeConfigForUpdateNodePoolConfigInput.
+
+
+        :param instance_name: The instance_name of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+        :type: str
+        """
+
+        self._instance_name = instance_name
+
+    @property
     def instance_type_ids(self):
         """Gets the instance_type_ids of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
 
@@ -299,6 +451,27 @@ class NodeConfigForUpdateNodePoolConfigInput(object):
         """
 
         self._instance_type_ids = instance_type_ids
+
+    @property
+    def instances_distribution(self):
+        """Gets the instances_distribution of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+
+
+        :return: The instances_distribution of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+        :rtype: InstancesDistributionForUpdateNodePoolConfigInput
+        """
+        return self._instances_distribution
+
+    @instances_distribution.setter
+    def instances_distribution(self, instances_distribution):
+        """Sets the instances_distribution of this NodeConfigForUpdateNodePoolConfigInput.
+
+
+        :param instances_distribution: The instances_distribution of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+        :type: InstancesDistributionForUpdateNodePoolConfigInput
+        """
+
+        self._instances_distribution = instances_distribution
 
     @property
     def name_prefix(self):
@@ -322,6 +495,27 @@ class NodeConfigForUpdateNodePoolConfigInput(object):
         self._name_prefix = name_prefix
 
     @property
+    def network_traffic_mode(self):
+        """Gets the network_traffic_mode of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+
+
+        :return: The network_traffic_mode of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+        :rtype: str
+        """
+        return self._network_traffic_mode
+
+    @network_traffic_mode.setter
+    def network_traffic_mode(self, network_traffic_mode):
+        """Sets the network_traffic_mode of this NodeConfigForUpdateNodePoolConfigInput.
+
+
+        :param network_traffic_mode: The network_traffic_mode of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+        :type: str
+        """
+
+        self._network_traffic_mode = network_traffic_mode
+
+    @property
     def period(self):
         """Gets the period of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
 
@@ -341,6 +535,27 @@ class NodeConfigForUpdateNodePoolConfigInput(object):
         """
 
         self._period = period
+
+    @property
+    def pre_script(self):
+        """Gets the pre_script of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+
+
+        :return: The pre_script of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+        :rtype: str
+        """
+        return self._pre_script
+
+    @pre_script.setter
+    def pre_script(self, pre_script):
+        """Sets the pre_script of this NodeConfigForUpdateNodePoolConfigInput.
+
+
+        :param pre_script: The pre_script of this NodeConfigForUpdateNodePoolConfigInput.  # noqa: E501
+        :type: str
+        """
+
+        self._pre_script = pre_script
 
     @property
     def project_name(self):
