@@ -51,6 +51,9 @@ class CLIConfigCredentialProvider(Provider):
         elif mode == "sso":
             self._static_cred = None
             self._delegate = self._create_sso_delegate(profile, profile_name, config)
+        elif mode == "console-login":
+            self._static_cred = None
+            self._delegate = self._create_console_login_delegate(profile, profile_name)
         else:
             raise RuntimeError(
                 "{}: unsupported mode: {}".format(self.PROVIDER_NAME, mode)
@@ -215,6 +218,29 @@ class CLIConfigCredentialProvider(Provider):
             )
 
         return EcsRoleCredentialProvider(role_name=role_name)
+
+    def _create_console_login_delegate(self, profile, profile_name):
+        from .console_login_provider import ConsoleLoginCredentialProvider
+
+        login_session = (profile.get("login-session") or "").strip()
+        if not login_session:
+            raise RuntimeError(
+                "{}: profile '{}' mode is console-login but login-session is not set. "
+                "Please run 'bp login' first.".format(
+                    self.PROVIDER_NAME, profile_name
+                )
+            )
+
+        config_path = self._resolved_config_path or (
+            self._config_path
+            or os.environ.get("BYTEPLUS_CLI_CONFIG_FILE")
+            or os.path.expanduser("~/.byteplus/config.json")
+        )
+
+        return ConsoleLoginCredentialProvider(
+            login_session=login_session,
+            config_path=config_path,
+        )
 
     def _create_sso_delegate(self, profile, profile_name, config):
         session_name = (profile.get("sso-session-name") or "").strip()

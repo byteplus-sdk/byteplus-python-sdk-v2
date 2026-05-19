@@ -5,4 +5,5 @@ from .sts_saml_provider import StsSamlCredentialProvider
 from .env_provider import EnvironmentVariableCredentialProvider
 from .cli_config_provider import CLIConfigCredentialProvider
 from .ecs_role_provider import EcsRoleCredentialProvider
+from .console_login_provider import ConsoleLoginCredentialProvider
 from .default_provider import DefaultCredentialProvider
