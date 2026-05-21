@@ -4,7 +4,6 @@ import threading
 from byteplussdkcore.signv4 import SignerV4
 from .interceptor import RequestInterceptor
 
-
 _DEFAULT_PROVIDER_INIT_LOCK = threading.Lock()
 
 
@@ -33,18 +32,31 @@ class SignRequestInterceptor(RequestInterceptor):
             context.request.sk = credentials.sk
             context.request.session_token = credentials.session_token
 
-        self.update_params_for_auth(host=context.request.host, path=context.request.true_path,
-                                    method=context.request.method,
-                                    headers=context.request.header_params,
-                                    querys=context.request.query_params,
-                                    auth_settings=context.request.auth_settings,
-                                    body=context.request.body,
-                                    post_params=context.request.post_params,
-                                    service=context.request.service,
-                                    ak=context.request.ak,
-                                    sk=context.request.sk,
-                                    session_token=context.request.session_token,
-                                    region=context.request.region)
+        if context.request.is_presign:
+            context.request.signed_query = SignerV4.sign_url(
+                path=context.request.true_path,
+                method=context.request.method,
+                query=context.request.query_params,
+                ak=context.request.ak,
+                sk=context.request.sk,
+                region=context.request.region,
+                service=context.request.service,
+                session_token=context.request.session_token,
+                host=context.request.host,
+            )
+        else:
+            self.update_params_for_auth(host=context.request.host, path=context.request.true_path,
+                                        method=context.request.method,
+                                        headers=context.request.header_params,
+                                        querys=context.request.query_params,
+                                        auth_settings=context.request.auth_settings,
+                                        body=context.request.body,
+                                        post_params=context.request.post_params,
+                                        service=context.request.service,
+                                        ak=context.request.ak,
+                                        sk=context.request.sk,
+                                        session_token=context.request.session_token,
+                                        region=context.request.region)
         return context
 
     @staticmethod
