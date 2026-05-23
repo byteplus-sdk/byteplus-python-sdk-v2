@@ -23,6 +23,7 @@ if __name__ == "__main__":
                 },
             }
         ],
+        priority=0,
         # callback_url="${YOUR_CALLBACK_URL}"
     )
     print(create_result)
@@ -30,6 +31,7 @@ if __name__ == "__main__":
     print("----- get request -----")
     get_result = client.content_generation.tasks.get(task_id=create_result.id)
     print(get_result)
+    print("Priority:", getattr(get_result, "priority", None))
 
     print("----- list request -----")
     list_result = client.content_generation.tasks.list(
@@ -40,6 +42,8 @@ if __name__ == "__main__":
         # task_ids=["test-id-1", "test-id-2"] # Filter by task_ids
     )
     print(list_result)
+    if list_result.items:
+        print("List Item Priority:", getattr(list_result.items[0], "priority", None))
 
     print("----- delete request -----")
     try:
@@ -53,6 +57,7 @@ if __name__ == "__main__":
         model="ep-20251209175451-tctqz",
         service_tier="flex",
         execution_expires_after=12200,
+        priority=0,
         content=[
             {
                 "type": "text",
@@ -72,6 +77,7 @@ if __name__ == "__main__":
     print("----- get request (service_tier='flex') -----")
     get_result_flex = client.content_generation.tasks.get(task_id=create_result_flex.id)
     print(get_result_flex)
+    print("Flex Priority:", getattr(get_result_flex, "priority", None))
 
     print("----- list request (service_tier='flex') -----")
     list_result_flex = client.content_generation.tasks.list(
@@ -83,6 +89,8 @@ if __name__ == "__main__":
         service_tier="flex",
     )
     print(list_result_flex)
+    if list_result_flex.items:
+        print("Flex List Item Priority:", getattr(list_result_flex.items[0], "priority", None))
 
     print("----- delete request -----")
     try:
