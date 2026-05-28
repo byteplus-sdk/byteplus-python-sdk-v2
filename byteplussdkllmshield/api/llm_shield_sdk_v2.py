@@ -1,10 +1,11 @@
 from pydantic import BaseModel, field_validator, Field
-from typing import List, Optional, Any, Union
+from typing import Dict, List, Optional, Any, Union
 from datetime import datetime, date
 from uuid import UUID
 import requests
 from requests.adapters import HTTPAdapter
 import json
+import os
 
 from ..models.llm_shield_sign import request_sign, Version, SetServiceDev, GetServiceCode
 
@@ -44,6 +45,16 @@ class MatchSource:
     ADMIN_CONTENTLIB = 2
     USER_CONTENTLIB = 3
 
+
+# 定义扩展字段Key常量
+class ExtensionsKey:
+    USER_ID = "user_id"
+    RUN_ID = "run_id"
+    SESSION_ID = "session_id"
+    CONTEXT_ID = "context_id"
+    HOOK_NAME = "hook_name"
+
+
 # 定义消息结构体
 class MultiPart(BaseModel):
     content: str = Field("", alias="Content")
@@ -52,12 +63,34 @@ class MultiPart(BaseModel):
     class Config:
         populate_by_name = True
 
+
+# 定义函数调用结构体
+class FunctionCall(BaseModel):
+    name: str = Field("", alias="Name")
+    arguments: str = Field("", alias="Arguments")
+
+    class Config:
+        populate_by_name = True
+
+
+# 定义工具调用结构体
+class ToolCall(BaseModel):
+    id: str = Field("", alias="ID")
+    type: str = Field("", alias="Type")
+    function: Optional[FunctionCall] = Field(None, alias="Function")
+
+    class Config:
+        populate_by_name = True
+
+
 # 定义消息结构体
 class MessageV2(BaseModel):
     role: str = Field("", alias="Role")
     content: str = Field("", alias="Content")
     content_type: int = Field(ContentTypeV2.TEXT, alias="ContentType")
     multi_part: Optional[List[MultiPart]] = Field(None, alias="MultiPart")
+    tool_call_id: Optional[str] = Field(None, alias="ToolCallID")
+    tool_call: Optional[List[ToolCall]] = Field(None, alias="ToolCall")
 
     class Config:
         populate_by_name = True
@@ -69,6 +102,7 @@ class ModerateV2Request(BaseModel):
     use_stream: int = Field(0, alias="UseStream")
     scene: str = Field("", alias="Scene")
     history: List[MessageV2] = Field([], alias="History")
+    extensions: Optional[Dict[str, str]] = Field(None, alias="Extensions")
 
     class Config:
         populate_by_name = True
@@ -305,6 +339,22 @@ class GenerateStreamV2ResponseData(BaseModel):
         populate_by_name = True
 
 
+# 自定义带默认超时的Session子类
+class SessionTimeout(requests.Session):
+    def __init__(self, default_timeout=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # 保存默认超时时间
+        self.default_timeout = default_timeout
+
+    # 重写核心的request方法，自动注入超时
+    def request(self, method, url, **kwargs):
+        # 核心逻辑：如果没手动传timeout，就用默认值
+        if "timeout" not in kwargs and self.default_timeout is not None:
+            kwargs["timeout"] = self.default_timeout
+        # 调用父类的request方法，保持原有逻辑不变
+        return super().request(method, url, **kwargs)
+
+
 # 定义客户端类
 class ClientV2:
     def __init__(self, url: str, ak: str, sk: str, region: str, timeout: float):
@@ -312,7 +362,7 @@ class ClientV2:
         self.ak = ak
         self.sk = sk
         self.region = region
-        self.http_client = requests.Session()
+        self.http_client = SessionTimeout(default_timeout=timeout)
         self.http_client.timeout = timeout
 
     def SetProxy(self, proxy: dict):
@@ -339,7 +389,7 @@ class ClientV2:
         if request is None:
             request = ModerateV2Request()
 
-        request_body = request.model_dump_json(by_alias=True).encode("utf-8")
+        request_body = request.model_dump_json(by_alias=True, exclude_none=True).encode("utf-8")
 
         header = {
         }
@@ -410,7 +460,7 @@ class ClientV2:
 
         # 3. 序列化请求（使用 Pydantic 的 model_dump 方法）
         try:
-            request_body = session.request.model_dump_json(by_alias=True).encode("utf-8")
+            request_body = session.request.model_dump_json(by_alias=True, exclude_none=True).encode("utf-8")
             # request_str = session.request.model_dump_json(by_alias=True)
         except Exception as e:
             raise IOError(f"Failed to serialize request: {str(e)}")
@@ -419,7 +469,7 @@ class ClientV2:
         }
         sign_header = request_sign(headers, self.ak, self.sk, self.region, self.url, path, action, request_body)
         try:
-            response = requests.post(
+            response = self.http_client.post(
                 url=self.url + path + "?Action=" + action + "&Version=" + Version,
                 data=request_body,
                 headers=sign_header
@@ -454,7 +504,7 @@ class ClientV2:
             request = GenerateStreamV2Request()
 
         # 将请求结构体序列化为 JSON
-        requestBody = request.model_dump_json(by_alias=True).encode("utf-8")
+        requestBody = request.model_dump_json(by_alias=True, exclude_none=True).encode("utf-8")
 
         headers = {
             # "Content-Type": "application/json",
