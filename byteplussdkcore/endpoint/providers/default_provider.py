@@ -135,6 +135,13 @@ default_endpoint = {
         region_endpoint_map={},
         fallback_endpoint=fallback_endpoint,
     ),
+    'cpaas': ServiceEndpointInfo(
+        service='cpaas',
+        is_global=True,
+        global_endpoint='',
+        region_endpoint_map={},
+        fallback_endpoint=fallback_endpoint,
+    ),
     'vepfs': ServiceEndpointInfo(
         service='vepfs',
         is_global=False,
