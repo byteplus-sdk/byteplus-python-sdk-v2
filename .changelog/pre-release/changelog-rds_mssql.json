@@ -1,5 +1,5 @@
 {
-  "description": "RDS_MSSQL: modified DescribeDBInstanceSpecs",
+  "description": "RDS_MSSQL: added ModifyDBInstanceTDE, DescribeDBInstanceSSL, DescribeDBInstanceTDE, DownloadSSLCertificate, ModifyDBInstanceSSL",
   "modules": "service/rds_mssql",
-  "type": "breaking-change"
+  "type": "feature"
 }
