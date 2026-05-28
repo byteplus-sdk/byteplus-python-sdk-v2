@@ -34,38 +34,52 @@ class KubernetesConfigForCreateNodePoolInput(object):
     """
     swagger_types = {
         'auto_sync_disabled': 'bool',
+        'containerd_config': 'ContainerdConfigForCreateNodePoolInput',
         'cordon': 'bool',
         'kubelet_config': 'KubeletConfigForCreateNodePoolInput',
         'labels': 'list[LabelForCreateNodePoolInput]',
         'name_prefix': 'str',
+        'name_suffix': 'str',
+        'name_use_hostname': 'bool',
+        'runtime': 'RuntimeForCreateNodePoolInput',
         'taints': 'list[TaintForCreateNodePoolInput]'
     }
 
     attribute_map = {
         'auto_sync_disabled': 'AutoSyncDisabled',
+        'containerd_config': 'ContainerdConfig',
         'cordon': 'Cordon',
         'kubelet_config': 'KubeletConfig',
         'labels': 'Labels',
         'name_prefix': 'NamePrefix',
+        'name_suffix': 'NameSuffix',
+        'name_use_hostname': 'NameUseHostname',
+        'runtime': 'Runtime',
         'taints': 'Taints'
     }
 
-    def __init__(self, auto_sync_disabled=None, cordon=None, kubelet_config=None, labels=None, name_prefix=None, taints=None, _configuration=None):  # noqa: E501
+    def __init__(self, auto_sync_disabled=None, containerd_config=None, cordon=None, kubelet_config=None, labels=None, name_prefix=None, name_suffix=None, name_use_hostname=None, runtime=None, taints=None, _configuration=None):  # noqa: E501
         """KubernetesConfigForCreateNodePoolInput - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
         self._configuration = _configuration
 
         self._auto_sync_disabled = None
+        self._containerd_config = None
         self._cordon = None
         self._kubelet_config = None
         self._labels = None
         self._name_prefix = None
+        self._name_suffix = None
+        self._name_use_hostname = None
+        self._runtime = None
         self._taints = None
         self.discriminator = None
 
         if auto_sync_disabled is not None:
             self.auto_sync_disabled = auto_sync_disabled
+        if containerd_config is not None:
+            self.containerd_config = containerd_config
         if cordon is not None:
             self.cordon = cordon
         if kubelet_config is not None:
@@ -74,6 +88,12 @@ class KubernetesConfigForCreateNodePoolInput(object):
             self.labels = labels
         if name_prefix is not None:
             self.name_prefix = name_prefix
+        if name_suffix is not None:
+            self.name_suffix = name_suffix
+        if name_use_hostname is not None:
+            self.name_use_hostname = name_use_hostname
+        if runtime is not None:
+            self.runtime = runtime
         if taints is not None:
             self.taints = taints
 
@@ -97,6 +117,27 @@ class KubernetesConfigForCreateNodePoolInput(object):
         """
 
         self._auto_sync_disabled = auto_sync_disabled
+
+    @property
+    def containerd_config(self):
+        """Gets the containerd_config of this KubernetesConfigForCreateNodePoolInput.  # noqa: E501
+
+
+        :return: The containerd_config of this KubernetesConfigForCreateNodePoolInput.  # noqa: E501
+        :rtype: ContainerdConfigForCreateNodePoolInput
+        """
+        return self._containerd_config
+
+    @containerd_config.setter
+    def containerd_config(self, containerd_config):
+        """Sets the containerd_config of this KubernetesConfigForCreateNodePoolInput.
+
+
+        :param containerd_config: The containerd_config of this KubernetesConfigForCreateNodePoolInput.  # noqa: E501
+        :type: ContainerdConfigForCreateNodePoolInput
+        """
+
+        self._containerd_config = containerd_config
 
     @property
     def cordon(self):
@@ -181,6 +222,69 @@ class KubernetesConfigForCreateNodePoolInput(object):
         """
 
         self._name_prefix = name_prefix
+
+    @property
+    def name_suffix(self):
+        """Gets the name_suffix of this KubernetesConfigForCreateNodePoolInput.  # noqa: E501
+
+
+        :return: The name_suffix of this KubernetesConfigForCreateNodePoolInput.  # noqa: E501
+        :rtype: str
+        """
+        return self._name_suffix
+
+    @name_suffix.setter
+    def name_suffix(self, name_suffix):
+        """Sets the name_suffix of this KubernetesConfigForCreateNodePoolInput.
+
+
+        :param name_suffix: The name_suffix of this KubernetesConfigForCreateNodePoolInput.  # noqa: E501
+        :type: str
+        """
+
+        self._name_suffix = name_suffix
+
+    @property
+    def name_use_hostname(self):
+        """Gets the name_use_hostname of this KubernetesConfigForCreateNodePoolInput.  # noqa: E501
+
+
+        :return: The name_use_hostname of this KubernetesConfigForCreateNodePoolInput.  # noqa: E501
+        :rtype: bool
+        """
+        return self._name_use_hostname
+
+    @name_use_hostname.setter
+    def name_use_hostname(self, name_use_hostname):
+        """Sets the name_use_hostname of this KubernetesConfigForCreateNodePoolInput.
+
+
+        :param name_use_hostname: The name_use_hostname of this KubernetesConfigForCreateNodePoolInput.  # noqa: E501
+        :type: bool
+        """
+
+        self._name_use_hostname = name_use_hostname
+
+    @property
+    def runtime(self):
+        """Gets the runtime of this KubernetesConfigForCreateNodePoolInput.  # noqa: E501
+
+
+        :return: The runtime of this KubernetesConfigForCreateNodePoolInput.  # noqa: E501
+        :rtype: RuntimeForCreateNodePoolInput
+        """
+        return self._runtime
+
+    @runtime.setter
+    def runtime(self, runtime):
+        """Sets the runtime of this KubernetesConfigForCreateNodePoolInput.
+
+
+        :param runtime: The runtime of this KubernetesConfigForCreateNodePoolInput.  # noqa: E501
+        :type: RuntimeForCreateNodePoolInput
+        """
+
+        self._runtime = runtime
 
     @property
     def taints(self):
