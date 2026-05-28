@@ -5,8 +5,6 @@ from byteplussdkcore.endpoint.endpoint_provider import EndpointProvider, Resolve
 
 
 # -----------------------------
-# Errors (模仿 volcengineerr.New)
-# -----------------------------
 class StandProviderError(Exception):
     def __init__(self, code, message):
         Exception.__init__(self, "%s: %s" % (code, message))
@@ -167,6 +165,7 @@ ServiceInfos = {
     "vms": ServiceInfo("vms", False),
     "eco_partner": ServiceInfo("eco_partner", True),
     "smc": ServiceInfo("smc", True),
+    "kickart": ServiceInfo("kickart", True),
 }
 
 
@@ -342,6 +341,6 @@ if __name__ == "__main__":
             region="cn-hongkon",
             use_dual_stack=False,
         )
-        print(ep.host)  # 例如：vpc.ap-southeast-1.volcengine-api.com
+        print(ep.host)  # 例如：vpc.ap-southeast-1.byteplus-api.com
     except Exception as e:
         e.print()

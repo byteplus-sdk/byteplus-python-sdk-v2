@@ -10,8 +10,6 @@ from byteplussdkarkruntime import AsyncArk
 
 # 2.If you authorize your endpoint with Identity and Access Management（IAM), set your api key to environment variable "BYTEPLUS_ACCESSKEY", "BYTEPLUS_SECRETKEY"
 # or specify ak&sk by Ark(ak="${YOUR_AK}", sk="${YOUR_SK}").
-# To get your ak&sk, please refer to this document(https://www.volcengine.com/docs/6291/65568)
-# For more information，please check this document（https://www.volcengine.com/docs/82379/1263279）
 client = AsyncArk()
 
 
