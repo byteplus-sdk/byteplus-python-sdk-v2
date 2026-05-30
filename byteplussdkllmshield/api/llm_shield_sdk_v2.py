@@ -102,7 +102,7 @@ class ModerateV2Request(BaseModel):
     use_stream: int = Field(0, alias="UseStream")
     scene: str = Field("", alias="Scene")
     history: List[MessageV2] = Field([], alias="History")
-    extensions: Optional[Dict[str, str]] = Field(None, alias="Extensions")
+    extensions: Dict[str, str] = Field(default_factory=dict, alias="Extensions")
 
     class Config:
         populate_by_name = True
@@ -389,7 +389,7 @@ class ClientV2:
         if request is None:
             request = ModerateV2Request()
 
-        request_body = request.model_dump_json(by_alias=True, exclude_none=True).encode("utf-8")
+        request_body = request.model_dump_json(by_alias=True).encode("utf-8")
 
         header = {
         }
@@ -460,7 +460,7 @@ class ClientV2:
 
         # 3. 序列化请求（使用 Pydantic 的 model_dump 方法）
         try:
-            request_body = session.request.model_dump_json(by_alias=True, exclude_none=True).encode("utf-8")
+            request_body = session.request.model_dump_json(by_alias=True).encode("utf-8")
             # request_str = session.request.model_dump_json(by_alias=True)
         except Exception as e:
             raise IOError(f"Failed to serialize request: {str(e)}")
@@ -469,7 +469,7 @@ class ClientV2:
         }
         sign_header = request_sign(headers, self.ak, self.sk, self.region, self.url, path, action, request_body)
         try:
-            response = self.http_client.post(
+            response = requests.post(
                 url=self.url + path + "?Action=" + action + "&Version=" + Version,
                 data=request_body,
                 headers=sign_header
@@ -504,7 +504,7 @@ class ClientV2:
             request = GenerateStreamV2Request()
 
         # 将请求结构体序列化为 JSON
-        requestBody = request.model_dump_json(by_alias=True, exclude_none=True).encode("utf-8")
+        requestBody = request.model_dump_json(by_alias=True).encode("utf-8")
 
         headers = {
             # "Content-Type": "application/json",
