@@ -18,6 +18,7 @@ _PORTAL_ACCESS_TOKEN_HEADER = "x-bd-cloudidentity-bearer-token"
 _HTTP_TIMEOUT = 30
 _HTTP_MAX_RETRIES = 3
 _HTTP_RETRY_INTERVAL = 1
+_LOGIN_CACHE_DIRECTORY_ENV = "BYTEPLUS_LOGIN_CACHE_DIRECTORY"
 
 
 class CLIConfigCredentialProvider(Provider):
@@ -237,9 +238,13 @@ class CLIConfigCredentialProvider(Provider):
             or os.path.expanduser("~/.byteplus/config.json")
         )
 
+        cache_dir = (
+            os.environ.get(_LOGIN_CACHE_DIRECTORY_ENV)
+            or os.path.join(os.path.dirname(config_path), "login", "cache")
+        )
         return ConsoleLoginCredentialProvider(
             login_session=login_session,
-            config_path=config_path,
+            cache_dir=cache_dir,
         )
 
     def _create_sso_delegate(self, profile, profile_name, config):

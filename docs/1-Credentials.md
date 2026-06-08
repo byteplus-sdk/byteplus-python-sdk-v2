@@ -329,7 +329,7 @@ Supported modes in profile (case-insensitive):
 - `console-login` (delegates to `ConsoleLoginCredentialProvider`)
   - Required: `login-session`
   - Run `bp login` first so the CLI writes `mode: "console-login"` and `login-session` into the selected profile.
-  - Reads the cache written by the `bp login` CLI command at `<cli-config-dir>/login/cache/<sha1(login_session)>.json`. Refresh is performed automatically via the OAuth `refresh_token` grant when the cached STS credentials are near expiry; on success the provider attempts to persist the refreshed cache.
+  - Reads the cache written by the `bp login` CLI command at `<cli-config-dir>/login/cache/<sha1(login_session)>.json`. Refresh is performed automatically via the OAuth `refresh_token` grant when the cached STS credentials are near expiry; the SDK updates its in-memory state only and never writes the cache file.
 
 Example: explicitly use CLI provider with a specified profile and config path.
 
@@ -355,9 +355,10 @@ byteplussdkcore.Configuration.set_default(configuration)
 PKCE flow against `https://signin.byteplus.com` and writes a cache JSON file
 containing STS temporary credentials. This provider parses the cache, returns the
 embedded STS credentials, and refreshes them via the `refresh_token` grant before
-they expire.
+they expire. The SDK never writes the cache file; `bp login` remains the only
+disk writer.
 
-- Cache path priority: constructor `cache_path` > `BYTEPLUS_LOGIN_CACHE_DIRECTORY` + `<sha1(login_session)>.json` > `<config-dir>/login/cache/<sha1(login_session)>.json`
+- Cache path priority: constructor `cache_path` > constructor `cache_dir` + `<sha1(login_session)>.json` > `BYTEPLUS_LOGIN_CACHE_DIRECTORY` + `<sha1(login_session)>.json` > `<config-dir>/login/cache/<sha1(login_session)>.json`
 - Cache file name: `sha1(login_session).hex + ".json"`
 - Endpoint URL priority: cache file's `endpoint_url` > `https://signin.byteplus.com`
 - Expire buffer: 60 seconds
@@ -378,6 +379,30 @@ byteplussdkcore.Configuration.set_default(configuration)
 ```
 
 > Note: Most users do not need to instantiate `ConsoleLoginCredentialProvider` directly. Run `bp login` to set `mode = console-login` in your CLI profile and use `CLIConfigCredentialProvider` (or the default chain) instead.
+
+#### Runtime Refresh Behavior (console-login)
+
+For `console-login` mode the SDK owns refresh in memory and never writes any
+local file. Key invariants:
+
+- **Read-only on disk**: `config.json` and
+  `~/.byteplus/login/cache/*.json` are read on bootstrap and once more if the
+  signin service rejects the in-memory refresh token (`invalid_grant`
+  fallback). They are never written by the SDK.
+- **In-memory refresh**: when the cached `access_token` is past its expiry
+  buffer (60 seconds), the SDK exchanges the cached `refresh_token` at
+  `https://signin.byteplus.com/authorize/oauth/token` and updates its
+  in-memory state only.
+- **Invalid-grant fallback**: on HTTP 400 `invalid_grant`, the SDK re-reads
+  the cache file once. If the disk `refresh_token` differs from the in-memory
+  one (i.e. `bp login` rotated it under the SDK), the SDK retries with the disk
+  refresh token; otherwise it reports an actionable error pointing at
+  `bp login`.
+- **Refresh-token expiry**: when the SDK exhausts both the in-memory and disk
+  refresh tokens, it raises a clear error instructing the user to run
+  `bp login`.
+- **Concurrency**: a per-process lock serializes refreshes so concurrent
+  callers share a single in-flight refresh.
 
 ### ECS Role Credential Provider
 
