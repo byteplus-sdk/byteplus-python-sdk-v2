@@ -326,6 +326,10 @@ Supported modes in profile (case-insensitive):
 - `OIDC` (delegates to `StsOidcCredentialProvider`)
 - `EcsRole` (delegates to `EcsRoleCredentialProvider`)
 - `SSO` (delegates to `SsoCredentialProvider`)
+- `console-login` (delegates to `ConsoleLoginCredentialProvider`)
+  - Required: `login-session`
+  - Run `bp login` first so the CLI writes `mode: "console-login"` and `login-session` into the selected profile.
+  - Reads the cache written by the `bp login` CLI command at `<cli-config-dir>/login/cache/<sha1(login_session)>.json`. Refresh is performed automatically via the OAuth `refresh_token` grant when the cached STS credentials are near expiry; on success the provider attempts to persist the refreshed cache.
 
 Example: explicitly use CLI provider with a specified profile and config path.
 
@@ -343,6 +347,37 @@ configuration.credential_provider = CLIConfigCredentialProvider(
 )
 byteplussdkcore.Configuration.set_default(configuration)
 ```
+
+### Console Login Credential Provider
+
+`ConsoleLoginCredentialProvider` consumes the token cache produced by the
+`bp login` command. The CLI runs the interactive OAuth 2.0 Authorization Code +
+PKCE flow against `https://signin.byteplus.com` and writes a cache JSON file
+containing STS temporary credentials. This provider parses the cache, returns the
+embedded STS credentials, and refreshes them via the `refresh_token` grant before
+they expire.
+
+- Cache path priority: constructor `cache_path` > `BYTEPLUS_LOGIN_CACHE_DIRECTORY` + `<sha1(login_session)>.json` > `<config-dir>/login/cache/<sha1(login_session)>.json`
+- Cache file name: `sha1(login_session).hex + ".json"`
+- Endpoint URL priority: cache file's `endpoint_url` > `https://signin.byteplus.com`
+- Expire buffer: 60 seconds
+
+```python
+import os
+
+import byteplussdkcore
+from byteplussdkcore.auth.providers.console_login_provider import ConsoleLoginCredentialProvider
+
+configuration = byteplussdkcore.Configuration()
+configuration.region = "ap-southeast-1"
+configuration.credential_provider = ConsoleLoginCredentialProvider(
+    login_session="trn:signin:::user/your-login-session",
+    config_path=os.path.expanduser("~/.byteplus/config.json"),
+)
+byteplussdkcore.Configuration.set_default(configuration)
+```
+
+> Note: Most users do not need to instantiate `ConsoleLoginCredentialProvider` directly. Run `bp login` to set `mode = console-login` in your CLI profile and use `CLIConfigCredentialProvider` (or the default chain) instead.
 
 ### ECS Role Credential Provider
 

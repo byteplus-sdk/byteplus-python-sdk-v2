@@ -65,6 +65,7 @@ setx BYTEPLUS_SESSION_TOKEN your-session-token /M
 |---|---|
 | `BYTEPLUS_CLI_CONFIG_FILE` | Config file path; defaults to `~/.byteplus/config.json` |
 | `BYTEPLUS_PROFILE` | Profile name to use |
+| `BYTEPLUS_LOGIN_CACHE_DIRECTORY` | Console-login token cache directory; defaults to `<cli-config-dir>/login/cache` |
 
 ### Default Credential Chain
 
@@ -80,7 +81,8 @@ When no credentials are explicitly configured, all four SDKs try the following p
 | Item | Priority (high → low) |
 |---|---|
 | CLI config file path | constructor arg > `BYTEPLUS_CLI_CONFIG_FILE` > `~/.byteplus/config.json` |
-| Profile | constructor arg > `BYTEPLUS_PROFILE` > `BYTEPLUS_PROFILE` (Go/PHP only) > `current` field in config > `default` |
+| Profile | constructor arg > `BYTEPLUS_PROFILE` > `current` field in config > `default` |
+| Console-login cache path | constructor `cache_path` > `BYTEPLUS_LOGIN_CACHE_DIRECTORY` + `<sha1(login_session)>.json` > `<cli-config-dir>/login/cache/<sha1(login_session)>.json` |
 | ECS role name | constructor arg > `BYTEPLUS_ECS_METADATA` > IMDS auto-discovery |
 
 ### See Also
