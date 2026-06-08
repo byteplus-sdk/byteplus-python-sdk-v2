@@ -14,7 +14,7 @@ except ImportError:  # pragma: no cover - Python 2 compatibility
     from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
     from urlparse import parse_qs
 
-from byteplussdkcore.auth.providers.console_login_provider import ConsoleLoginCredentialProvider
+from byteplussdkcore.auth.providers.cli_config_provider import ConsoleLoginCredentialProvider
 
 
 class _TokenHandler(BaseHTTPRequestHandler):
