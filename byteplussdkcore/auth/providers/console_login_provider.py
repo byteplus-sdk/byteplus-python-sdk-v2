@@ -42,6 +42,16 @@ def _parse_rfc3339(value):
     if not value:
         raise ValueError("issued_at is empty")
     if value.endswith("Z"):
+        for fmt in ("%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%dT%H:%M:%S.%fZ"):
+            try:
+                return datetime.strptime(value, fmt)
+            except ValueError:
+                continue
+    if len(value) >= 6 and value[-3] == ":" and value[-6] in ("+", "-"):
+        # Python 3.6's strptime cannot parse RFC3339 offsets with a colon
+        # (for example +00:00), while bp login writes RFC3339 timestamps.
+        value = value[:-3] + value[-2:]
+    if value.endswith("Z"):
         value = value[:-1] + "+00:00"
     try:
         return datetime.fromisoformat(value)
@@ -245,17 +255,10 @@ class ConsoleLoginCredentialProvider(Provider):
         if scope:
             form["scope"] = scope
 
-        try:
-            from urllib.parse import urlencode
-        except ImportError:
-            from urllib import urlencode
-
-        body = urlencode(form)
-
         resp_body = ApiClient(Configuration())._do_http_request(
             token_url,
             method="POST",
-            data=body,
+            post_params=form,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
             timeout=_HTTP_TIMEOUT,
             max_retries=_HTTP_MAX_RETRIES,
