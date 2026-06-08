@@ -82,7 +82,7 @@ When no credentials are explicitly configured, all four SDKs try the following p
 |---|---|
 | CLI config file path | constructor arg > `BYTEPLUS_CLI_CONFIG_FILE` > `~/.byteplus/config.json` |
 | Profile | constructor arg > `BYTEPLUS_PROFILE` > `current` field in config > `default` |
-| Console-login cache path | constructor `cache_path` > constructor `cache_dir` + `<sha1(login_session)>.json` > `BYTEPLUS_LOGIN_CACHE_DIRECTORY` + `<sha1(login_session)>.json` > `<cli-config-dir>/login/cache/<sha1(login_session)>.json` |
+| Console-login cache directory | `BYTEPLUS_LOGIN_CACHE_DIRECTORY` > `<cli-config-dir>/login/cache` |
 | ECS role name | constructor arg > `BYTEPLUS_ECS_METADATA` > IMDS auto-discovery |
 
 ### See Also

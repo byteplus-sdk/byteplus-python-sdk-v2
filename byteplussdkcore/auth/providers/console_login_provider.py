@@ -18,26 +18,12 @@ except NameError:  # pragma: no cover - Python 3
 _DEFAULT_CONSOLE_ENDPOINT = "https://signin.byteplus.com"
 _CONSOLE_TOKEN_PATH = "/authorize/oauth/token"
 _HTTP_TIMEOUT = 30
-_LOGIN_CACHE_DIR_ENV = "BYTEPLUS_LOGIN_CACHE_DIRECTORY"
 _EXPIRATION_BUFFER_SECONDS = 60
 
 
 def _login_cache_filename(login_session):
     digest = hashlib.sha1(login_session.encode("utf-8")).hexdigest()
     return "{}.json".format(digest)
-
-
-def _resolve_login_cache_dir(config_path):
-    custom_dir = os.environ.get(_LOGIN_CACHE_DIR_ENV)
-    if custom_dir:
-        return custom_dir
-    base_dir = os.path.dirname(config_path) if config_path else os.path.expanduser("~/.byteplus")
-    return os.path.join(base_dir, "login", "cache")
-
-
-def _login_cache_file_path(login_session, config_path):
-    cache_dir = _resolve_login_cache_dir(config_path)
-    return os.path.join(cache_dir, _login_cache_filename(login_session))
 
 
 def _parse_rfc3339(value):
@@ -129,20 +115,16 @@ class ConsoleLoginCredentialProvider(Provider):
 
     PROVIDER_NAME = "ConsoleLoginCredentialProvider"
 
-    def __init__(self, login_session, config_path=None, cache_path=None, cache_dir=None):
+    def __init__(self, login_session, cache_dir):
         if not login_session:
             raise RuntimeError(
                 "{}: login_session is required.".format(self.PROVIDER_NAME)
             )
         self._login_session = login_session
-        if cache_path:
-            self._cache_path = cache_path
-            self._cache_dir = os.path.dirname(cache_path)
-        else:
-            self._cache_dir = cache_dir or _resolve_login_cache_dir(config_path)
-            self._cache_path = os.path.join(
-                self._cache_dir, _login_cache_filename(login_session)
-            )
+        self._cache_dir = cache_dir
+        self._cache_path = os.path.join(
+            self._cache_dir, _login_cache_filename(login_session)
+        )
 
         self._credentials = None
         self._expiration = None
@@ -264,7 +246,6 @@ class ConsoleLoginCredentialProvider(Provider):
 
         endpoint = (
             _strip_string(cache.get("endpoint_url"))
-            or _strip_string(cache.get("endpoint"))
             or _DEFAULT_CONSOLE_ENDPOINT
         )
         scope = _strip_string(cache.get("scope"))

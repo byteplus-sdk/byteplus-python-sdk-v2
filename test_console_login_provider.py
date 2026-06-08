@@ -1,6 +1,7 @@
 # coding=utf-8
 import json
 import os
+import hashlib
 import tempfile
 import threading
 import time
@@ -73,6 +74,11 @@ def _write_cache(path, payload):
         json.dump(payload, f, separators=(",", ":"))
 
 
+def _cache_path(cache_dir, login_session):
+    name = "{}.json".format(hashlib.sha1(login_session.encode("utf-8")).hexdigest())
+    return os.path.join(cache_dir, name)
+
+
 class ConsoleLoginCredentialProviderTest(unittest.TestCase):
     def setUp(self):
         self._old_no_proxy = os.environ.get("NO_PROXY")
@@ -86,7 +92,8 @@ class ConsoleLoginCredentialProviderTest(unittest.TestCase):
 
     def test_refresh_uses_form_post_without_rewriting_cache(self):
         temp_dir = tempfile.mkdtemp()
-        cache_path = os.path.join(temp_dir, "console-cache.json")
+        login_session = "sess-python"
+        cache_path = _cache_path(temp_dir, login_session)
 
         def on_request(form):
             self.assertEqual("refresh_token", form.get("grant_type"))
@@ -113,14 +120,14 @@ class ConsoleLoginCredentialProviderTest(unittest.TestCase):
             endpoint_url = "http://127.0.0.1:{}".format(server.server_port)
             _write_cache(
                 cache_path,
-                _cache_payload("sess-python", "OLD", "old-refresh", endpoint_url),
+                _cache_payload(login_session, "OLD", "old-refresh", endpoint_url),
             )
             with open(cache_path, "r") as f:
                 before = f.read()
 
             provider = ConsoleLoginCredentialProvider(
-                login_session="sess-python",
-                cache_path=cache_path,
+                login_session=login_session,
+                cache_dir=temp_dir,
             )
             value = provider.retrieve()
 
@@ -141,8 +148,8 @@ class ConsoleLoginCredentialProviderTest(unittest.TestCase):
 
     def test_invalid_grant_reloads_disk_cache(self):
         temp_dir = tempfile.mkdtemp()
-        cache_path = os.path.join(temp_dir, "console-cache.json")
         login_session = "sess-python-invalid-grant"
+        cache_path = _cache_path(temp_dir, login_session)
 
         def on_request(form):
             endpoint_url = "http://127.0.0.1:{}".format(server.server_port)
@@ -179,7 +186,7 @@ class ConsoleLoginCredentialProviderTest(unittest.TestCase):
 
             provider = ConsoleLoginCredentialProvider(
                 login_session=login_session,
-                cache_path=cache_path,
+                cache_dir=temp_dir,
             )
             value = provider.retrieve()
 
