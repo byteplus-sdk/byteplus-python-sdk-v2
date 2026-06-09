@@ -325,7 +325,7 @@ Supported modes in profile (case-insensitive):
 - `RamRoleArn` (delegates to `StsCredentialProvider`)
 - `OIDC` (delegates to `StsOidcCredentialProvider`)
 - `EcsRole` (delegates to `EcsRoleCredentialProvider`)
-- `SSO` (delegates to `SsoCredentialProvider`)
+- `SSO` Reads STS credentials from the CLI sso cache (SDK refreshes access token in-memory, never writes the cache file)
 - `console-login` Reads STS credentials from the CLI console-login cache (SDK refreshes via OAuth `refresh_token` in-memory, never writes the cache file)
   - Required: `login-session`
   - Run `bp login` first so the CLI writes `mode: "console-login"` and `login-session` into the selected profile.
@@ -348,27 +348,28 @@ configuration.credential_provider = CLIConfigCredentialProvider(
 byteplussdkcore.Configuration.set_default(configuration)
 ```
 
-#### Runtime Refresh Behavior (console-login)
+#### Runtime Refresh Behavior (sso / console-login)
 
-For `console-login` mode the SDK owns refresh in memory and never writes any
-local file. Key invariants:
+For `sso` and `console-login` modes the SDK owns refresh in memory and never
+writes any local file. Key invariants:
 
-- **Read-only on disk**: `config.json` and
-  `~/.byteplus/login/cache/*.json` are read on bootstrap and once more if the
-  signin service rejects the in-memory refresh token (`invalid_grant`
-  fallback). They are never written by the SDK.
+- **Read-only on disk**: `config.json`, `~/.byteplus/sso/cache/*.json` and
+  `~/.byteplus/login/cache/*.json` are read on bootstrap. Console-login reads
+  the login cache once more if the signin service rejects the in-memory refresh
+  token (`invalid_grant` fallback). They are never written by the SDK.
 - **In-memory refresh**: when the cached `access_token` is past its expiry
-  buffer (60 seconds), the SDK exchanges the cached `refresh_token` at
-  `https://signin.byteplus.com/authorize/oauth/token` and updates its
-  in-memory state only.
-- **Invalid-grant fallback**: on HTTP 400 `invalid_grant`, the SDK re-reads
-  the cache file once. If the disk `refresh_token` differs from the in-memory
-  one (i.e. `bp login` rotated it under the SDK), the SDK retries with the disk
-  refresh token; otherwise it reports an actionable error pointing at
-  `bp login`.
-- **Refresh-token expiry**: when the SDK exhausts both the in-memory and disk
-  refresh tokens, it raises a clear error instructing the user to run
-  `bp login`.
+  buffer (60 seconds), the SDK exchanges the cached `refresh_token` at the
+  OAuth `/token` endpoint and updates its in-memory state. SSO then calls
+  CloudIdentity Portal `GetRoleCredentials`; console-login parses STS from the
+  refreshed signin access token.
+- **Invalid-grant fallback** (console-login only): on HTTP 400
+  `invalid_grant`, the SDK re-reads the cache file once. If the disk
+  `refresh_token` differs from the in-memory one (i.e. `bp login` rotated it
+  under the SDK), the SDK retries with the disk refresh token; otherwise it
+  reports an actionable error pointing at `bp login`.
+- **Refresh-token expiry**: when refresh can no longer proceed, the SDK raises
+  a clear error instructing the user to run `bp login` (console-login) or
+  `bp sso login` (SSO).
 - **Concurrency**: a per-process lock serializes refreshes so concurrent
   callers share a single in-flight refresh.
 

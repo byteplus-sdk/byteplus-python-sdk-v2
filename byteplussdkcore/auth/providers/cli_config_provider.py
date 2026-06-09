@@ -3,7 +3,6 @@ import calendar
 import hashlib
 import json
 import os
-import tempfile
 import threading
 import time
 
@@ -707,28 +706,14 @@ class _ConsoleLoginInvalidGrantError(Exception):
     """Sentinel raised when the signin OAuth endpoint returns invalid_grant."""
 
 
-def _write_json_file_atomic(path, data):
-    dir_name = os.path.dirname(path)
-    if not os.path.exists(dir_name):
-        try:
-            os.makedirs(dir_name)
-        except OSError:
-            pass
-    fd, tmp_path = tempfile.mkstemp(dir=dir_name, prefix=".tmp-", suffix=".json")
-    try:
-        with os.fdopen(fd, 'w') as f:
-            json.dump(data, f)
-        os.chmod(tmp_path, 0o600)
-        os.rename(tmp_path, path)
-    except Exception:
-        try:
-            os.remove(tmp_path)
-        except OSError:
-            pass
-        raise
-
-
 class SsoCredentialProvider(Provider):
+    """Obtains temporary credentials via the BytePlus SSO flow.
+
+    The SDK reads the SSO token cache from disk only to bootstrap its
+    in-memory state. Refreshing OAuth tokens mutates that in-memory state and
+    never writes the cache file; bp cli remains the single writer.
+    """
+
     PROVIDER_NAME = "SsoCredentialProvider"
 
     def __init__(self, profile, start_url, session_name, region,
@@ -743,6 +728,7 @@ class SsoCredentialProvider(Provider):
 
         self._credentials = None
         self._expiration = None
+        self._cache = None
         self._lock = threading.Lock()
 
     def retrieve(self):
@@ -774,32 +760,45 @@ class SsoCredentialProvider(Provider):
             self._cache_dir,
             _token_cache_filename(self._start_url, self._session_name),
         )
-        if not os.path.isfile(token_path):
-            raise RuntimeError(
-                "{}: SSO token cache file not found at '{}'.".format(
-                    self.PROVIDER_NAME, token_path
-                )
-            )
 
-        with open(token_path, 'r') as f:
+        if self._cache is None:
+            if not os.path.isfile(token_path):
+                raise RuntimeError(
+                    "{}: SSO token cache file not found at '{}'; "
+                    "please run 'bp sso login' to re-authenticate.".format(
+                        self.PROVIDER_NAME, token_path
+                    )
+                )
             try:
-                token_cache = json.load(f)
+                with open(token_path, 'r') as f:
+                    self._cache = json.load(f)
             except ValueError as e:
                 raise RuntimeError(
-                    "{}: failed to parse SSO token cache '{}': {}".format(
+                    "{}: failed to parse SSO token cache '{}': {}; "
+                    "please run 'bp sso login' to re-authenticate.".format(
+                        self.PROVIDER_NAME, token_path, e
+                    )
+                )
+            except (IOError, OSError) as e:
+                raise RuntimeError(
+                    "{}: failed to read SSO token cache '{}': {}; "
+                    "please run 'bp sso login' to re-authenticate.".format(
                         self.PROVIDER_NAME, token_path, e
                     )
                 )
 
-        access_token = (token_cache.get("access_token") or "").strip()
+        raw_access_token = self._cache.get("access_token")
+        access_token = raw_access_token.strip() if isinstance(raw_access_token, six.string_types) else ""
         if not access_token:
             raise RuntimeError(
-                "{}: SSO token cache '{}' does not contain access_token.".format(
+                "{}: SSO token cache '{}' does not contain access_token; "
+                "please run 'bp sso login' to re-authenticate.".format(
                     self.PROVIDER_NAME, token_path
                 )
             )
 
-        expires_at = (token_cache.get("expires_at") or "").strip()
+        raw_expires_at = self._cache.get("expires_at")
+        expires_at = raw_expires_at.strip() if isinstance(raw_expires_at, six.string_types) else ""
         token_expired = False
         if expires_at:
             try:
@@ -807,13 +806,14 @@ class SsoCredentialProvider(Provider):
                 token_expired = time.time() > exp_epoch
             except ValueError as e:
                 raise RuntimeError(
-                    "{}: failed to parse expires_at in '{}': {}".format(
+                    "{}: failed to parse expires_at in '{}': {}; "
+                    "please run 'bp sso login' to re-authenticate.".format(
                         self.PROVIDER_NAME, token_path, e
                     )
                 )
 
         if token_expired:
-            access_token = self._refresh_access_token(token_cache, token_path)
+            access_token = self._refresh_access_token(token_path)
 
         self._fetch_role_credentials(access_token)
 
@@ -841,11 +841,14 @@ class SsoCredentialProvider(Provider):
             provider_name=self.PROVIDER_NAME,
         )
 
-    def _refresh_access_token(self, token_cache, token_path):
-        refresh_token = (token_cache.get("refresh_token") or "").strip()
+    def _refresh_access_token(self, token_path):
+        token_cache = self._cache
+        raw_refresh_token = token_cache.get("refresh_token")
+        refresh_token = raw_refresh_token.strip() if isinstance(raw_refresh_token, six.string_types) else ""
         if not refresh_token:
             raise RuntimeError(
-                "{}: SSO token cache '{}' does not contain refresh_token.".format(
+                "{}: SSO token cache '{}' does not contain refresh_token; "
+                "please run 'bp sso login' to re-authenticate.".format(
                     self.PROVIDER_NAME, token_path
                 )
             )
@@ -855,16 +858,20 @@ class SsoCredentialProvider(Provider):
             exp_epoch = _unix_timestamp_to_epoch(client_secret_expires_at)
             if time.time() >= exp_epoch:
                 raise RuntimeError(
-                    "{}: refresh token in '{}' has expired.".format(
+                    "{}: refresh token in '{}' has expired; "
+                    "please run 'bp sso login' to re-authenticate.".format(
                         self.PROVIDER_NAME, token_path
                     )
                 )
 
-        client_id = (token_cache.get("client_id") or "").strip()
-        client_secret = (token_cache.get("client_secret") or "").strip()
+        raw_client_id = token_cache.get("client_id")
+        client_id = raw_client_id.strip() if isinstance(raw_client_id, six.string_types) else ""
+        raw_client_secret = token_cache.get("client_secret")
+        client_secret = raw_client_secret.strip() if isinstance(raw_client_secret, six.string_types) else ""
         if not client_id or not client_secret:
             raise RuntimeError(
-                "{}: SSO token cache '{}' does not contain client_id/client_secret.".format(
+                "{}: SSO token cache '{}' does not contain client_id/client_secret; "
+                "please run 'bp sso login' to re-authenticate.".format(
                     self.PROVIDER_NAME, token_path
                 )
             )
@@ -879,62 +886,89 @@ class SsoCredentialProvider(Provider):
         # Pass a dict body; RESTClient auto-serializes with Content-Type:
         # application/json (see byteplussdkcore/rest.py). Do NOT json.dumps
         # here or it will be double-encoded.
-        resp_body = ApiClient(Configuration())._do_http_request(
-            oauth_url,
-            method="POST",
-            data={
-                "grant_type": "refresh_token",
-                "client_id": client_id,
-                "client_secret": client_secret,
-                "refresh_token": refresh_token,
-            },
-            headers={"Content-Type": "application/json"},
-            timeout=_HTTP_TIMEOUT,
-            max_retries=_HTTP_MAX_RETRIES,
-            retry_interval=_HTTP_RETRY_INTERVAL,
-            request_name="OAuth token refresh",
-            # OAuth refresh_token grants may rotate the refresh token on use;
-            # replaying a successful-but-response-lost POST would invalidate
-            # the local refresh_token. Fail fast on 5xx instead.
-            retry_on_5xx=False,
-            provider_name=self.PROVIDER_NAME,
-        )
+        try:
+            resp_body = ApiClient(Configuration())._do_http_request(
+                oauth_url,
+                method="POST",
+                data={
+                    "grant_type": "refresh_token",
+                    "client_id": client_id,
+                    "client_secret": client_secret,
+                    "refresh_token": refresh_token,
+                },
+                headers={"Content-Type": "application/json"},
+                timeout=_HTTP_TIMEOUT,
+                max_retries=_HTTP_MAX_RETRIES,
+                retry_interval=_HTTP_RETRY_INTERVAL,
+                request_name="OAuth token refresh",
+                # OAuth refresh_token grants may rotate the refresh token on use;
+                # replaying a successful-but-response-lost POST would invalidate
+                # the local refresh_token. Fail fast on 5xx instead.
+                retry_on_5xx=False,
+                provider_name=self.PROVIDER_NAME,
+            )
+        except RuntimeError as e:
+            raise RuntimeError(
+                "{}: SSO OAuth token refresh failed; "
+                "please run 'bp sso login' to re-authenticate. "
+                "underlying error: {}".format(self.PROVIDER_NAME, e)
+            )
 
         try:
             resp_data = json.loads(resp_body)
         except ValueError as e:
             raise RuntimeError(
-                "{}: failed to parse OAuth token response: {}".format(
+                "{}: failed to parse OAuth token response: {}; "
+                "please run 'bp sso login' to re-authenticate.".format(
                     self.PROVIDER_NAME, e
                 )
             )
 
-        new_access_token = (resp_data.get("access_token") or "").strip()
-        if not new_access_token:
+        if not isinstance(resp_data, dict):
             raise RuntimeError(
-                "{}: OAuth token response did not contain access_token.".format(
+                "{}: OAuth token response is not a JSON object; "
+                "please run 'bp sso login' to re-authenticate.".format(
                     self.PROVIDER_NAME
                 )
             )
 
-        expires_in = resp_data.get("expires_in", 0)
+        raw_access_token = resp_data.get("access_token")
+        new_access_token = raw_access_token.strip() if isinstance(raw_access_token, six.string_types) else ""
+        if not new_access_token:
+            raise RuntimeError(
+                "{}: OAuth token response did not contain access_token; "
+                "please run 'bp sso login' to re-authenticate.".format(
+                    self.PROVIDER_NAME
+                )
+            )
+
+        try:
+            expires_in = int(resp_data.get("expires_in", 0))
+        except (TypeError, ValueError) as e:
+            raise RuntimeError(
+                "{}: OAuth token response has invalid expires_in: {}; "
+                "please run 'bp sso login' to re-authenticate.".format(
+                    self.PROVIDER_NAME, e
+                )
+            )
         if expires_in <= 0:
             raise RuntimeError(
-                "{}: OAuth token response did not contain valid expires_in.".format(
+                "{}: OAuth token response did not contain valid expires_in; "
+                "please run 'bp sso login' to re-authenticate.".format(
                     self.PROVIDER_NAME
                 )
             )
 
         token_cache["access_token"] = new_access_token
-        new_refresh = (resp_data.get("refresh_token") or "").strip()
+        raw_new_refresh = resp_data.get("refresh_token")
+        new_refresh = raw_new_refresh.strip() if isinstance(raw_new_refresh, six.string_types) else ""
         if new_refresh:
             token_cache["refresh_token"] = new_refresh
         token_cache["expires_at"] = time.strftime(
             "%Y-%m-%dT%H:%M:%SZ", time.gmtime(time.time() + expires_in)
         )
 
-        _write_json_file_atomic(token_path, token_cache)
-
+        # SDK never writes the SSO cache file; bp cli remains the single writer.
         return new_access_token
 
     def _fetch_role_credentials(self, access_token):
