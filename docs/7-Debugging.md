@@ -37,7 +37,27 @@ configuration.log_level = LogLevel.LOG_DEBUG_WITH_CONFIG.mask | LogLevel.LOG_DEB
 byteplussdkcore.Configuration.set_default(configuration)
 ```
 
-# Log Output
+#### Supported Log Levels
+
+| Constant | Parent level (logged together with parent) | Logged content |
+|---|---|---|
+| `LOG_DEBUG_WITH_REQUEST` | - | Request line and basic info: `HTTP method`, `URL (with query params)`, `headers` |
+| `LOG_DEBUG_WITH_REQUEST_BODY` | `LOG_DEBUG_WITH_REQUEST` | `Request body` |
+| `LOG_DEBUG_WITH_REQUEST_ID` | `LOG_DEBUG_WITH_REQUEST` | `RequestId` |
+| `LOG_DEBUG_WITH_RESPONSE` | `LOG_DEBUG_WITH_REQUEST` | `Response status code`, `response headers` |
+| `LOG_DEBUG_WITH_RESPONSE_BODY` | `LOG_DEBUG_WITH_RESPONSE` | `Response body` |
+| `LOG_DEBUG_WITH_SIGNING` | `LOG_DEBUG_WITH_REQUEST` | `Signing process` |
+| `LOG_DEBUG_WITH_ENDPOINT` | `LOG_DEBUG_WITH_REQUEST` | `Endpoint resolution` |
+| `LOG_DEBUG_WITH_REQUEST_RETRIES` | `LOG_DEBUG_WITH_REQUEST` | `Retry information` |
+| `LOG_DEBUG_WITH_CONFIG` | `LOG_DEBUG_WITH_REQUEST` | Key configuration info |
+| `LOG_DEBUG_ALL` | - | All of the above |
+
+### Log Output
+
+> **Default**
+>
+> - `logger_file` - `None` (logs to console by default; no file output)
+> - `logger_format` - `%(asctime)s %(levelname)s %(message)s`
 
 ```python
 import byteplussdkcore
