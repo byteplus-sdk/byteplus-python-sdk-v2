@@ -1,4 +1,4 @@
-[← Transport](3-Transport-zh.md) | 超时配置[(English)](4-Timeout.md) | [重试机制 →](5-Retry-zh.md)
+[← 代理配置](4-Proxy-zh.md) | 超时配置[(English)](5-Timeout.md) | [重试机制 →](6-Retry-zh.md)
 
 ---
 
@@ -11,12 +11,13 @@
 
 **代码示例：**
 
-支持`configuration`级别全局配置和接口级别的运行时参数设置`RuntimeOption`；`RuntimeOption`设置会覆盖`configuration`全局配置。
+支持 `configuration` 级别全局配置和接口级别的运行时参数设置 `RuntimeOption`；`RuntimeOption` 设置会覆盖 `configuration` 全局配置。
 
 ```python
 import byteplussdkcore,byteplussdkecs
 from byteplussdkcore.rest import ApiException
 from byteplussdkcore.interceptor import RuntimeOption
+
 # 全局配置
 configuration = byteplussdkcore.Configuration()
 configuration.ak = "Your ak"
@@ -47,4 +48,4 @@ except ApiException as e:
 
 ---
 
-[← Transport](3-Transport-zh.md) | 超时配置[(English)](4-Timeout.md) | [重试机制 →](5-Retry-zh.md)
+[← 代理配置](4-Proxy-zh.md) | 超时配置[(English)](5-Timeout.md) | [重试机制 →](6-Retry-zh.md)
