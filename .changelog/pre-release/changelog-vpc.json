@@ -1,0 +1,5 @@
+{
+  "description": "VPC: added DeleteIpam, DescribeIpamDiscoveredResourceCidrs, DescribeIpamPoolCidrs, DescribeIpamResourceCidrs, DescribeIpamScopeStats, DisassociateVpcUserCidrBlock, AssociateVpcUserCidrBlock, TagIpamResources, UntagIpamResources, DescribeIpamPoolAllocations, DescribeIpams, ModifyIpamResourceCidr, ProvisionIpamPoolCidr, ReleaseIpamPoolAllocation, CreateIpam, CreateIpamPool, DeleteIpamPool, DeprovisionIpamPoolCidr, ListTagsForIpamResources, DescribeEipAddressHighResolutionMonitorAttribute, DescribeIpamPools, DescribeIpamResourceDiscoveryAssociations, ModifyIpamResourceDiscovery, ModifyIpamScope, DescribeIpamCloudMonitorDimensions, DescribeIpamScopes, DisableEipAddressHighResolutionMonitor, EnableEipAddressHighResolutionMonitor, ModifyIpamPool, DeleteIpamScope, DescribeIpamResourceDiscoveries, CreateIpamScope, GetIpamPoolAvailableCidr, ModifyIpam；modified AttachNetworkInterface, CreateFlowLog, DescribeFlowLogs, ModifyFlowLogAttribute",
+  "modules": "service/vpc",
+  "type": "feature"
+}

@@ -135,6 +135,13 @@ default_endpoint = {
         region_endpoint_map={},
         fallback_endpoint=fallback_endpoint,
     ),
+    'cpaas': ServiceEndpointInfo(
+        service='cpaas',
+        is_global=True,
+        global_endpoint='',
+        region_endpoint_map={},
+        fallback_endpoint=fallback_endpoint,
+    ),
     'vepfs': ServiceEndpointInfo(
         service='vepfs',
         is_global=False,
@@ -152,6 +159,34 @@ default_endpoint = {
     'kickart': ServiceEndpointInfo(
         service='kickart',
         is_global=True,
+        global_endpoint='',
+        region_endpoint_map={},
+        fallback_endpoint=fallback_endpoint,
+    ),
+    'rds_mssql': ServiceEndpointInfo(
+        service='rds_mssql',
+        is_global=False,
+        global_endpoint='',
+        region_endpoint_map={},
+        fallback_endpoint=fallback_endpoint,
+    ),
+    'sts': ServiceEndpointInfo(
+        service='sts',
+        is_global=False,
+        global_endpoint='',
+        region_endpoint_map={},
+        fallback_endpoint=fallback_endpoint,
+    ),
+    'redis': ServiceEndpointInfo(
+        service='redis',
+        is_global=False,
+        global_endpoint='',
+        region_endpoint_map={},
+        fallback_endpoint=fallback_endpoint,
+    ),
+    'vmp': ServiceEndpointInfo(
+        service='vmp',
+        is_global=False,
         global_endpoint='',
         region_endpoint_map={},
         fallback_endpoint=fallback_endpoint,

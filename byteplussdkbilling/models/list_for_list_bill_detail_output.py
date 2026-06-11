@@ -42,6 +42,7 @@ class ListForListBillDetailOutput(object):
         'billing_mode': 'str',
         'busi_period': 'str',
         'business_mode': 'str',
+        'charge_item_code': 'str',
         'config_name': 'str',
         'configuration_code': 'str',
         'count': 'str',
@@ -84,12 +85,16 @@ class ListForListBillDetailOutput(object):
         'payer_customer_name': 'str',
         'payer_id': 'str',
         'payer_user_name': 'str',
+        'pickup_voucher_count_unit': 'str',
+        'pickup_voucher_deduct_count': 'str',
+        'pickup_voucher_id': 'str',
         'posttax_amount': 'str',
         'pre_tax_payable_amount': 'str',
         'preferential_bill_amount': 'str',
         'pretax_amount': 'str',
         'pretax_real_value': 'str',
         'price': 'str',
+        'price_factor': 'str',
         'price_interval': 'str',
         'price_unit': 'str',
         'product': 'str',
@@ -103,6 +108,7 @@ class ListForListBillDetailOutput(object):
         'resource_id': 'str',
         'round_amount': 'float',
         'saving_plan_deduction_discount_amount': 'str',
+        'saving_plan_deduction_discount_total_amount': 'str',
         'saving_plan_deduction_sp_id': 'str',
         'saving_plan_original_amount': 'str',
         'seller_customer_name': 'str',
@@ -141,6 +147,7 @@ class ListForListBillDetailOutput(object):
         'billing_mode': 'BillingMode',
         'busi_period': 'BusiPeriod',
         'business_mode': 'BusinessMode',
+        'charge_item_code': 'ChargeItemCode',
         'config_name': 'ConfigName',
         'configuration_code': 'ConfigurationCode',
         'count': 'Count',
@@ -183,12 +190,16 @@ class ListForListBillDetailOutput(object):
         'payer_customer_name': 'PayerCustomerName',
         'payer_id': 'PayerID',
         'payer_user_name': 'PayerUserName',
+        'pickup_voucher_count_unit': 'PickupVoucherCountUnit',
+        'pickup_voucher_deduct_count': 'PickupVoucherDeductCount',
+        'pickup_voucher_id': 'PickupVoucherID',
         'posttax_amount': 'PosttaxAmount',
         'pre_tax_payable_amount': 'PreTaxPayableAmount',
         'preferential_bill_amount': 'PreferentialBillAmount',
         'pretax_amount': 'PretaxAmount',
         'pretax_real_value': 'PretaxRealValue',
         'price': 'Price',
+        'price_factor': 'PriceFactor',
         'price_interval': 'PriceInterval',
         'price_unit': 'PriceUnit',
         'product': 'Product',
@@ -202,6 +213,7 @@ class ListForListBillDetailOutput(object):
         'resource_id': 'ResourceID',
         'round_amount': 'RoundAmount',
         'saving_plan_deduction_discount_amount': 'SavingPlanDeductionDiscountAmount',
+        'saving_plan_deduction_discount_total_amount': 'SavingPlanDeductionDiscountTotalAmount',
         'saving_plan_deduction_sp_id': 'SavingPlanDeductionSpID',
         'saving_plan_original_amount': 'SavingPlanOriginalAmount',
         'seller_customer_name': 'SellerCustomerName',
@@ -230,7 +242,7 @@ class ListForListBillDetailOutput(object):
         'zone_code': 'ZoneCode'
     }
 
-    def __init__(self, bill_category=None, bill_detail_id=None, bill_id=None, bill_period=None, billing_function=None, billing_method_code=None, billing_mode=None, busi_period=None, business_mode=None, config_name=None, configuration_code=None, count=None, country_region=None, coupon_amount=None, credit_carried_amount=None, currency=None, currency_settlement=None, deduction_count=None, deduction_use_duration=None, discount_bill_amount=None, discount_biz_billing_function=None, discount_biz_measure_interval=None, discount_biz_unit_price=None, discount_biz_unit_price_interval=None, discount_info=None, effective_factor=None, element=None, element_code=None, exchange_rate=None, expand_field=None, expense_begin_time=None, expense_date=None, expense_end_time=None, factor=None, factor_code=None, formula=None, instance_name=None, instance_no=None, main_contract_number=None, market_price=None, measure_interval=None, original_bill_amount=None, original_order_no=None, owner_customer_name=None, owner_id=None, owner_user_name=None, paid_amount=None, payable_amount=None, payer_customer_name=None, payer_id=None, payer_user_name=None, posttax_amount=None, pre_tax_payable_amount=None, preferential_bill_amount=None, pretax_amount=None, pretax_real_value=None, price=None, price_interval=None, price_unit=None, product=None, product_zh=None, project=None, project_display_name=None, real_value=None, region=None, region_code=None, reservation_instance=None, resource_id=None, round_amount=None, saving_plan_deduction_discount_amount=None, saving_plan_deduction_sp_id=None, saving_plan_original_amount=None, seller_customer_name=None, seller_id=None, seller_user_name=None, selling_mode=None, settle_payable_amount=None, settle_posttax_amount=None, settle_pre_tax_payable_amount=None, settle_pretax_amount=None, settle_pretax_real_value=None, settle_real_value=None, settle_tax=None, settlement_type=None, solution_zh=None, subject_name=None, tag=None, tax=None, tax_rate=None, trade_time=None, unit=None, unpaid_amount=None, use_duration=None, use_duration_unit=None, zone=None, zone_code=None, _configuration=None):  # noqa: E501
+    def __init__(self, bill_category=None, bill_detail_id=None, bill_id=None, bill_period=None, billing_function=None, billing_method_code=None, billing_mode=None, busi_period=None, business_mode=None, charge_item_code=None, config_name=None, configuration_code=None, count=None, country_region=None, coupon_amount=None, credit_carried_amount=None, currency=None, currency_settlement=None, deduction_count=None, deduction_use_duration=None, discount_bill_amount=None, discount_biz_billing_function=None, discount_biz_measure_interval=None, discount_biz_unit_price=None, discount_biz_unit_price_interval=None, discount_info=None, effective_factor=None, element=None, element_code=None, exchange_rate=None, expand_field=None, expense_begin_time=None, expense_date=None, expense_end_time=None, factor=None, factor_code=None, formula=None, instance_name=None, instance_no=None, main_contract_number=None, market_price=None, measure_interval=None, original_bill_amount=None, original_order_no=None, owner_customer_name=None, owner_id=None, owner_user_name=None, paid_amount=None, payable_amount=None, payer_customer_name=None, payer_id=None, payer_user_name=None, pickup_voucher_count_unit=None, pickup_voucher_deduct_count=None, pickup_voucher_id=None, posttax_amount=None, pre_tax_payable_amount=None, preferential_bill_amount=None, pretax_amount=None, pretax_real_value=None, price=None, price_factor=None, price_interval=None, price_unit=None, product=None, product_zh=None, project=None, project_display_name=None, real_value=None, region=None, region_code=None, reservation_instance=None, resource_id=None, round_amount=None, saving_plan_deduction_discount_amount=None, saving_plan_deduction_discount_total_amount=None, saving_plan_deduction_sp_id=None, saving_plan_original_amount=None, seller_customer_name=None, seller_id=None, seller_user_name=None, selling_mode=None, settle_payable_amount=None, settle_posttax_amount=None, settle_pre_tax_payable_amount=None, settle_pretax_amount=None, settle_pretax_real_value=None, settle_real_value=None, settle_tax=None, settlement_type=None, solution_zh=None, subject_name=None, tag=None, tax=None, tax_rate=None, trade_time=None, unit=None, unpaid_amount=None, use_duration=None, use_duration_unit=None, zone=None, zone_code=None, _configuration=None):  # noqa: E501
         """ListForListBillDetailOutput - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
@@ -245,6 +257,7 @@ class ListForListBillDetailOutput(object):
         self._billing_mode = None
         self._busi_period = None
         self._business_mode = None
+        self._charge_item_code = None
         self._config_name = None
         self._configuration_code = None
         self._count = None
@@ -287,12 +300,16 @@ class ListForListBillDetailOutput(object):
         self._payer_customer_name = None
         self._payer_id = None
         self._payer_user_name = None
+        self._pickup_voucher_count_unit = None
+        self._pickup_voucher_deduct_count = None
+        self._pickup_voucher_id = None
         self._posttax_amount = None
         self._pre_tax_payable_amount = None
         self._preferential_bill_amount = None
         self._pretax_amount = None
         self._pretax_real_value = None
         self._price = None
+        self._price_factor = None
         self._price_interval = None
         self._price_unit = None
         self._product = None
@@ -306,6 +323,7 @@ class ListForListBillDetailOutput(object):
         self._resource_id = None
         self._round_amount = None
         self._saving_plan_deduction_discount_amount = None
+        self._saving_plan_deduction_discount_total_amount = None
         self._saving_plan_deduction_sp_id = None
         self._saving_plan_original_amount = None
         self._seller_customer_name = None
@@ -352,6 +370,8 @@ class ListForListBillDetailOutput(object):
             self.busi_period = busi_period
         if business_mode is not None:
             self.business_mode = business_mode
+        if charge_item_code is not None:
+            self.charge_item_code = charge_item_code
         if config_name is not None:
             self.config_name = config_name
         if configuration_code is not None:
@@ -436,6 +456,12 @@ class ListForListBillDetailOutput(object):
             self.payer_id = payer_id
         if payer_user_name is not None:
             self.payer_user_name = payer_user_name
+        if pickup_voucher_count_unit is not None:
+            self.pickup_voucher_count_unit = pickup_voucher_count_unit
+        if pickup_voucher_deduct_count is not None:
+            self.pickup_voucher_deduct_count = pickup_voucher_deduct_count
+        if pickup_voucher_id is not None:
+            self.pickup_voucher_id = pickup_voucher_id
         if posttax_amount is not None:
             self.posttax_amount = posttax_amount
         if pre_tax_payable_amount is not None:
@@ -448,6 +474,8 @@ class ListForListBillDetailOutput(object):
             self.pretax_real_value = pretax_real_value
         if price is not None:
             self.price = price
+        if price_factor is not None:
+            self.price_factor = price_factor
         if price_interval is not None:
             self.price_interval = price_interval
         if price_unit is not None:
@@ -474,6 +502,8 @@ class ListForListBillDetailOutput(object):
             self.round_amount = round_amount
         if saving_plan_deduction_discount_amount is not None:
             self.saving_plan_deduction_discount_amount = saving_plan_deduction_discount_amount
+        if saving_plan_deduction_discount_total_amount is not None:
+            self.saving_plan_deduction_discount_total_amount = saving_plan_deduction_discount_total_amount
         if saving_plan_deduction_sp_id is not None:
             self.saving_plan_deduction_sp_id = saving_plan_deduction_sp_id
         if saving_plan_original_amount is not None:
@@ -715,6 +745,27 @@ class ListForListBillDetailOutput(object):
         """
 
         self._business_mode = business_mode
+
+    @property
+    def charge_item_code(self):
+        """Gets the charge_item_code of this ListForListBillDetailOutput.  # noqa: E501
+
+
+        :return: The charge_item_code of this ListForListBillDetailOutput.  # noqa: E501
+        :rtype: str
+        """
+        return self._charge_item_code
+
+    @charge_item_code.setter
+    def charge_item_code(self, charge_item_code):
+        """Sets the charge_item_code of this ListForListBillDetailOutput.
+
+
+        :param charge_item_code: The charge_item_code of this ListForListBillDetailOutput.  # noqa: E501
+        :type: str
+        """
+
+        self._charge_item_code = charge_item_code
 
     @property
     def config_name(self):
@@ -1599,6 +1650,69 @@ class ListForListBillDetailOutput(object):
         self._payer_user_name = payer_user_name
 
     @property
+    def pickup_voucher_count_unit(self):
+        """Gets the pickup_voucher_count_unit of this ListForListBillDetailOutput.  # noqa: E501
+
+
+        :return: The pickup_voucher_count_unit of this ListForListBillDetailOutput.  # noqa: E501
+        :rtype: str
+        """
+        return self._pickup_voucher_count_unit
+
+    @pickup_voucher_count_unit.setter
+    def pickup_voucher_count_unit(self, pickup_voucher_count_unit):
+        """Sets the pickup_voucher_count_unit of this ListForListBillDetailOutput.
+
+
+        :param pickup_voucher_count_unit: The pickup_voucher_count_unit of this ListForListBillDetailOutput.  # noqa: E501
+        :type: str
+        """
+
+        self._pickup_voucher_count_unit = pickup_voucher_count_unit
+
+    @property
+    def pickup_voucher_deduct_count(self):
+        """Gets the pickup_voucher_deduct_count of this ListForListBillDetailOutput.  # noqa: E501
+
+
+        :return: The pickup_voucher_deduct_count of this ListForListBillDetailOutput.  # noqa: E501
+        :rtype: str
+        """
+        return self._pickup_voucher_deduct_count
+
+    @pickup_voucher_deduct_count.setter
+    def pickup_voucher_deduct_count(self, pickup_voucher_deduct_count):
+        """Sets the pickup_voucher_deduct_count of this ListForListBillDetailOutput.
+
+
+        :param pickup_voucher_deduct_count: The pickup_voucher_deduct_count of this ListForListBillDetailOutput.  # noqa: E501
+        :type: str
+        """
+
+        self._pickup_voucher_deduct_count = pickup_voucher_deduct_count
+
+    @property
+    def pickup_voucher_id(self):
+        """Gets the pickup_voucher_id of this ListForListBillDetailOutput.  # noqa: E501
+
+
+        :return: The pickup_voucher_id of this ListForListBillDetailOutput.  # noqa: E501
+        :rtype: str
+        """
+        return self._pickup_voucher_id
+
+    @pickup_voucher_id.setter
+    def pickup_voucher_id(self, pickup_voucher_id):
+        """Sets the pickup_voucher_id of this ListForListBillDetailOutput.
+
+
+        :param pickup_voucher_id: The pickup_voucher_id of this ListForListBillDetailOutput.  # noqa: E501
+        :type: str
+        """
+
+        self._pickup_voucher_id = pickup_voucher_id
+
+    @property
     def posttax_amount(self):
         """Gets the posttax_amount of this ListForListBillDetailOutput.  # noqa: E501
 
@@ -1723,6 +1837,27 @@ class ListForListBillDetailOutput(object):
         """
 
         self._price = price
+
+    @property
+    def price_factor(self):
+        """Gets the price_factor of this ListForListBillDetailOutput.  # noqa: E501
+
+
+        :return: The price_factor of this ListForListBillDetailOutput.  # noqa: E501
+        :rtype: str
+        """
+        return self._price_factor
+
+    @price_factor.setter
+    def price_factor(self, price_factor):
+        """Sets the price_factor of this ListForListBillDetailOutput.
+
+
+        :param price_factor: The price_factor of this ListForListBillDetailOutput.  # noqa: E501
+        :type: str
+        """
+
+        self._price_factor = price_factor
 
     @property
     def price_interval(self):
@@ -1996,6 +2131,27 @@ class ListForListBillDetailOutput(object):
         """
 
         self._saving_plan_deduction_discount_amount = saving_plan_deduction_discount_amount
+
+    @property
+    def saving_plan_deduction_discount_total_amount(self):
+        """Gets the saving_plan_deduction_discount_total_amount of this ListForListBillDetailOutput.  # noqa: E501
+
+
+        :return: The saving_plan_deduction_discount_total_amount of this ListForListBillDetailOutput.  # noqa: E501
+        :rtype: str
+        """
+        return self._saving_plan_deduction_discount_total_amount
+
+    @saving_plan_deduction_discount_total_amount.setter
+    def saving_plan_deduction_discount_total_amount(self, saving_plan_deduction_discount_total_amount):
+        """Sets the saving_plan_deduction_discount_total_amount of this ListForListBillDetailOutput.
+
+
+        :param saving_plan_deduction_discount_total_amount: The saving_plan_deduction_discount_total_amount of this ListForListBillDetailOutput.  # noqa: E501
+        :type: str
+        """
+
+        self._saving_plan_deduction_discount_total_amount = saving_plan_deduction_discount_total_amount
 
     @property
     def saving_plan_deduction_sp_id(self):

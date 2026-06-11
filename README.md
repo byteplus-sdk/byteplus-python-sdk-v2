@@ -100,10 +100,13 @@ When calling APIs, it is recommended to integrate the SDK in your project. Using
 
 1. [Credentials](docs/1-Credentials.md) — AK/SK, STS, AssumeRole, OIDC, SAML, ECS Role, Default Chain
 2. [Endpoint Configuration](docs/2-Endpoint.md) — Custom Endpoint, RegionId, Automatic Resolution
-3. [Transport](docs/3-Transport.md) — HTTP Connection Pool, HTTPS Scheme, SSL Verification
-4. [Proxy](docs/4-Proxy.md) — HTTP(S) Proxy Configuration
-5. [Timeout](docs/5-Timeout.md) — Request Timeout Configuration
-6. [Retry](docs/6-Retry.md) — Retry Strategy, Backoff Strategy
-7. [Error Handling](docs/7-ErrorHandling.md) — Exception Handling
-8. [Debugging](docs/8-Debugging.md) — Debug Mode, Log Output
-9. [Environment Variables](docs/EnvironmentVariables.md) — Environment Variable Configuration
+3. [Transport](docs/3-Transport.md) — HTTP Connection Pool, HTTPS Scheme, SSL Verification, HTTP(S) Proxy
+4. [Timeout](docs/4-Timeout.md) — Request Timeout Configuration
+5. [Retry](docs/5-Retry.md) — Retry Strategy, Backoff Strategy
+6. [Error Handling](docs/6-ErrorHandling.md) — Exception Handling
+7. [Debugging](docs/7-Debugging.md) — Debug Mode, Log Output
+8. [Environment Variables](docs/EnvironmentVariables.md) — Environment Variable Configuration
+
+## Security and privacy
+This project takes security seriously.
+For vulnerability reporting and supported versions, see [SECURITY.md](SECURITY.md)
