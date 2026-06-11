@@ -106,3 +106,7 @@ When calling APIs, it is recommended to integrate the SDK in your project. Using
 6. [Error Handling](docs/6-ErrorHandling.md) — Exception Handling
 7. [Debugging](docs/7-Debugging.md) — Debug Mode, Log Output
 8. [Environment Variables](docs/EnvironmentVariables.md) — Environment Variable Configuration
+
+## Security and privacy
+This project takes security seriously.
+For vulnerability reporting and supported versions, see [SECURITY.md](SECURITY.md)

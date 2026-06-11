@@ -38,6 +38,7 @@ def SetServiceDev(IsDev :bool):
         Service = ServiceCodeOnline
 
 def GetServiceCode():
+    global Service
     return Service
 
 def norm_query(params):
