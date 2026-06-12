@@ -167,6 +167,7 @@ ServiceInfos = {
     "smc": ServiceInfo("smc", True),
     "cpaas": ServiceInfo("cpaas", True),
     "kickart": ServiceInfo("kickart", True),
+    "vs": ServiceInfo("vs", True),
 }
 
 
