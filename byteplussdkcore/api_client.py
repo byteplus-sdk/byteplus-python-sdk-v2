@@ -505,7 +505,8 @@ class ApiClient(object):
             collection_formats={},
         )
 
-    def _do_http_request(self, url, method="GET", data=None, headers=None, timeout=None,
+    def _do_http_request(self, url, method="GET", data=None, post_params=None,
+                         headers=None, timeout=None,
                          max_retries=1, retry_interval=0, request_name=None,
                          retry_on_5xx=True, provider_name="ApiClient"):
         """Invoke an arbitrary HTTP(S) endpoint through the SDK's RESTClient.
@@ -529,6 +530,7 @@ class ApiClient(object):
           url: Fully-qualified request URL.
           method: HTTP method.
           data: Request body.
+          post_params: Form fields for application/x-www-form-urlencoded or multipart/form-data.
           headers: Request headers dict.
           timeout: Total request timeout (seconds).
           max_retries: Total number of attempts (including the first).
@@ -560,6 +562,7 @@ class ApiClient(object):
                     method=method,
                     url=url,
                     body=data,
+                    post_params=post_params,
                     headers=headers,
                     _request_timeout=timeout,
                 )
