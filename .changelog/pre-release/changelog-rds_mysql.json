@@ -1,0 +1,5 @@
+{
+  "description": "RDS_MYSQL: added ModifyBackupName；modified RestoreToNewInstance, DeleteDBInstance, DescribeAvailabilityZones, ModifyDBInstanceParameters, ModifyDBInstanceType, CreateDBInstance, CreateDrDBInstance, ModifyCrossBackupPolicy, ModifyDBEndpoint, ModifyDBEndpointConnectionMode, RestoreToCrossRegionInstance, ModifyBackupName, CreateBackup, CreateDBEndpoint, DescribeAllowLists, SaveAsParameterTemplate, DescribeDBInstanceParametersLog, ModifyBackupPolicy, UpgradeDBInstanceEngineMinorVersion, ModifyDBProxy, SwitchDBBlueGreen, CreateDBBlueGreenInstance, DescribeDBInstanceParameters",
+  "modules": "service/rds_mysql",
+  "type": "breaking-change"
+}
