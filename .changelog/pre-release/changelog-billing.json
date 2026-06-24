@@ -1,0 +1,5 @@
+{
+  "description": "BILLING: modified GetDropShippingOrder",
+  "modules": "service/billing",
+  "type": "breaking-change"
+}
