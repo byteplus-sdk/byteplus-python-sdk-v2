@@ -1,0 +1,5 @@
+{
+  "description": "VS: added CreateVoiceTask",
+  "modules": "service/vs",
+  "type": "feature"
+}
