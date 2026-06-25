@@ -1,5 +1,0 @@
-{
-  "description": "STS: chore changes",
-  "modules": "service/sts",
-  "type": "bugfix"
-}

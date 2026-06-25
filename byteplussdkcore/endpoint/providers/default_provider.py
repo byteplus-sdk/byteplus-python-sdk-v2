@@ -198,6 +198,27 @@ default_endpoint = {
         region_endpoint_map={},
         fallback_endpoint=fallback_endpoint,
     ),
+    'resourcecenter': ServiceEndpointInfo(
+        service='resourcecenter',
+        is_global=True,
+        global_endpoint='',
+        region_endpoint_map={},
+        fallback_endpoint=fallback_endpoint,
+    ),
+    'rds_mysql': ServiceEndpointInfo(
+        service='rds_mysql',
+        is_global=False,
+        global_endpoint='',
+        region_endpoint_map={},
+        fallback_endpoint=fallback_endpoint,
+    ),
+    'privatelink': ServiceEndpointInfo(
+        service='privatelink',
+        is_global=False,
+        global_endpoint='',
+        region_endpoint_map={},
+        fallback_endpoint=fallback_endpoint,
+    ),
 }
 
 
