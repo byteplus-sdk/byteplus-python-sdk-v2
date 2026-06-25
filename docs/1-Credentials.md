@@ -375,10 +375,6 @@ writes any local file. Key invariants:
 
 ### ECS Role Credential Provider
 
-> 🚨 **Current version limitation**
->
-> **Auto-detection of the role name from IMDS is not yet supported in the current release.** You must pass the role name explicitly via the constructor argument or the `BYTEPLUS_ECS_METADATA` environment variable. Auto-detection will be supported in a future version — please watch the release notes.
-
 `EcsRoleCredentialProvider` reads temporary credentials from ECS IMDS.
 
 - `role_name` priority: constructor arg > `BYTEPLUS_ECS_METADATA` > auto-detect from IMDS
@@ -390,6 +386,7 @@ from byteplussdkcore.auth.providers.ecs_role_provider import EcsRoleCredentialPr
 
 configuration = byteplussdkcore.Configuration()
 configuration.region = "ap-southeast-1"
+# Omit role_name to read BYTEPLUS_ECS_METADATA or auto-detect the role name from IMDS.
 configuration.credential_provider = EcsRoleCredentialProvider(role_name="your-ecs-role-name")
 byteplussdkcore.Configuration.set_default(configuration)
 ```
