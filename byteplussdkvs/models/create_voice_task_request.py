@@ -36,7 +36,7 @@ class CreateVoiceTaskRequest(object):
         'display_num': 'str',
         'max_hang_up_time': 'int',
         'max_ring_time': 'int',
-        'number_info_list': 'NumberInfoListForCreateVoiceTaskInput',
+        'number_info_list': 'list[NumberInfoListForCreateVoiceTaskInput]',
         'repeating_count': 'int',
         'send_time': 'str',
         'service_code': 'str',
@@ -169,7 +169,7 @@ class CreateVoiceTaskRequest(object):
 
 
         :return: The number_info_list of this CreateVoiceTaskRequest.  # noqa: E501
-        :rtype: NumberInfoListForCreateVoiceTaskInput
+        :rtype: list[NumberInfoListForCreateVoiceTaskInput]
         """
         return self._number_info_list
 
@@ -179,7 +179,7 @@ class CreateVoiceTaskRequest(object):
 
 
         :param number_info_list: The number_info_list of this CreateVoiceTaskRequest.  # noqa: E501
-        :type: NumberInfoListForCreateVoiceTaskInput
+        :type: list[NumberInfoListForCreateVoiceTaskInput]
         """
 
         self._number_info_list = number_info_list
