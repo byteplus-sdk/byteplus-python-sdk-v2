@@ -1,0 +1,5 @@
+{
+  "description": "CEN: added Describe95Traffic",
+  "modules": "service/cen",
+  "type": "feature"
+}
