@@ -1,0 +1,5 @@
+{
+  "description": "TRANSITROUTER: added Describe95Traffic；modified DescribeTransitRouterMulticastDomains, DescribeTransitRouterVpnAttachments",
+  "modules": "service/transitrouter",
+  "type": "breaking-change"
+}

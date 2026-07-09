@@ -219,6 +219,13 @@ default_endpoint = {
         region_endpoint_map={},
         fallback_endpoint=fallback_endpoint,
     ),
+    'transitrouter': ServiceEndpointInfo(
+        service='transitrouter',
+        is_global=False,
+        global_endpoint='',
+        region_endpoint_map={},
+        fallback_endpoint=fallback_endpoint,
+    ),
 }
 
 
