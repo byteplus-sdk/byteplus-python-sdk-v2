@@ -168,6 +168,7 @@ ServiceInfos = {
     "cpaas": ServiceInfo("cpaas", True),
     "kickart": ServiceInfo("kickart", True),
     "vs": ServiceInfo("vs", True),
+    "clawsentry": ServiceInfo("clawsentry", False),
 }
 
 
