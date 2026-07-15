@@ -35,16 +35,22 @@ class TemplateStatusForListTemplateV2Output(object):
     swagger_types = {
         'audit_status': 'str',
         'reason': 'str',
+        'service_name': 'str',
+        'service_no': 'str',
+        'subaccount_id': 'str',
         'template_type': 'str'
     }
 
     attribute_map = {
         'audit_status': 'AuditStatus',
         'reason': 'Reason',
+        'service_name': 'ServiceName',
+        'service_no': 'ServiceNo',
+        'subaccount_id': 'SubaccountId',
         'template_type': 'TemplateType'
     }
 
-    def __init__(self, audit_status=None, reason=None, template_type=None, _configuration=None):  # noqa: E501
+    def __init__(self, audit_status=None, reason=None, service_name=None, service_no=None, subaccount_id=None, template_type=None, _configuration=None):  # noqa: E501
         """TemplateStatusForListTemplateV2Output - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
@@ -52,6 +58,9 @@ class TemplateStatusForListTemplateV2Output(object):
 
         self._audit_status = None
         self._reason = None
+        self._service_name = None
+        self._service_no = None
+        self._subaccount_id = None
         self._template_type = None
         self.discriminator = None
 
@@ -59,6 +68,12 @@ class TemplateStatusForListTemplateV2Output(object):
             self.audit_status = audit_status
         if reason is not None:
             self.reason = reason
+        if service_name is not None:
+            self.service_name = service_name
+        if service_no is not None:
+            self.service_no = service_no
+        if subaccount_id is not None:
+            self.subaccount_id = subaccount_id
         if template_type is not None:
             self.template_type = template_type
 
@@ -103,6 +118,69 @@ class TemplateStatusForListTemplateV2Output(object):
         """
 
         self._reason = reason
+
+    @property
+    def service_name(self):
+        """Gets the service_name of this TemplateStatusForListTemplateV2Output.  # noqa: E501
+
+
+        :return: The service_name of this TemplateStatusForListTemplateV2Output.  # noqa: E501
+        :rtype: str
+        """
+        return self._service_name
+
+    @service_name.setter
+    def service_name(self, service_name):
+        """Sets the service_name of this TemplateStatusForListTemplateV2Output.
+
+
+        :param service_name: The service_name of this TemplateStatusForListTemplateV2Output.  # noqa: E501
+        :type: str
+        """
+
+        self._service_name = service_name
+
+    @property
+    def service_no(self):
+        """Gets the service_no of this TemplateStatusForListTemplateV2Output.  # noqa: E501
+
+
+        :return: The service_no of this TemplateStatusForListTemplateV2Output.  # noqa: E501
+        :rtype: str
+        """
+        return self._service_no
+
+    @service_no.setter
+    def service_no(self, service_no):
+        """Sets the service_no of this TemplateStatusForListTemplateV2Output.
+
+
+        :param service_no: The service_no of this TemplateStatusForListTemplateV2Output.  # noqa: E501
+        :type: str
+        """
+
+        self._service_no = service_no
+
+    @property
+    def subaccount_id(self):
+        """Gets the subaccount_id of this TemplateStatusForListTemplateV2Output.  # noqa: E501
+
+
+        :return: The subaccount_id of this TemplateStatusForListTemplateV2Output.  # noqa: E501
+        :rtype: str
+        """
+        return self._subaccount_id
+
+    @subaccount_id.setter
+    def subaccount_id(self, subaccount_id):
+        """Sets the subaccount_id of this TemplateStatusForListTemplateV2Output.
+
+
+        :param subaccount_id: The subaccount_id of this TemplateStatusForListTemplateV2Output.  # noqa: E501
+        :type: str
+        """
+
+        self._subaccount_id = subaccount_id
 
     @property
     def template_type(self):

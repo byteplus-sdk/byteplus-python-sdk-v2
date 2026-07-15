@@ -37,6 +37,7 @@ class VariablesDTOListForGetTemplateV2Output(object):
         'format': 'str',
         'unique_variable_code': 'str',
         'variable_code': 'str',
+        'variable_length': 'int',
         'variable_name': 'str'
     }
 
@@ -45,10 +46,11 @@ class VariablesDTOListForGetTemplateV2Output(object):
         'format': 'Format',
         'unique_variable_code': 'UniqueVariableCode',
         'variable_code': 'VariableCode',
+        'variable_length': 'VariableLength',
         'variable_name': 'VariableName'
     }
 
-    def __init__(self, default_value=None, format=None, unique_variable_code=None, variable_code=None, variable_name=None, _configuration=None):  # noqa: E501
+    def __init__(self, default_value=None, format=None, unique_variable_code=None, variable_code=None, variable_length=None, variable_name=None, _configuration=None):  # noqa: E501
         """VariablesDTOListForGetTemplateV2Output - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
@@ -58,6 +60,7 @@ class VariablesDTOListForGetTemplateV2Output(object):
         self._format = None
         self._unique_variable_code = None
         self._variable_code = None
+        self._variable_length = None
         self._variable_name = None
         self.discriminator = None
 
@@ -69,6 +72,8 @@ class VariablesDTOListForGetTemplateV2Output(object):
             self.unique_variable_code = unique_variable_code
         if variable_code is not None:
             self.variable_code = variable_code
+        if variable_length is not None:
+            self.variable_length = variable_length
         if variable_name is not None:
             self.variable_name = variable_name
 
@@ -155,6 +160,27 @@ class VariablesDTOListForGetTemplateV2Output(object):
         """
 
         self._variable_code = variable_code
+
+    @property
+    def variable_length(self):
+        """Gets the variable_length of this VariablesDTOListForGetTemplateV2Output.  # noqa: E501
+
+
+        :return: The variable_length of this VariablesDTOListForGetTemplateV2Output.  # noqa: E501
+        :rtype: int
+        """
+        return self._variable_length
+
+    @variable_length.setter
+    def variable_length(self, variable_length):
+        """Sets the variable_length of this VariablesDTOListForGetTemplateV2Output.
+
+
+        :param variable_length: The variable_length of this VariablesDTOListForGetTemplateV2Output.  # noqa: E501
+        :type: int
+        """
+
+        self._variable_length = variable_length
 
     @property
     def variable_name(self):

@@ -34,7 +34,10 @@ class ExtendAttrsForCreateTemplateV2Input(object):
     """
     swagger_types = {
         'coupon_code': 'str',
+        'create_from': 'str',
         'phone_number': 'str',
+        'phone_type': 'str',
+        'terminal_open_type': 'str',
         'variable': 'str',
         'website_url': 'str',
         'website_url_type': 'str'
@@ -42,20 +45,26 @@ class ExtendAttrsForCreateTemplateV2Input(object):
 
     attribute_map = {
         'coupon_code': 'CouponCode',
+        'create_from': 'CreateFrom',
         'phone_number': 'PhoneNumber',
+        'phone_type': 'PhoneType',
+        'terminal_open_type': 'TerminalOpenType',
         'variable': 'Variable',
         'website_url': 'WebsiteUrl',
         'website_url_type': 'WebsiteUrlType'
     }
 
-    def __init__(self, coupon_code=None, phone_number=None, variable=None, website_url=None, website_url_type=None, _configuration=None):  # noqa: E501
+    def __init__(self, coupon_code=None, create_from=None, phone_number=None, phone_type=None, terminal_open_type=None, variable=None, website_url=None, website_url_type=None, _configuration=None):  # noqa: E501
         """ExtendAttrsForCreateTemplateV2Input - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
         self._configuration = _configuration
 
         self._coupon_code = None
+        self._create_from = None
         self._phone_number = None
+        self._phone_type = None
+        self._terminal_open_type = None
         self._variable = None
         self._website_url = None
         self._website_url_type = None
@@ -63,8 +72,14 @@ class ExtendAttrsForCreateTemplateV2Input(object):
 
         if coupon_code is not None:
             self.coupon_code = coupon_code
+        if create_from is not None:
+            self.create_from = create_from
         if phone_number is not None:
             self.phone_number = phone_number
+        if phone_type is not None:
+            self.phone_type = phone_type
+        if terminal_open_type is not None:
+            self.terminal_open_type = terminal_open_type
         if variable is not None:
             self.variable = variable
         if website_url is not None:
@@ -94,6 +109,27 @@ class ExtendAttrsForCreateTemplateV2Input(object):
         self._coupon_code = coupon_code
 
     @property
+    def create_from(self):
+        """Gets the create_from of this ExtendAttrsForCreateTemplateV2Input.  # noqa: E501
+
+
+        :return: The create_from of this ExtendAttrsForCreateTemplateV2Input.  # noqa: E501
+        :rtype: str
+        """
+        return self._create_from
+
+    @create_from.setter
+    def create_from(self, create_from):
+        """Sets the create_from of this ExtendAttrsForCreateTemplateV2Input.
+
+
+        :param create_from: The create_from of this ExtendAttrsForCreateTemplateV2Input.  # noqa: E501
+        :type: str
+        """
+
+        self._create_from = create_from
+
+    @property
     def phone_number(self):
         """Gets the phone_number of this ExtendAttrsForCreateTemplateV2Input.  # noqa: E501
 
@@ -113,6 +149,48 @@ class ExtendAttrsForCreateTemplateV2Input(object):
         """
 
         self._phone_number = phone_number
+
+    @property
+    def phone_type(self):
+        """Gets the phone_type of this ExtendAttrsForCreateTemplateV2Input.  # noqa: E501
+
+
+        :return: The phone_type of this ExtendAttrsForCreateTemplateV2Input.  # noqa: E501
+        :rtype: str
+        """
+        return self._phone_type
+
+    @phone_type.setter
+    def phone_type(self, phone_type):
+        """Sets the phone_type of this ExtendAttrsForCreateTemplateV2Input.
+
+
+        :param phone_type: The phone_type of this ExtendAttrsForCreateTemplateV2Input.  # noqa: E501
+        :type: str
+        """
+
+        self._phone_type = phone_type
+
+    @property
+    def terminal_open_type(self):
+        """Gets the terminal_open_type of this ExtendAttrsForCreateTemplateV2Input.  # noqa: E501
+
+
+        :return: The terminal_open_type of this ExtendAttrsForCreateTemplateV2Input.  # noqa: E501
+        :rtype: str
+        """
+        return self._terminal_open_type
+
+    @terminal_open_type.setter
+    def terminal_open_type(self, terminal_open_type):
+        """Sets the terminal_open_type of this ExtendAttrsForCreateTemplateV2Input.
+
+
+        :param terminal_open_type: The terminal_open_type of this ExtendAttrsForCreateTemplateV2Input.  # noqa: E501
+        :type: str
+        """
+
+        self._terminal_open_type = terminal_open_type
 
     @property
     def variable(self):

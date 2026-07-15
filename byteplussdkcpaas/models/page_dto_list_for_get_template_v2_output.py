@@ -35,16 +35,18 @@ class PageDTOListForGetTemplateV2Output(object):
     swagger_types = {
         'page_element_dto_list': 'list[PageElementDTOListForGetTemplateV2Output]',
         'page_link_list': 'list[PageLinkListForGetTemplateV2Output]',
-        'page_name': 'str'
+        'page_name': 'str',
+        'page_type': 'str'
     }
 
     attribute_map = {
         'page_element_dto_list': 'PageElementDTOList',
         'page_link_list': 'PageLinkList',
-        'page_name': 'PageName'
+        'page_name': 'PageName',
+        'page_type': 'PageType'
     }
 
-    def __init__(self, page_element_dto_list=None, page_link_list=None, page_name=None, _configuration=None):  # noqa: E501
+    def __init__(self, page_element_dto_list=None, page_link_list=None, page_name=None, page_type=None, _configuration=None):  # noqa: E501
         """PageDTOListForGetTemplateV2Output - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
@@ -53,6 +55,7 @@ class PageDTOListForGetTemplateV2Output(object):
         self._page_element_dto_list = None
         self._page_link_list = None
         self._page_name = None
+        self._page_type = None
         self.discriminator = None
 
         if page_element_dto_list is not None:
@@ -61,6 +64,8 @@ class PageDTOListForGetTemplateV2Output(object):
             self.page_link_list = page_link_list
         if page_name is not None:
             self.page_name = page_name
+        if page_type is not None:
+            self.page_type = page_type
 
     @property
     def page_element_dto_list(self):
@@ -124,6 +129,27 @@ class PageDTOListForGetTemplateV2Output(object):
         """
 
         self._page_name = page_name
+
+    @property
+    def page_type(self):
+        """Gets the page_type of this PageDTOListForGetTemplateV2Output.  # noqa: E501
+
+
+        :return: The page_type of this PageDTOListForGetTemplateV2Output.  # noqa: E501
+        :rtype: str
+        """
+        return self._page_type
+
+    @page_type.setter
+    def page_type(self, page_type):
+        """Sets the page_type of this PageDTOListForGetTemplateV2Output.
+
+
+        :param page_type: The page_type of this PageDTOListForGetTemplateV2Output.  # noqa: E501
+        :type: str
+        """
+
+        self._page_type = page_type
 
     def to_dict(self):
         """Returns the model properties as a dict"""

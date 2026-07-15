@@ -34,6 +34,9 @@ class DataForGetTemplateV2Output(object):
     """
     swagger_types = {
         'business_type': 'str',
+        'enabled_short_url': 'str',
+        'gmt_create': 'int',
+        'gmt_modifier': 'int',
         'language_code': 'str',
         'language_name': 'str',
         'scene_template_code': 'str',
@@ -43,6 +46,9 @@ class DataForGetTemplateV2Output(object):
 
     attribute_map = {
         'business_type': 'BusinessType',
+        'enabled_short_url': 'EnabledShortUrl',
+        'gmt_create': 'GmtCreate',
+        'gmt_modifier': 'GmtModifier',
         'language_code': 'LanguageCode',
         'language_name': 'LanguageName',
         'scene_template_code': 'SceneTemplateCode',
@@ -50,13 +56,16 @@ class DataForGetTemplateV2Output(object):
         'template_list': 'TemplateList'
     }
 
-    def __init__(self, business_type=None, language_code=None, language_name=None, scene_template_code=None, scene_template_name=None, template_list=None, _configuration=None):  # noqa: E501
+    def __init__(self, business_type=None, enabled_short_url=None, gmt_create=None, gmt_modifier=None, language_code=None, language_name=None, scene_template_code=None, scene_template_name=None, template_list=None, _configuration=None):  # noqa: E501
         """DataForGetTemplateV2Output - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
         self._configuration = _configuration
 
         self._business_type = None
+        self._enabled_short_url = None
+        self._gmt_create = None
+        self._gmt_modifier = None
         self._language_code = None
         self._language_name = None
         self._scene_template_code = None
@@ -66,6 +75,12 @@ class DataForGetTemplateV2Output(object):
 
         if business_type is not None:
             self.business_type = business_type
+        if enabled_short_url is not None:
+            self.enabled_short_url = enabled_short_url
+        if gmt_create is not None:
+            self.gmt_create = gmt_create
+        if gmt_modifier is not None:
+            self.gmt_modifier = gmt_modifier
         if language_code is not None:
             self.language_code = language_code
         if language_name is not None:
@@ -97,6 +112,69 @@ class DataForGetTemplateV2Output(object):
         """
 
         self._business_type = business_type
+
+    @property
+    def enabled_short_url(self):
+        """Gets the enabled_short_url of this DataForGetTemplateV2Output.  # noqa: E501
+
+
+        :return: The enabled_short_url of this DataForGetTemplateV2Output.  # noqa: E501
+        :rtype: str
+        """
+        return self._enabled_short_url
+
+    @enabled_short_url.setter
+    def enabled_short_url(self, enabled_short_url):
+        """Sets the enabled_short_url of this DataForGetTemplateV2Output.
+
+
+        :param enabled_short_url: The enabled_short_url of this DataForGetTemplateV2Output.  # noqa: E501
+        :type: str
+        """
+
+        self._enabled_short_url = enabled_short_url
+
+    @property
+    def gmt_create(self):
+        """Gets the gmt_create of this DataForGetTemplateV2Output.  # noqa: E501
+
+
+        :return: The gmt_create of this DataForGetTemplateV2Output.  # noqa: E501
+        :rtype: int
+        """
+        return self._gmt_create
+
+    @gmt_create.setter
+    def gmt_create(self, gmt_create):
+        """Sets the gmt_create of this DataForGetTemplateV2Output.
+
+
+        :param gmt_create: The gmt_create of this DataForGetTemplateV2Output.  # noqa: E501
+        :type: int
+        """
+
+        self._gmt_create = gmt_create
+
+    @property
+    def gmt_modifier(self):
+        """Gets the gmt_modifier of this DataForGetTemplateV2Output.  # noqa: E501
+
+
+        :return: The gmt_modifier of this DataForGetTemplateV2Output.  # noqa: E501
+        :rtype: int
+        """
+        return self._gmt_modifier
+
+    @gmt_modifier.setter
+    def gmt_modifier(self, gmt_modifier):
+        """Sets the gmt_modifier of this DataForGetTemplateV2Output.
+
+
+        :param gmt_modifier: The gmt_modifier of this DataForGetTemplateV2Output.  # noqa: E501
+        :type: int
+        """
+
+        self._gmt_modifier = gmt_modifier
 
     @property
     def language_code(self):
