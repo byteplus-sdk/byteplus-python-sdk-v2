@@ -37,6 +37,7 @@ class CreateTemplateV2Request(object):
         'enable_short_url': 'str',
         'language': 'str',
         'scene_template_name': 'str',
+        'send_audit': 'str',
         'signature': 'str',
         'sub_account_id': 'str',
         'template_list': 'list[TemplateListForCreateTemplateV2Input]',
@@ -48,13 +49,14 @@ class CreateTemplateV2Request(object):
         'enable_short_url': 'EnableShortUrl',
         'language': 'Language',
         'scene_template_name': 'SceneTemplateName',
+        'send_audit': 'SendAudit',
         'signature': 'Signature',
         'sub_account_id': 'SubAccountId',
         'template_list': 'TemplateList',
         'waba_id': 'WabaId'
     }
 
-    def __init__(self, business_type=None, enable_short_url=None, language=None, scene_template_name=None, signature=None, sub_account_id=None, template_list=None, waba_id=None, _configuration=None):  # noqa: E501
+    def __init__(self, business_type=None, enable_short_url=None, language=None, scene_template_name=None, send_audit=None, signature=None, sub_account_id=None, template_list=None, waba_id=None, _configuration=None):  # noqa: E501
         """CreateTemplateV2Request - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
@@ -64,6 +66,7 @@ class CreateTemplateV2Request(object):
         self._enable_short_url = None
         self._language = None
         self._scene_template_name = None
+        self._send_audit = None
         self._signature = None
         self._sub_account_id = None
         self._template_list = None
@@ -77,6 +80,8 @@ class CreateTemplateV2Request(object):
         if language is not None:
             self.language = language
         self.scene_template_name = scene_template_name
+        if send_audit is not None:
+            self.send_audit = send_audit
         if signature is not None:
             self.signature = signature
         if sub_account_id is not None:
@@ -171,6 +176,27 @@ class CreateTemplateV2Request(object):
             raise ValueError("Invalid value for `scene_template_name`, must not be `None`")  # noqa: E501
 
         self._scene_template_name = scene_template_name
+
+    @property
+    def send_audit(self):
+        """Gets the send_audit of this CreateTemplateV2Request.  # noqa: E501
+
+
+        :return: The send_audit of this CreateTemplateV2Request.  # noqa: E501
+        :rtype: str
+        """
+        return self._send_audit
+
+    @send_audit.setter
+    def send_audit(self, send_audit):
+        """Sets the send_audit of this CreateTemplateV2Request.
+
+
+        :param send_audit: The send_audit of this CreateTemplateV2Request.  # noqa: E501
+        :type: str
+        """
+
+        self._send_audit = send_audit
 
     @property
     def signature(self):

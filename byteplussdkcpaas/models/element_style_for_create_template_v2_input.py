@@ -33,43 +33,102 @@ class ElementStyleForCreateTemplateV2Input(object):
                             and the value is json key in definition.
     """
     swagger_types = {
+        'deeplink': 'str',
         'element_type': 'str',
         'expires_time': 'int',
         'has_expires': 'bool',
         'has_security': 'bool',
+        'image_jump_type': 'str',
+        'image_link': 'str',
+        'items': 'list[ItemForCreateTemplateV2Input]',
+        'package_name': 'str',
+        'param_left': 'str',
+        'param_right': 'str',
         'real_content': 'str',
         'resource_code': 'str',
+        'resource_content_type': 'str',
         'resource_name': 'str',
-        'resource_url': 'str'
+        'resource_size': 'int',
+        'resource_thumb_image_url': 'str',
+        'resource_type': 'str',
+        'resource_url': 'str',
+        'sub_text': 'str',
+        'thumb_content_type': 'str',
+        'thumb_image_file_size': 'int',
+        'thumb_image_url': 'str',
+        'thumbnail_resource_content_type': 'str',
+        'thumbnail_resource_name': 'str',
+        'thumbnail_resource_size': 'int',
+        'thumbnail_url': 'str'
     }
 
     attribute_map = {
+        'deeplink': 'Deeplink',
         'element_type': 'ElementType',
         'expires_time': 'ExpiresTime',
         'has_expires': 'HasExpires',
         'has_security': 'HasSecurity',
+        'image_jump_type': 'ImageJumpType',
+        'image_link': 'ImageLink',
+        'items': 'Items',
+        'package_name': 'PackageName',
+        'param_left': 'ParamLeft',
+        'param_right': 'ParamRight',
         'real_content': 'RealContent',
         'resource_code': 'ResourceCode',
+        'resource_content_type': 'ResourceContentType',
         'resource_name': 'ResourceName',
-        'resource_url': 'ResourceUrl'
+        'resource_size': 'ResourceSize',
+        'resource_thumb_image_url': 'ResourceThumbImageUrl',
+        'resource_type': 'ResourceType',
+        'resource_url': 'ResourceUrl',
+        'sub_text': 'SubText',
+        'thumb_content_type': 'ThumbContentType',
+        'thumb_image_file_size': 'ThumbImageFileSize',
+        'thumb_image_url': 'ThumbImageUrl',
+        'thumbnail_resource_content_type': 'ThumbnailResourceContentType',
+        'thumbnail_resource_name': 'ThumbnailResourceName',
+        'thumbnail_resource_size': 'ThumbnailResourceSize',
+        'thumbnail_url': 'ThumbnailUrl'
     }
 
-    def __init__(self, element_type=None, expires_time=None, has_expires=None, has_security=None, real_content=None, resource_code=None, resource_name=None, resource_url=None, _configuration=None):  # noqa: E501
+    def __init__(self, deeplink=None, element_type=None, expires_time=None, has_expires=None, has_security=None, image_jump_type=None, image_link=None, items=None, package_name=None, param_left=None, param_right=None, real_content=None, resource_code=None, resource_content_type=None, resource_name=None, resource_size=None, resource_thumb_image_url=None, resource_type=None, resource_url=None, sub_text=None, thumb_content_type=None, thumb_image_file_size=None, thumb_image_url=None, thumbnail_resource_content_type=None, thumbnail_resource_name=None, thumbnail_resource_size=None, thumbnail_url=None, _configuration=None):  # noqa: E501
         """ElementStyleForCreateTemplateV2Input - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
         self._configuration = _configuration
 
+        self._deeplink = None
         self._element_type = None
         self._expires_time = None
         self._has_expires = None
         self._has_security = None
+        self._image_jump_type = None
+        self._image_link = None
+        self._items = None
+        self._package_name = None
+        self._param_left = None
+        self._param_right = None
         self._real_content = None
         self._resource_code = None
+        self._resource_content_type = None
         self._resource_name = None
+        self._resource_size = None
+        self._resource_thumb_image_url = None
+        self._resource_type = None
         self._resource_url = None
+        self._sub_text = None
+        self._thumb_content_type = None
+        self._thumb_image_file_size = None
+        self._thumb_image_url = None
+        self._thumbnail_resource_content_type = None
+        self._thumbnail_resource_name = None
+        self._thumbnail_resource_size = None
+        self._thumbnail_url = None
         self.discriminator = None
 
+        if deeplink is not None:
+            self.deeplink = deeplink
         if element_type is not None:
             self.element_type = element_type
         if expires_time is not None:
@@ -78,14 +137,71 @@ class ElementStyleForCreateTemplateV2Input(object):
             self.has_expires = has_expires
         if has_security is not None:
             self.has_security = has_security
+        if image_jump_type is not None:
+            self.image_jump_type = image_jump_type
+        if image_link is not None:
+            self.image_link = image_link
+        if items is not None:
+            self.items = items
+        if package_name is not None:
+            self.package_name = package_name
+        if param_left is not None:
+            self.param_left = param_left
+        if param_right is not None:
+            self.param_right = param_right
         if real_content is not None:
             self.real_content = real_content
         if resource_code is not None:
             self.resource_code = resource_code
+        if resource_content_type is not None:
+            self.resource_content_type = resource_content_type
         if resource_name is not None:
             self.resource_name = resource_name
+        if resource_size is not None:
+            self.resource_size = resource_size
+        if resource_thumb_image_url is not None:
+            self.resource_thumb_image_url = resource_thumb_image_url
+        if resource_type is not None:
+            self.resource_type = resource_type
         if resource_url is not None:
             self.resource_url = resource_url
+        if sub_text is not None:
+            self.sub_text = sub_text
+        if thumb_content_type is not None:
+            self.thumb_content_type = thumb_content_type
+        if thumb_image_file_size is not None:
+            self.thumb_image_file_size = thumb_image_file_size
+        if thumb_image_url is not None:
+            self.thumb_image_url = thumb_image_url
+        if thumbnail_resource_content_type is not None:
+            self.thumbnail_resource_content_type = thumbnail_resource_content_type
+        if thumbnail_resource_name is not None:
+            self.thumbnail_resource_name = thumbnail_resource_name
+        if thumbnail_resource_size is not None:
+            self.thumbnail_resource_size = thumbnail_resource_size
+        if thumbnail_url is not None:
+            self.thumbnail_url = thumbnail_url
+
+    @property
+    def deeplink(self):
+        """Gets the deeplink of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+
+
+        :return: The deeplink of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :rtype: str
+        """
+        return self._deeplink
+
+    @deeplink.setter
+    def deeplink(self, deeplink):
+        """Sets the deeplink of this ElementStyleForCreateTemplateV2Input.
+
+
+        :param deeplink: The deeplink of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :type: str
+        """
+
+        self._deeplink = deeplink
 
     @property
     def element_type(self):
@@ -172,6 +288,132 @@ class ElementStyleForCreateTemplateV2Input(object):
         self._has_security = has_security
 
     @property
+    def image_jump_type(self):
+        """Gets the image_jump_type of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+
+
+        :return: The image_jump_type of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :rtype: str
+        """
+        return self._image_jump_type
+
+    @image_jump_type.setter
+    def image_jump_type(self, image_jump_type):
+        """Sets the image_jump_type of this ElementStyleForCreateTemplateV2Input.
+
+
+        :param image_jump_type: The image_jump_type of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :type: str
+        """
+
+        self._image_jump_type = image_jump_type
+
+    @property
+    def image_link(self):
+        """Gets the image_link of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+
+
+        :return: The image_link of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :rtype: str
+        """
+        return self._image_link
+
+    @image_link.setter
+    def image_link(self, image_link):
+        """Sets the image_link of this ElementStyleForCreateTemplateV2Input.
+
+
+        :param image_link: The image_link of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :type: str
+        """
+
+        self._image_link = image_link
+
+    @property
+    def items(self):
+        """Gets the items of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+
+
+        :return: The items of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :rtype: list[ItemForCreateTemplateV2Input]
+        """
+        return self._items
+
+    @items.setter
+    def items(self, items):
+        """Sets the items of this ElementStyleForCreateTemplateV2Input.
+
+
+        :param items: The items of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :type: list[ItemForCreateTemplateV2Input]
+        """
+
+        self._items = items
+
+    @property
+    def package_name(self):
+        """Gets the package_name of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+
+
+        :return: The package_name of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :rtype: str
+        """
+        return self._package_name
+
+    @package_name.setter
+    def package_name(self, package_name):
+        """Sets the package_name of this ElementStyleForCreateTemplateV2Input.
+
+
+        :param package_name: The package_name of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :type: str
+        """
+
+        self._package_name = package_name
+
+    @property
+    def param_left(self):
+        """Gets the param_left of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+
+
+        :return: The param_left of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :rtype: str
+        """
+        return self._param_left
+
+    @param_left.setter
+    def param_left(self, param_left):
+        """Sets the param_left of this ElementStyleForCreateTemplateV2Input.
+
+
+        :param param_left: The param_left of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :type: str
+        """
+
+        self._param_left = param_left
+
+    @property
+    def param_right(self):
+        """Gets the param_right of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+
+
+        :return: The param_right of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :rtype: str
+        """
+        return self._param_right
+
+    @param_right.setter
+    def param_right(self, param_right):
+        """Sets the param_right of this ElementStyleForCreateTemplateV2Input.
+
+
+        :param param_right: The param_right of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :type: str
+        """
+
+        self._param_right = param_right
+
+    @property
     def real_content(self):
         """Gets the real_content of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
 
@@ -214,6 +456,27 @@ class ElementStyleForCreateTemplateV2Input(object):
         self._resource_code = resource_code
 
     @property
+    def resource_content_type(self):
+        """Gets the resource_content_type of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+
+
+        :return: The resource_content_type of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :rtype: str
+        """
+        return self._resource_content_type
+
+    @resource_content_type.setter
+    def resource_content_type(self, resource_content_type):
+        """Sets the resource_content_type of this ElementStyleForCreateTemplateV2Input.
+
+
+        :param resource_content_type: The resource_content_type of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :type: str
+        """
+
+        self._resource_content_type = resource_content_type
+
+    @property
     def resource_name(self):
         """Gets the resource_name of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
 
@@ -235,6 +498,69 @@ class ElementStyleForCreateTemplateV2Input(object):
         self._resource_name = resource_name
 
     @property
+    def resource_size(self):
+        """Gets the resource_size of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+
+
+        :return: The resource_size of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :rtype: int
+        """
+        return self._resource_size
+
+    @resource_size.setter
+    def resource_size(self, resource_size):
+        """Sets the resource_size of this ElementStyleForCreateTemplateV2Input.
+
+
+        :param resource_size: The resource_size of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :type: int
+        """
+
+        self._resource_size = resource_size
+
+    @property
+    def resource_thumb_image_url(self):
+        """Gets the resource_thumb_image_url of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+
+
+        :return: The resource_thumb_image_url of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :rtype: str
+        """
+        return self._resource_thumb_image_url
+
+    @resource_thumb_image_url.setter
+    def resource_thumb_image_url(self, resource_thumb_image_url):
+        """Sets the resource_thumb_image_url of this ElementStyleForCreateTemplateV2Input.
+
+
+        :param resource_thumb_image_url: The resource_thumb_image_url of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :type: str
+        """
+
+        self._resource_thumb_image_url = resource_thumb_image_url
+
+    @property
+    def resource_type(self):
+        """Gets the resource_type of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+
+
+        :return: The resource_type of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :rtype: str
+        """
+        return self._resource_type
+
+    @resource_type.setter
+    def resource_type(self, resource_type):
+        """Sets the resource_type of this ElementStyleForCreateTemplateV2Input.
+
+
+        :param resource_type: The resource_type of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :type: str
+        """
+
+        self._resource_type = resource_type
+
+    @property
     def resource_url(self):
         """Gets the resource_url of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
 
@@ -254,6 +580,174 @@ class ElementStyleForCreateTemplateV2Input(object):
         """
 
         self._resource_url = resource_url
+
+    @property
+    def sub_text(self):
+        """Gets the sub_text of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+
+
+        :return: The sub_text of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :rtype: str
+        """
+        return self._sub_text
+
+    @sub_text.setter
+    def sub_text(self, sub_text):
+        """Sets the sub_text of this ElementStyleForCreateTemplateV2Input.
+
+
+        :param sub_text: The sub_text of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :type: str
+        """
+
+        self._sub_text = sub_text
+
+    @property
+    def thumb_content_type(self):
+        """Gets the thumb_content_type of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+
+
+        :return: The thumb_content_type of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :rtype: str
+        """
+        return self._thumb_content_type
+
+    @thumb_content_type.setter
+    def thumb_content_type(self, thumb_content_type):
+        """Sets the thumb_content_type of this ElementStyleForCreateTemplateV2Input.
+
+
+        :param thumb_content_type: The thumb_content_type of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :type: str
+        """
+
+        self._thumb_content_type = thumb_content_type
+
+    @property
+    def thumb_image_file_size(self):
+        """Gets the thumb_image_file_size of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+
+
+        :return: The thumb_image_file_size of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :rtype: int
+        """
+        return self._thumb_image_file_size
+
+    @thumb_image_file_size.setter
+    def thumb_image_file_size(self, thumb_image_file_size):
+        """Sets the thumb_image_file_size of this ElementStyleForCreateTemplateV2Input.
+
+
+        :param thumb_image_file_size: The thumb_image_file_size of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :type: int
+        """
+
+        self._thumb_image_file_size = thumb_image_file_size
+
+    @property
+    def thumb_image_url(self):
+        """Gets the thumb_image_url of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+
+
+        :return: The thumb_image_url of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :rtype: str
+        """
+        return self._thumb_image_url
+
+    @thumb_image_url.setter
+    def thumb_image_url(self, thumb_image_url):
+        """Sets the thumb_image_url of this ElementStyleForCreateTemplateV2Input.
+
+
+        :param thumb_image_url: The thumb_image_url of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :type: str
+        """
+
+        self._thumb_image_url = thumb_image_url
+
+    @property
+    def thumbnail_resource_content_type(self):
+        """Gets the thumbnail_resource_content_type of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+
+
+        :return: The thumbnail_resource_content_type of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :rtype: str
+        """
+        return self._thumbnail_resource_content_type
+
+    @thumbnail_resource_content_type.setter
+    def thumbnail_resource_content_type(self, thumbnail_resource_content_type):
+        """Sets the thumbnail_resource_content_type of this ElementStyleForCreateTemplateV2Input.
+
+
+        :param thumbnail_resource_content_type: The thumbnail_resource_content_type of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :type: str
+        """
+
+        self._thumbnail_resource_content_type = thumbnail_resource_content_type
+
+    @property
+    def thumbnail_resource_name(self):
+        """Gets the thumbnail_resource_name of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+
+
+        :return: The thumbnail_resource_name of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :rtype: str
+        """
+        return self._thumbnail_resource_name
+
+    @thumbnail_resource_name.setter
+    def thumbnail_resource_name(self, thumbnail_resource_name):
+        """Sets the thumbnail_resource_name of this ElementStyleForCreateTemplateV2Input.
+
+
+        :param thumbnail_resource_name: The thumbnail_resource_name of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :type: str
+        """
+
+        self._thumbnail_resource_name = thumbnail_resource_name
+
+    @property
+    def thumbnail_resource_size(self):
+        """Gets the thumbnail_resource_size of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+
+
+        :return: The thumbnail_resource_size of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :rtype: int
+        """
+        return self._thumbnail_resource_size
+
+    @thumbnail_resource_size.setter
+    def thumbnail_resource_size(self, thumbnail_resource_size):
+        """Sets the thumbnail_resource_size of this ElementStyleForCreateTemplateV2Input.
+
+
+        :param thumbnail_resource_size: The thumbnail_resource_size of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :type: int
+        """
+
+        self._thumbnail_resource_size = thumbnail_resource_size
+
+    @property
+    def thumbnail_url(self):
+        """Gets the thumbnail_url of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+
+
+        :return: The thumbnail_url of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :rtype: str
+        """
+        return self._thumbnail_url
+
+    @thumbnail_url.setter
+    def thumbnail_url(self, thumbnail_url):
+        """Sets the thumbnail_url of this ElementStyleForCreateTemplateV2Input.
+
+
+        :param thumbnail_url: The thumbnail_url of this ElementStyleForCreateTemplateV2Input.  # noqa: E501
+        :type: str
+        """
+
+        self._thumbnail_url = thumbnail_url
 
     def to_dict(self):
         """Returns the model properties as a dict"""

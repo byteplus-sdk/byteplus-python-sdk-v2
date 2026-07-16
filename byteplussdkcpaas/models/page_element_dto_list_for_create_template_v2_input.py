@@ -34,15 +34,17 @@ class PageElementDTOListForCreateTemplateV2Input(object):
     """
     swagger_types = {
         'element_style': 'ElementStyleForCreateTemplateV2Input',
-        'element_type': 'str'
+        'element_type': 'str',
+        'order_id': 'int'
     }
 
     attribute_map = {
         'element_style': 'ElementStyle',
-        'element_type': 'ElementType'
+        'element_type': 'ElementType',
+        'order_id': 'OrderId'
     }
 
-    def __init__(self, element_style=None, element_type=None, _configuration=None):  # noqa: E501
+    def __init__(self, element_style=None, element_type=None, order_id=None, _configuration=None):  # noqa: E501
         """PageElementDTOListForCreateTemplateV2Input - a model defined in Swagger"""  # noqa: E501
         if _configuration is None:
             _configuration = Configuration()
@@ -50,12 +52,15 @@ class PageElementDTOListForCreateTemplateV2Input(object):
 
         self._element_style = None
         self._element_type = None
+        self._order_id = None
         self.discriminator = None
 
         if element_style is not None:
             self.element_style = element_style
         if element_type is not None:
             self.element_type = element_type
+        if order_id is not None:
+            self.order_id = order_id
 
     @property
     def element_style(self):
@@ -98,6 +103,27 @@ class PageElementDTOListForCreateTemplateV2Input(object):
         """
 
         self._element_type = element_type
+
+    @property
+    def order_id(self):
+        """Gets the order_id of this PageElementDTOListForCreateTemplateV2Input.  # noqa: E501
+
+
+        :return: The order_id of this PageElementDTOListForCreateTemplateV2Input.  # noqa: E501
+        :rtype: int
+        """
+        return self._order_id
+
+    @order_id.setter
+    def order_id(self, order_id):
+        """Sets the order_id of this PageElementDTOListForCreateTemplateV2Input.
+
+
+        :param order_id: The order_id of this PageElementDTOListForCreateTemplateV2Input.  # noqa: E501
+        :type: int
+        """
+
+        self._order_id = order_id
 
     def to_dict(self):
         """Returns the model properties as a dict"""
