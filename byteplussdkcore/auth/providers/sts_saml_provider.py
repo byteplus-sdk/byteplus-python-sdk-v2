@@ -7,6 +7,7 @@ import dateutil.parser
 import dateutil.tz
 
 from .provider import Provider, CredentialValue
+from .sts_helper import DEFAULT_STS_REGION, default_sts_host_for
 
 
 class AssumeRoleSamlCredentials:
@@ -23,7 +24,7 @@ class StsSamlCredentialProvider(Provider):
 
     def __init__(self, role_name=None, account_id=None, provider_name=None, saml_resp=None,
                  duration_seconds=3600, scheme='https',
-                 host='sts.ap-southeast-1.byteplusapi.com', region='ap-southeast-1', timeout=30, expired_buffer_seconds=60,
+                 host=None, region=None, timeout=30, expired_buffer_seconds=60,
                  policy=None, role_trn=None, saml_provider_trn=None, max_retries=3, retry_interval=1):
         self.role_name = role_name
         self.account_id = account_id
@@ -53,11 +54,10 @@ class StsSamlCredentialProvider(Provider):
         self.retry_interval = retry_interval
         self.duration_seconds = duration_seconds
 
-        self.host = host
-        self.region = region
+        self.region = region if region else DEFAULT_STS_REGION
+        self.host = host if host else default_sts_host_for(self.region)
         self.scheme = scheme
         self.policy = policy
-
         self.expired_time = None
         if expired_buffer_seconds > 600:
             raise ValueError('expired_buffer_seconds must be less than or equal to 600')
