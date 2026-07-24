@@ -106,17 +106,6 @@ The table lists every effective combination. `RegionType` is derived from the se
 
 When DualStack is enabled, replace every occurrence of `byteplusapi.com` in the table with `byteplus-api.com`.
 
-##### STS Credential Providers
-
-`StsCredentialProvider`, `StsOidcCredentialProvider`, and `StsSamlCredentialProvider` share the same decision table. When their `host` parameter is empty, the provider derives the STS host from `region` and resolves it against the same rules used by the main request pipeline — no explicit STS host configuration is required.
-
-Resolution priority (host):
-
-- Explicit `host=` argument > (OIDC modern mode only) `BYTEPLUS_OIDC_STS_ENDPOINT` env var > region-driven `default_sts_host_for(region)` > empty-region fallback to `ap-southeast-1`.
-- The `cn-hongkong` region is on the non-mainland whitelist and resolves to `sts.cn-hongkong.byteplusapi.com` (the international `.com` suffix), same as Go/Java.
-
-See [`./byteplussdkcore/auth/providers/sts_helper.py`](./byteplussdkcore/auth/providers/sts_helper.py) for the shared `default_sts_host_for(region)` helper.
-
 ##### `custom_bootstrap_region` / `BYTEPLUS_BOOTSTRAP_REGION_LIST_CONF` (Deprecated)
 
 > **⚠️ Deprecated**: the `custom_bootstrap_region` keyword argument on `DefaultEndpointProvider.endpoint_for(...)` and the `BYTEPLUS_BOOTSTRAP_REGION_LIST_CONF` environment variable are **deprecated** and **no longer participate** in the default addressing pipeline. The argument is retained only for API-source compatibility and is treated as a no-op at runtime (a `DeprecationWarning` is emitted when a non-empty value is supplied). **Do not use it in new code.** Existing callers should switch to `configuration.region` + `configuration.use_dual_stack` and let the SDK auto-resolve the endpoint, or override it explicitly via `configuration.host`.

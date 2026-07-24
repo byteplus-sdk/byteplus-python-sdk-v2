@@ -8,7 +8,6 @@ import dateutil.parser
 import dateutil.tz
 
 from .provider import Provider, CredentialValue
-from .sts_helper import DEFAULT_STS_REGION, default_sts_host_for
 
 
 class AssumeRoleOidcCredentials:
@@ -25,7 +24,7 @@ class StsOidcCredentialProvider(Provider):
 
     def __init__(self, role_name=None, account_id=None, oidc_token=None,
                  duration_seconds=3600, scheme='https',
-                 host=None, region=None, timeout=30,
+                 host='sts.ap-southeast-1.byteplusapi.com', region='ap-southeast-1', timeout=30,
                  expired_buffer_seconds=60, policy=None,
                  role_trn=None, oidc_token_file=None, session_name=None,
                  max_retries=3, retry_interval=1):
@@ -65,20 +64,18 @@ class StsOidcCredentialProvider(Provider):
         else:
             self.policy = None
 
-        self.region = region if region else DEFAULT_STS_REGION
-
         if host:
             self.host = host
         elif not self._legacy_mode:
-            env_endpoint = os.environ.get("BYTEPLUS_OIDC_STS_ENDPOINT", "")
-            self.host = env_endpoint if env_endpoint else default_sts_host_for(self.region)
+            self.host = os.environ.get("BYTEPLUS_OIDC_STS_ENDPOINT", "") or "sts.byteplusapi.com"
         else:
-            self.host = default_sts_host_for(self.region)
+            self.host = "sts.byteplusapi.com"
 
         self.timeout = timeout
         self.max_retries = max(max_retries, 1)
         self.retry_interval = retry_interval
         self.duration_seconds = duration_seconds
+        self.region = region
         self.scheme = scheme
 
         if expired_buffer_seconds > 600:

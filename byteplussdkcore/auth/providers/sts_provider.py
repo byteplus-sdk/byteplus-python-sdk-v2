@@ -7,7 +7,6 @@ import dateutil.parser
 
 from byteplussdkcore import UniversalApi, UniversalInfo, ApiClient, Configuration
 from .provider import Provider, CredentialValue
-from .sts_helper import DEFAULT_STS_REGION, default_sts_host_for
 
 
 class AssumeRoleCredentials:
@@ -21,7 +20,7 @@ class AssumeRoleCredentials:
 
 class StsCredentialProvider(Provider):
     def __init__(self, ak, sk, role_name, account_id, duration_seconds=3600, scheme='https',
-                 host=None, region=None, timeout=30, expired_buffer_seconds=60, policy=None, max_retries=3, retry_interval=1):
+                 host='sts.ap-southeast-1.byteplusapi.com', region='ap-southeast-1', timeout=30, expired_buffer_seconds=60, policy=None, max_retries=3, retry_interval=1):
         self.ak = ak
         self.sk = sk
         self.role_name = role_name
@@ -32,8 +31,8 @@ class StsCredentialProvider(Provider):
         self.retry_interval = retry_interval
         self.duration_seconds = duration_seconds
 
-        self.region = region if region else DEFAULT_STS_REGION
-        self.host = host if host else default_sts_host_for(self.region)
+        self.host = host
+        self.region = region
         self.scheme = scheme
         self.policy = policy
 

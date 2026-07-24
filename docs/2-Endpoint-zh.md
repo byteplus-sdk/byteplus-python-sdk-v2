@@ -110,17 +110,6 @@ except ApiException as e:
 
 启用 DualStack 时，将上表中的 `byteplusapi.com` 整体替换为 `byteplus-api.com`。
 
-##### STS 凭证 Provider
-
-`StsCredentialProvider` / `StsOidcCredentialProvider` / `StsSamlCredentialProvider` 共享同一份决策表。当 `host` 参数留空时，Provider 会用 `region` 自动寻址，命中与主链路一致的规则 —— 无需再显式配置 STS 域名。
-
-Host 覆盖优先级：
-
-- 显式 `host=` 参数 > （仅 OIDC 现代模式）`BYTEPLUS_OIDC_STS_ENDPOINT` 环境变量 > 基于 region 的 `default_sts_host_for(region)` > 空 region 时兜底至 `ap-southeast-1`。
-- `cn-hongkong` 属于非大陆港澳台白名单，解析为 `sts.cn-hongkong.byteplusapi.com`（使用国际 `.com` 后缀），与 Go/Java 保持一致。
-
-共享的 `default_sts_host_for(region)` 工具函数：[`./byteplussdkcore/auth/providers/sts_helper.py`](./byteplussdkcore/auth/providers/sts_helper.py)。
-
 ##### `custom_bootstrap_region` / `BYTEPLUS_BOOTSTRAP_REGION_LIST_CONF`（已废弃）
 
 > **⚠️ Deprecated**：`DefaultEndpointProvider.endpoint_for(...)` 上的 `custom_bootstrap_region` 关键字参数以及 `BYTEPLUS_BOOTSTRAP_REGION_LIST_CONF` 环境变量已被标记为**废弃**，**不再参与**默认寻址链路。该参数仅为 API 源码兼容而保留，运行时视为 no-op（传入非空值时会产生 `DeprecationWarning`）。请**勿在新代码中使用**，已有代码建议改用 `configuration.region` + `configuration.use_dual_stack` 让 SDK 自动寻址，或用 `configuration.host` 显式覆盖。
