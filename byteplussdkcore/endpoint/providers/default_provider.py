@@ -93,8 +93,8 @@ class ServiceEndpointInfo:
             )
             return endpoint
 
-        if region in self.region_endpoint_map:
-            endpoint = self.region_endpoint_map[region]
+        if normalized_region in self.region_endpoint_map:
+            endpoint = self.region_endpoint_map[normalized_region]
             sdk_core_logger.debug_endpoint(
                 "use region endpoint from map: service=%s, region=%s, endpoint=%s",
                 self.service, region, endpoint

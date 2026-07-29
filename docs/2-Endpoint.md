@@ -21,7 +21,7 @@ configuration.host = "<example>.<regionId>.byteplusapi.com" # Custom Endpoint
 byteplussdkcore.Configuration.set_default(configuration)
 ```
 
-An explicitly configured `host` has the highest priority and skips every subsequent resolution step (including any custom endpoint provider).
+An explicitly configured `host` has the highest priority at the configuration level and skips every subsequent resolution step (including any custom endpoint provider). However, a request-level `RuntimeOption.endpoint_provider` overrides the configuration-level `host`, per the general "request-level > configuration-level" rule.
 
 ### Custom RegionId
 
@@ -72,7 +72,7 @@ BytePlus provides a flexible endpoint resolution mechanism. The SDK automaticall
 
     - Service missing from the map: `DefaultEndpointProvider.get_default_endpoint` raises `byteplussdkcore.endpoint.providers.default_provider.ServiceEndpointInfoMissingError` with a message like `byteplussdkcore: service endpoint info missing: service '<xxx>' not registered`; `ResolveEndpointInterceptor` propagates it up the call chain. See [Error handling](#error-handling).
 
-    Built-in service map: `default_endpoint` in [`./byteplussdkcore/endpoint/providers/default_provider.py`](./byteplussdkcore/endpoint/providers/default_provider.py).
+    Built-in service map: `default_endpoint` in [`byteplussdkcore/endpoint/providers/default_provider.py`](../byteplussdkcore/endpoint/providers/default_provider.py).
 
 2. **DualStack support (IPv6)**
 
@@ -152,9 +152,7 @@ When you hit this error, first try upgrading the SDK. If the service is genuinel
 | No | Yes | `{Service}.{region}.byteplus-api.com` |
 | No | No | `{Service}.{region}.byteplusapi.com` |
 
-Standard resolution never appends the Go China `.cn` suffix. If you need `.cn`, use the default resolver (or set the endpoint explicitly).
-
-Whether a service is global is determined by the service itself and cannot be modified. Reference list: [`./byteplussdkcore/endpoint/providers/standard_provider.py#ServiceInfos`](./byteplussdkcore/endpoint/providers/standard_provider.py#L51).
+Whether a service is global is determined by the service itself and cannot be modified. Reference list: [`byteplussdkcore/endpoint/providers/standard_provider.py#ServiceInfos`](../byteplussdkcore/endpoint/providers/standard_provider.py#L51).
 
 ##### Code Example
 

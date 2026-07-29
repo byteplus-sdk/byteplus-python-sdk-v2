@@ -21,7 +21,7 @@ configuration.host = "<example>.<regionId>.byteplusapi.com" # 自定义Endpoint
 byteplussdkcore.Configuration.set_default(configuration)
 ```
 
-显式设置的 `host` 优先级最高，会跳过后续所有寻址逻辑（包括自定义 Endpoint Provider）。
+显式设置的 `host` 在配置级优先级最高，会跳过后续所有寻址逻辑（包括自定义 Endpoint Provider）。但请求级 `RuntimeOption.endpoint_provider` 会覆盖配置级 `host`，遵循"请求级 > 配置级"的总规则。
 
 ### 自定义 RegionId
 
@@ -76,7 +76,7 @@ except ApiException as e:
 
     - 服务未在映射中登记：`DefaultEndpointProvider.get_default_endpoint` 会抛出 `byteplussdkcore.endpoint.providers.default_provider.ServiceEndpointInfoMissingError`，错误消息形如 `byteplussdkcore: service endpoint info missing: service '<xxx>' not registered`；`ResolveEndpointInterceptor` 将其直接向上传播。参见 [错误处理](#错误处理)。
 
-    内置服务映射：[`./byteplussdkcore/endpoint/providers/default_provider.py`](./byteplussdkcore/endpoint/providers/default_provider.py) 中的 `default_endpoint`。
+    内置服务映射：[`byteplussdkcore/endpoint/providers/default_provider.py`](../byteplussdkcore/endpoint/providers/default_provider.py) 中的 `default_endpoint`。
 
 2. **DualStack 支持（IPv6）**
 
@@ -155,9 +155,7 @@ except ServiceEndpointInfoMissingError as e:
 | 否 | 是 | `{Service}.{region}.byteplus-api.com` |
 | 否 | 否 | `{Service}.{region}.byteplusapi.com` |
 
-标准寻址不会追加 Go China 的 `.cn` 后缀，如需 `.cn` 请使用默认寻址（或显式指定 Endpoint）。
-
-服务是否为 Global 由具体服务决定，不可修改。可以参考列表：[`./byteplussdkcore/endpoint/providers/standard_provider.py#ServiceInfos`](./byteplussdkcore/endpoint/providers/standard_provider.py#L51)。
+服务是否为 Global 由具体服务决定，不可修改。可以参考列表：[`byteplussdkcore/endpoint/providers/standard_provider.py#ServiceInfos`](../byteplussdkcore/endpoint/providers/standard_provider.py#L51)。
 
 ##### 代码示例
 
