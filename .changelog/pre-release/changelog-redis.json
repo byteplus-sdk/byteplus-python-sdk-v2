@@ -1,0 +1,13 @@
+{
+  "actions": [
+    "DescribeDBInstanceDetail",
+    "ApplyParameterGroup",
+    "DescribeClientSessionSnapshot",
+    "DescribeTasks",
+    "SyncAllowList",
+    "CreateDBInstance"
+  ],
+  "description": "REDIS: added ApplyParameterGroup, DescribeClientSessionSnapshot, DescribeTasks, SyncAllowList；modified CreateDBInstance, DescribeDBInstanceDetail",
+  "modules": "service/Redis",
+  "type": "breaking-change"
+}
