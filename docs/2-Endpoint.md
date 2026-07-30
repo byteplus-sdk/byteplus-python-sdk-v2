@@ -149,8 +149,8 @@ When you hit this error, first try upgrading the SDK. If the service is genuinel
 |---|---|---|
 | Yes | Yes | `{Service}.byteplus-api.com` |
 | Yes | No | `{Service}.byteplusapi.com` |
-| No | Yes | `{Service}.{region}.byteplus-api.com` |
-| No | No | `{Service}.{region}.byteplusapi.com` |
+| No | Yes | `{Service}.{region}.byteplus-api.com` (for mainland China regions, `{Service}.{region}.byteplus-api.com.cn`) |
+| No | No | `{Service}.{region}.byteplusapi.com` (for mainland China regions, `{Service}.{region}.byteplusapi.com.cn`) |
 
 Whether a service is global is determined by the service itself and cannot be modified. Reference list: [`byteplussdkcore/endpoint/providers/standard_provider.py#ServiceInfos`](../byteplussdkcore/endpoint/providers/standard_provider.py#L51).
 

@@ -152,8 +152,8 @@ except ServiceEndpointInfoMissingError as e:
 |---|---|---|
 | 是 | 是 | `{Service}.byteplus-api.com` |
 | 是 | 否 | `{Service}.byteplusapi.com` |
-| 否 | 是 | `{Service}.{region}.byteplus-api.com` |
-| 否 | 否 | `{Service}.{region}.byteplusapi.com` |
+| 否 | 是 | `{Service}.{region}.byteplus-api.com`（中国大陆 Region 为 `{Service}.{region}.byteplus-api.com.cn`） |
+| 否 | 否 | `{Service}.{region}.byteplusapi.com`（中国大陆 Region 为 `{Service}.{region}.byteplusapi.com.cn`） |
 
 服务是否为 Global 由具体服务决定，不可修改。可以参考列表：[`byteplussdkcore/endpoint/providers/standard_provider.py#ServiceInfos`](../byteplussdkcore/endpoint/providers/standard_provider.py#L51)。
 
