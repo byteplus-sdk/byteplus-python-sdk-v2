@@ -273,9 +273,9 @@ def is_go_china(region):
 class StandardEndpointResolver(EndpointProvider):
     def __init__(self, fmt=None, site_stack=None, extension=None, custom_services=None):
         self.fmt = fmt or DEFAULT_FORMAT
-        self.variables = StandardEndpointResolverVariable()
-        self.variables.site_stack = site_stack or SITE_STACK_BYTEPLUS_IPV4
-        self.variables.extension = extension or {}
+        # 只保存不可变配置模板；请求级 variables 在 endpoint_for 内每次新建，避免跨请求残留和并发串扰
+        self._default_site_stack = site_stack or SITE_STACK_BYTEPLUS_IPV4
+        self._default_extension = extension or {}
         self.custom_services = custom_services or {}
 
     def endpoint_for(self, service, region, custom_bootstrap_region=None, use_dual_stack=None, **kwargs):
@@ -290,8 +290,10 @@ class StandardEndpointResolver(EndpointProvider):
         # 2) 默认模板
         fmt = self.fmt or DEFAULT_FORMAT
 
-        # 3) 变量准备
-        self.variables.service = standardize_domain_service_code(service)
+        # 3) 请求级 variables：每次新建，防止跨请求残留与并发串扰
+        variables = StandardEndpointResolverVariable()
+        variables.extension = dict(self._default_extension)
+        variables.service = standardize_domain_service_code(service)
 
         svc_info = ServiceInfos.get(service)
         if not svc_info:
@@ -305,22 +307,25 @@ class StandardEndpointResolver(EndpointProvider):
 
         # 非全局服务拼接 ".{region}"，全局则为空
         if not svc_info.IsGlobal:
-            self.variables.region = "." + region
+            variables.region = "." + region
         else:
-            self.variables.region = ""
+            variables.region = ""
 
         # 4) IP 版本 -> SiteStack
         if use_dual_stack:
-            self.variables.site_stack = SITE_STACK_BYTEPLUS_DUAL_STACK
+            variables.site_stack = SITE_STACK_BYTEPLUS_DUAL_STACK
         else:
-            self.variables.site_stack = SITE_STACK_BYTEPLUS_IPV4
+            variables.site_stack = self._default_site_stack
 
+        # 5) CNSuffix：非全局 + 中国大陆才追加，其他情况显式清空
         if not svc_info.IsGlobal and is_go_china(region):
-            self.variables.cn_suffix = CN_SUFFIX
+            variables.cn_suffix = CN_SUFFIX
+        else:
+            variables.cn_suffix = ""
 
-        # 5) 渲染
+        # 6) 渲染
         try:
-            rendered = fmt.format(**self.variables.to_dict())
+            rendered = fmt.format(**variables.to_dict())
         except KeyError as err:
             raise StandProviderError(
                 "TemplateExecuteError",
@@ -329,7 +334,7 @@ class StandardEndpointResolver(EndpointProvider):
         except Exception as err:
             raise StandProviderError(
                 "TemplateExecuteError",
-                "failed to execute template for format %s, variable %r: %s" % (fmt, self.variables.to_dict(), err)
+                "failed to execute template for format %s, variable %r: %s" % (fmt, variables.to_dict(), err)
             )
 
         return ResolvedEndpoint(rendered)
