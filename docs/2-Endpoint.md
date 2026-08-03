@@ -6,7 +6,7 @@
 
 > **Default**
 >
-> If `host` is not specified, the SDK uses [Automatic Endpoint Resolution](#automatic-endpoint-resolution).
+> If `Endpoint` is not specified, the SDK uses [Automatic Endpoint Resolution](#automatic-endpoint-resolution).
 
 ### Custom Endpoint
 
@@ -20,8 +20,6 @@ configuration.sk = "Your sk"
 configuration.host = "<example>.<regionId>.byteplusapi.com" # Custom Endpoint
 byteplussdkcore.Configuration.set_default(configuration)
 ```
-
-An explicitly configured `host` has the highest priority at the configuration level and skips every subsequent resolution step (including any custom endpoint provider). However, a request-level `RuntimeOption.endpoint_provider` overrides the configuration-level `host`, per the general "request-level > configuration-level" rule.
 
 ### Custom RegionId
 
@@ -60,55 +58,34 @@ except ApiException as e:
 
 ### Automatic Endpoint Resolution
 
-BytePlus provides a flexible endpoint resolution mechanism. The SDK automatically builds the endpoint based on the service name, region and the service's Go China flag, and supports DualStack.
+> **Default**
+>
+> Automatic resolution is enabled by default; no manual endpoint specification is needed.
+
+To simplify user configuration, BytePlus provides a flexible automatic Endpoint resolution mechanism. Users do not need to manually specify service addresses; the SDK automatically constructs a reasonable access address based on the service name, region, and other information, and supports user-defined DualStack (dual-stack) settings.
 
 #### Default Endpoint Resolution
 
 ##### Resolution Logic
 
-1. **Service registration check**
+1. **Whether to auto-resolve the Region**
 
-    Every service in the built-in map carries an `is_global` and a `go_china_enabled` bool. The SDK builds the endpoint following the rules below.
+    Built-in auto-resolution region list reference: [`./byteplussdkcore/endpoint/providers/default_provider.py#bootstrap_region`](./byteplussdkcore/endpoint/providers/default_provider.py#L458).
 
-    - Service missing from the map: `DefaultEndpointProvider.get_default_endpoint` raises `byteplussdkcore.endpoint.providers.default_provider.ServiceEndpointInfoMissingError` with a message like `byteplussdkcore: service endpoint info missing: service '<xxx>' not registered`; `ResolveEndpointInterceptor` propagates it up the call chain. See [Error handling](#error-handling).
+    The SDK only performs automatic resolution for certain preset regions (e.g., `ap-southeast-1-autodriving`, `ap-southeast-2`) or user-configured regions; other regions default to the endpoint: `open.byteplusapi.com`.
 
-    Built-in service map: `default_endpoint` in [`byteplussdkcore/endpoint/providers/default_provider.py`](../byteplussdkcore/endpoint/providers/default_provider.py).
+    Users can extend the region list via the environment variable `BYTEPLUS_BOOTSTRAP_REGION_LIST_CONF` or by specifying `custom_bootstrap_region` in code.
 
-2. **DualStack support (IPv6)**
+2. **DualStack Support (IPv6)**
 
-    Enable via the `use_dual_stack=True` parameter or env var `BYTEPLUS_ENABLE_DUALSTACK=true`. Priority: `use_dual_stack` > `BYTEPLUS_ENABLE_DUALSTACK`.
+    The SDK supports dual-stack network (IPv4 + IPv6) access addresses. Automatic enabling conditions: explicitly pass the `use_dual_stack` parameter, or set the environment variable `BYTEPLUS_ENABLE_DUALSTACK`. Priority: `use_dual_stack` > `BYTEPLUS_ENABLE_DUALSTACK`.
 
-    When enabled, the suffix changes from `byteplusapi.com` to `byteplus-api.com`.
+    When enabled, the domain suffix switches from `byteplusapi.com` to `byteplus-api.com`.
 
-3. **Go China suffix**
+3. **Endpoint construction based on service name and region**
 
-    When a service entry has `go_china_enabled=True` and the request region is in the Chinese mainland (a `cn-*` prefix but not one of the non-mainland regions such as `cn-hongkong`), the resolver appends the `.cn` suffix.
-
-    Whether Go China applies is decided by the service itself and cannot be overridden. Regions are normalized with `strip().lower()` before matching, so `CN-Beijing`, `  cn-beijing  ` and `cn-beijing` are treated identically.
-
-4. **Endpoint construction**
-
-    - **Global services (e.g., `IAM`, `Billing`)**: `<service>.byteplusapi.com` (or `byteplus-api.com` when DualStack is enabled; `.cn` is appended when Go China applies).
-    - **Regional services (e.g., `ECS`, `RDS`)**: `<service>.<region>.byteplusapi.com` (DualStack / Go China rules identical to global services).
-
-##### Decision Table
-
-The table lists every effective combination. `RegionType` is derived from the service's `is_global` flag; "Region is Go China" refers to the request region.
-
-| RegionType | go_china_enabled | Region is Go China | Endpoint | Region embedded |
-|---|---|---|---|---|
-| Global | True | yes | `{service}.byteplusapi.com.cn` | no |
-| Global | True | no | `{service}.byteplusapi.com` | no |
-| Global | False | any | `{service}.byteplusapi.com` | no |
-| Regional | True | yes | `{service}.{region}.byteplusapi.com.cn` | yes |
-| Regional | True | no | `{service}.{region}.byteplusapi.com` | yes |
-| Regional | False | any | `{service}.{region}.byteplusapi.com` | yes |
-
-When DualStack is enabled, replace every occurrence of `byteplusapi.com` in the table with `byteplus-api.com`.
-
-##### `custom_bootstrap_region` / `BYTEPLUS_BOOTSTRAP_REGION_LIST_CONF` (Deprecated)
-
-> **⚠️ Deprecated**: the `custom_bootstrap_region` keyword argument on `DefaultEndpointProvider.endpoint_for(...)` and the `BYTEPLUS_BOOTSTRAP_REGION_LIST_CONF` environment variable are **deprecated** and **no longer participate** in the default addressing pipeline. The argument is retained only for API-source compatibility and is treated as a no-op at runtime (a `DeprecationWarning` is emitted when a non-empty value is supplied). **Do not use it in new code.** Existing callers should switch to `configuration.region` + `configuration.use_dual_stack` and let the SDK auto-resolve the endpoint, or override it explicitly via `configuration.host`.
+    - **Global services (e.g., `CDN`, `IAM`)**: Use `<ServiceName>.byteplusapi.com` (or `byteplus-api.com` when dual-stack is enabled). Example: `cdn.byteplusapi.com`.
+    - **Regional services (e.g., `ECS`, `RDS`)**: Use `<ServiceName>.<Region>.byteplusapi.com` as the default endpoint. Example: `ecs.ap-southeast-1.byteplusapi.com`.
 
 ##### Code Example
 
@@ -117,29 +94,13 @@ import byteplussdkcore
 configuration = byteplussdkcore.Configuration()
 configuration.ak = "Your ak"
 configuration.sk = "Your sk"
-configuration.region = "ap-southeast-1"
-configuration.use_dual_stack = True # enable dual stack; also honors env BYTEPLUS_ENABLE_DUALSTACK=true
+configuration.use_dual_stack = True # Enable dual-stack network (IPv4 + IPv6) access, default is False
+configuration.custom_bootstrap_region = {
+    "custom_example_region1": {},
+    "custom_example_region2": {},
+} # Custom auto-resolution region list
 byteplussdkcore.Configuration.set_default(configuration)
 ```
-
-##### Error handling
-
-If the requested service is not registered in `default_endpoint`, the SDK raises `ServiceEndpointInfoMissingError` on the first default endpoint resolution triggered by `ResolveEndpointInterceptor`, with a message like `byteplussdkcore: service endpoint info missing: service '<xxx>' not registered`. Detect it with:
-
-```python
-from byteplussdkcore.endpoint.providers.default_provider import ServiceEndpointInfoMissingError
-
-try:
-    # ... SDK call that triggers default endpoint resolution
-    pass
-except ServiceEndpointInfoMissingError as e:
-    # e.service carries the offending service name
-    # The installed SDK likely does not know this service.
-    # Upgrade the dependency or set the endpoint explicitly.
-    raise
-```
-
-When you hit this error, first try upgrading the SDK. If the service is genuinely not carried by the SDK yet, set the endpoint explicitly via `configuration.host = ...` or supply a custom endpoint provider.
 
 #### Standard Endpoint Resolution
 
@@ -149,10 +110,10 @@ When you hit this error, first try upgrading the SDK. If the service is genuinel
 |---|---|---|
 | Yes | Yes | `{Service}.byteplus-api.com` |
 | Yes | No | `{Service}.byteplusapi.com` |
-| No | Yes | `{Service}.{region}.byteplus-api.com` (for mainland China regions, `{Service}.{region}.byteplus-api.com.cn`) |
-| No | No | `{Service}.{region}.byteplusapi.com` (for mainland China regions, `{Service}.{region}.byteplusapi.com.cn`) |
+| No | Yes | `{Service}.{region}.byteplus-api.com` |
+| No | No | `{Service}.{region}.byteplusapi.com` |
 
-Whether a service is global is determined by the service itself and cannot be modified. Reference list: [`byteplussdkcore/endpoint/providers/standard_provider.py#ServiceInfos`](../byteplussdkcore/endpoint/providers/standard_provider.py#L51).
+Whether a service is global is determined by the service itself and cannot be modified. Reference list: [`./byteplussdkcore/endpoint/providers/standard_provider.py#ServiceInfos`](./byteplussdkcore/endpoint/providers/standard_provider.py#L51).
 
 ##### Code Example
 
