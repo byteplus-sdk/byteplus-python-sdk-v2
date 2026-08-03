@@ -1,0 +1,5 @@
+{
+  "description": "SECCENTER: modified GetSOCPrecautionBaselineStats",
+  "modules": "service/seccenter",
+  "type": "breaking-change"
+}

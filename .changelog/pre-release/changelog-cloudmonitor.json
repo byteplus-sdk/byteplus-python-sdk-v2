@@ -1,0 +1,9 @@
+{
+  "actions": [
+    "GetMetricData",
+    "ListAlertGroup"
+  ],
+  "description": "CLOUDMONITOR: modified GetMetricData, ListAlertGroup",
+  "modules": "service/cloudmonitor",
+  "type": "feature"
+}
