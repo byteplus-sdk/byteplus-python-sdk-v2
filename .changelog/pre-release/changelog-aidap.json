@@ -1,0 +1,5 @@
+{
+  "description": "AIDAP: removed SyncPagesDeployEnvVars, UnbindPagesProject, BindPagesProject, DescribePagesBinding, ListPagesProject",
+  "modules": "service/aidap",
+  "type": "breaking-change"
+}
