@@ -86,7 +86,7 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
         self.ak = ""
         self.sk = ""
         self.session_token = ""
-        self.region = ""
+        self.region = "ap-southeast-1"
 
         # Logging Settings
         self.logger = {}
