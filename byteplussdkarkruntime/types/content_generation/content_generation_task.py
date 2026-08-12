@@ -101,3 +101,6 @@ class ContentGenerationTask(BaseModel):
 
     draft_task_id: str
     """The ID of the draft task, if applicable."""
+
+    output_format: Optional[str] = None
+    """The output format of the generated content."""
