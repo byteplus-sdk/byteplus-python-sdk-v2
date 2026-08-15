@@ -2,7 +2,6 @@
 
 from __future__ import absolute_import
 
-import copy
 import datetime
 import logging
 import time
@@ -18,6 +17,7 @@ from byteplussdkcore.interceptor import BuildRequestInterceptor, RuntimeOptionsI
     ResolveEndpointInterceptor, SignRequestInterceptor, DeserializedResponseInterceptor, InterceptorContext, Request, \
     Response, InterceptorChain
 from byteplussdkcore.observability.debugger import sdk_core_logger, LogLevel
+from byteplussdkcore.retryer.backoff_strategy import ExponentialWithRandomJitterBackoffStrategy
 
 logger = logging.getLogger(__name__)
 
@@ -59,6 +59,7 @@ class ApiClient(object):
         if configuration is None:
             configuration = Configuration()
         self.configuration = configuration
+        self._base_retryer = configuration.retryer
 
         # Use the pool property to lazily initialize the ThreadPool.
         self._pool = None
@@ -117,14 +118,16 @@ class ApiClient(object):
         if self.cookie:
             header_params['Cookie'] = self.cookie
 
-        interceptor_context = InterceptorContext(request=Request(
+        request = Request(
             self.configuration,
             resource_path, method, path_params,
             query_params, header_params, body, post_params,
             files, response_type, auth_settings,
             _return_http_data_only, collection_formats,
             _preload_content, _request_timeout,
-        ))
+        )
+        request.retryer = self._base_retryer
+        interceptor_context = InterceptorContext(request=request)
 
         interceptor_context = self.interceptor_chain.execute_request(interceptor_context)
 
@@ -464,11 +467,6 @@ class ApiClient(object):
         fresh.read_timeout = timeout
 
         # Retry: apply caller-level retry semantics to this STS call only.
-        # Deep-copy the retryer so we don't mutate the caller's default
-        # retryer (DEFAULT_RETRYER is a module-level singleton shared across
-        # Configurations). Configuration exposes retryer via a getter-only
-        # property; swap the underlying __retryer via name mangling.
-        fresh._Configuration__retryer = copy.deepcopy(fresh.retryer)
         # Caller semantics: max_retries = TOTAL attempts (legacy from
         # _do_http_request's for-loop). Configuration semantics:
         # num_max_retries = retries AFTER the initial attempt. Convert.
@@ -476,6 +474,7 @@ class ApiClient(object):
         # retry_interval is seconds; Configuration uses ms.
         # Collapse the exponential-backoff range to a fixed delay.
         delay_ms = int(retry_interval * 1000)
+        fresh.backoff_strategy = ExponentialWithRandomJitterBackoffStrategy()
         fresh.min_retry_delay_ms = delay_ms
         fresh.max_retry_delay_ms = delay_ms
 
