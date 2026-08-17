@@ -50,6 +50,7 @@ class Images(SyncAPIResource):
         sequential_image_generation_options: SequentialImageGenerationOptions | None = None,
         tools: list[ContentGenerationTool] | None = None,
         output_format: str | None = None,
+        layer_decomposition: bool | None = None,
         stream: Optional[Literal[False]] | NotGiven = NOT_GIVEN,
     ) -> ImagesResponse:
         ...
@@ -84,6 +85,7 @@ class Images(SyncAPIResource):
         sequential_image_generation_options: SequentialImageGenerationOptions | None = None,
         tools: list[ContentGenerationTool] | None = None,
         output_format: str | None = None,
+        layer_decomposition: bool | None = None,
         stream: Literal[True],
     ) -> Stream[ImageGenStreamEvent]:
         ...
@@ -110,6 +112,7 @@ class Images(SyncAPIResource):
         sequential_image_generation_options: SequentialImageGenerationOptions | None = None,
         tools: list[ContentGenerationTool] | None = None,
         output_format: str | None = None,
+        layer_decomposition: bool | None = None,
         stream: bool,
     ) -> ImagesResponse | Stream[ImageGenStreamEvent]:
         ...
@@ -136,6 +139,7 @@ class Images(SyncAPIResource):
         sequential_image_generation_options: SequentialImageGenerationOptions | None = None,
         tools: list[ContentGenerationTool] | None = None,
         output_format: str | None = None,
+        layer_decomposition: bool | None = None,
         stream: Optional[Literal[False]] | Literal[True] | NotGiven = NOT_GIVEN,
     ) -> ImagesResponse | Stream[ImageGenStreamEvent]:
         resp = self._post(
@@ -165,6 +169,7 @@ class Images(SyncAPIResource):
                     else None
                 ),
                 "output_format": output_format,
+                "layer_decomposition": layer_decomposition,
                 "stream": stream,
             },
             options=make_request_options(
@@ -204,6 +209,7 @@ class AsyncImages(AsyncAPIResource):
         sequential_image_generation_options: SequentialImageGenerationOptions | None = None,
         tools: list[ContentGenerationTool] | None = None,
         output_format: str | None = None,
+        layer_decomposition: bool | None = None,
         stream: Optional[Literal[False]] | NotGiven = NOT_GIVEN,
     ) -> ImagesResponse:
         ...
@@ -230,6 +236,7 @@ class AsyncImages(AsyncAPIResource):
         sequential_image_generation_options: SequentialImageGenerationOptions | None = None,
         tools: list[ContentGenerationTool] | None = None,
         output_format: str | None = None,
+        layer_decomposition: bool | None = None,
         stream: Literal[True],
     ) -> AsyncStream[ImageGenStreamEvent]:
         ...
@@ -256,6 +263,7 @@ class AsyncImages(AsyncAPIResource):
         sequential_image_generation_options: SequentialImageGenerationOptions | None = None,
         tools: list[ContentGenerationTool] | None = None,
         output_format: str | None = None,
+        layer_decomposition: bool | None = None,
         stream: bool,
     ) -> ImagesResponse | AsyncStream[ImageGenStreamEvent]:
         ...
@@ -282,6 +290,7 @@ class AsyncImages(AsyncAPIResource):
         sequential_image_generation_options: SequentialImageGenerationOptions | None = None,
         tools: list[ContentGenerationTool] | None = None,
         output_format: str | None = None,
+        layer_decomposition: bool | None = None,
         stream: Optional[Literal[False]] | Literal[True] | NotGiven = NOT_GIVEN,
     ) -> ImagesResponse | AsyncStream[ImageGenStreamEvent]:
         return await self._post(
@@ -311,6 +320,7 @@ class AsyncImages(AsyncAPIResource):
                     else None
                 ),
                 "output_format": output_format,
+                "layer_decomposition": layer_decomposition,
                 "stream": stream,
             },
             options=make_request_options(
