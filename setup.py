@@ -1,37 +1,80 @@
 # coding: utf-8
 
-from setuptools import setup, find_packages  # noqa: H301
+import json
+import os
+from io import open
 
-NAME = "byteplus-python-sdk-v2"
-VERSION = "3.0.63"
-# To install the library, run the following
-#
-# python setup.py install
-#
-# prerequisite: setuptools
-# http://pypi.python.org/pypi/setuptools
+from setuptools import setup
 
-REQUIRES = [
-    "certifi>=2017.4.17",
-    "python-dateutil>=2.1",
-    "six>=1.16",
-    "urllib3>=1.26.5",
-    "pydantic>=2.0.0,<3.0.0; python_version >= '3.8'",
-    "requests>=2.31.0,<3.0.0; python_version >= '3.8'",
-]
+
+ROOT = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(ROOT, "split-packages.json")) as manifest_file:
+    MANIFEST = json.load(manifest_file)
+
+VERSION = os.environ.get("BYTEPLUS_SDK_BUILD_VERSION", MANIFEST["version"])
+PREFIX = "byteplussdk"
+
+
+def discover_modules():
+    """模块清单：优先读构建方写入的 split-modules.json（stage 目录无源码目录），
+    否则扫描仓内 byteplussdk* 目录（不含 excluded_modules）。"""
+    modules_file = os.path.join(ROOT, "split-modules.json")
+    if os.path.isfile(modules_file):
+        with open(modules_file) as f:
+            return json.load(f)["modules"]
+    excluded = set(MANIFEST.get("excluded_modules", {}))
+    return sorted(
+        name
+        for name in os.listdir(ROOT)
+        if os.path.isdir(os.path.join(ROOT, name))
+        and name.startswith(PREFIX)
+        and name not in excluded
+    )
+
+
+def distribution_name(module):
+    if module == "byteplussdkcore":
+        return "byteplussdk-core"
+    return MANIFEST["distribution_prefix"] + module[len(PREFIX):]
+
+
+def service_python_requires(module):
+    """读取服务自带的 split-package.json 声明的 python_requires；缺失回退默认值。"""
+    service_meta_path = os.path.join(ROOT, module, "split-package.json")
+    if os.path.isfile(service_meta_path):
+        with open(service_meta_path) as service_meta_file:
+            service_meta = json.load(service_meta_file)
+        if "python_requires" in service_meta:
+            return service_meta["python_requires"]
+    return MANIFEST["default_python_requires"]
+
+
+def meta_requirement(module):
+    requirement = "{}=={}".format(distribution_name(module), VERSION)
+    python_requires = service_python_requires(module)
+    if python_requires and python_requires.startswith(">="):
+        requirement += "; python_version >= '{}'".format(python_requires[2:])
+    return requirement
+
 
 setup(
-    name=NAME,
+    name="byteplus-python-sdk-v2",
     version=VERSION,
-    install_requires=REQUIRES,
-    packages=find_packages(),
-    include_package_data=True,
-    description='Byteplus SDK for Python',
+    install_requires=[meta_requirement(module) for module in discover_modules()],
+    packages=[],
+    description="Byteplus SDK for Python (all services)",
+    long_description=open(os.path.join(ROOT, "README.md"), encoding="utf-8").read(),
+    long_description_content_type="text/markdown",
+    author="byteplus-sdk",
+    author_email="volc-sdk-team@bytedance.com",
     license="Apache License 2.0",
-    platforms='any',
+    platforms="any",
+    url="https://github.com/byteplus-sdk/byteplus-python-sdk-v2",
+    python_requires=MANIFEST["default_python_requires"],
+    options={"bdist_wheel": {"universal": True}},
     extras_require={
         "ark": [
-            "cryptography>=44.0.1"
+            "byteplussdk-arkruntime=={}; python_version >= '3.8'".format(VERSION)
         ]
     },
 )
