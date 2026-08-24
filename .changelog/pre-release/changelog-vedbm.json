@@ -1,0 +1,32 @@
+{
+  "actions": [
+    "DescribeDBInstances",
+    "ModifyConnectionPersistence",
+    "DescribeScheduleEvents",
+    "DescribeDatabases",
+    "DescribeAllowListDetail",
+    "DescribeExistDBInstancePrice",
+    "DescribeModifiableParameters",
+    "DescribeDBInstanceParameters",
+    "DescribeDBInstanceParameterChangeHistory",
+    "CreateAllowList",
+    "DescribeDBInstancePriceDetail",
+    "DescribeDBEndpoint",
+    "CreateDBInstance",
+    "DescribeDBAccounts",
+    "DescribeCrossRegionBackupDBInstances",
+    "CreateDBEndpoint",
+    "ModifyDBInstanceStorageType",
+    "DescribeStoragePayablePrice",
+    "ModifyDBEndpoint",
+    "DescribeBackups",
+    "DescribeDBInstanceDetail",
+    "RestoreToNewInstance",
+    "ModifyAllowList",
+    "DescribeParameterTemplates",
+    "DescribeDBInstanceSpecs"
+  ],
+  "description": "VEDBM: added ModifyConnectionPersistence, ModifyDBInstanceStorageType；modified DescribeDBInstancePriceDetail, DescribeScheduleEvents, DescribeStoragePayablePrice, ModifyDBEndpoint, DescribeBackups, DescribeDBEndpoint, DescribeDBInstanceDetail, DescribeDBInstanceParameterChangeHistory, RestoreToNewInstance, CreateDBInstance, DescribeDBAccounts, DescribeDatabases, ModifyAllowList, CreateDBEndpoint, CreateAllowList, DescribeAllowListDetail, DescribeExistDBInstancePrice, DescribeModifiableParameters, DescribeParameterTemplates, DescribeCrossRegionBackupDBInstances, DescribeDBInstanceParameters, DescribeDBInstanceSpecs, DescribeDBInstances",
+  "modules": "service/vedbm",
+  "type": "breaking-change"
+}
