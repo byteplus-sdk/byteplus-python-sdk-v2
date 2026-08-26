@@ -1,3 +1,3 @@
-from .images import OptimizePromptOptions, SequentialImageGenerationOptions, ImagesResponse, ContentGenerationTool
+from .images import BoundingBox, ContentGenerationTool, ImagesResponse, OptimizePromptOptions, SequentialImageGenerationOptions
 
-__all__ = ["OptimizePromptOptions", "SequentialImageGenerationOptions", "ImagesResponse", "ContentGenerationTool"]
+__all__ = ["OptimizePromptOptions", "SequentialImageGenerationOptions", "BoundingBox", "ImagesResponse", "ContentGenerationTool"]
