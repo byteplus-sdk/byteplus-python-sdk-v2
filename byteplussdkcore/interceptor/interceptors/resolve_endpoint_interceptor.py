@@ -4,6 +4,8 @@ from byteplussdkcore.observability.debugger import sdk_core_logger
 
 class ResolveEndpointInterceptor(RequestInterceptor):
 
+    run_on_retry = False
+
     def name(self):
         return 'byteplus-resolve-endpoint-interceptor'
 
