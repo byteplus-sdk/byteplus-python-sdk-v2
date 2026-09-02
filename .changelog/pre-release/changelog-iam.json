@@ -1,0 +1,8 @@
+{
+  "actions": [
+    "CreateProject"
+  ],
+  "description": "IAM: modified CreateProject",
+  "modules": "service/iam",
+  "type": "breaking-change"
+}
