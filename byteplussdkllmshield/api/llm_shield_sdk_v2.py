@@ -12,6 +12,8 @@ from ..models.llm_shield_sign import request_sign, Version, SetServiceDev, GetSe
 LLM_STREAM_SEND_BASE_WINDOW_V2 = 10
 LLM_STREAM_SEND_EXPONENT_V2 = 2
 
+OPTION_REWRITE_URL = "RewriteUrl"
+
 
 # 定义内容类型常量
 class ContentTypeV2:
@@ -103,6 +105,7 @@ class ModerateV2Request(BaseModel):
     scene: str = Field("", alias="Scene")
     history: List[MessageV2] = Field([], alias="History")
     extensions: Dict[str, str] = Field(default_factory=dict, alias="Extensions")
+    call_generate_on_optimize: Optional[bool] = Field(None, alias="CallGenerateOnOptimize")
 
     class Config:
         populate_by_name = True
@@ -126,6 +129,24 @@ class RiskMatchV2(BaseModel):
     action: Optional[int] = Field(None, alias="Action")
     source: Optional[int] = Field(None, alias="Source")
     rule_id: Optional[Any] = Field(None, alias="RuleID")
+    position: Optional["PositionInfo"] = Field(None, alias="Position")
+
+    class Config:
+        populate_by_name = True
+
+
+class ImagePositionInfo(BaseModel):
+    x_start: str = Field("", alias="xStart")
+    y_start: str = Field("", alias="yStart")
+    x_end: str = Field("", alias="xEnd")
+    y_end: str = Field("", alias="yEnd")
+
+    class Config:
+        populate_by_name = True
+
+
+class PositionInfo(BaseModel):
+    image_position: Optional[ImagePositionInfo] = Field(None, alias="ImagePosition")
 
     class Config:
         populate_by_name = True
@@ -148,10 +169,23 @@ class RiskV2(BaseModel):
     label: str = Field("", alias="Label")
     prob: Optional[float] = Field(None, alias="Prob")
     matches: List[RiskMatchV2] = Field([], alias="Matches")
+    source_infos: List["SourceInfoV2"] = Field([], alias="SourceInfos")
 
     @field_validator('matches', mode="before")
     def convert_risk_matches_none_to_list(cls, value):
         return [] if value is None else value
+
+    @field_validator('source_infos', mode="before")
+    def convert_source_infos_none_to_list(cls, value):
+        return [] if value is None else value
+
+    class Config:
+        populate_by_name = True
+
+
+class SourceInfoV2(BaseModel):
+    source: str = Field("", alias="Source")
+    source_detail: Dict[str, str] = Field(default_factory=dict, alias="SourceDetail")
 
     class Config:
         populate_by_name = True
@@ -360,8 +394,10 @@ class SessionTimeout(requests.Session):
 
 # 定义客户端类
 class ClientV2:
-    def __init__(self, url: str, ak: str, sk: str, region: str, timeout: float):
+    def __init__(self, url: str, ak: str, sk: str, region: str, timeout: float,
+                 options: Optional[Dict[str, Any]] = None):
         self.url = url
+        self.rewrite_url = options.get(OPTION_REWRITE_URL) if options else None
         self.ak = ak
         self.sk = sk
         self.region = region
@@ -397,7 +433,9 @@ class ClientV2:
         header = {
         }
 
-        sign_header = request_sign(header, self.ak, self.sk, self.region, self.url, path, action, request_body)
+        sign_header = request_sign(
+            header, self.ak, self.sk, self.region, self.url, path, action, request_body, self.rewrite_url
+        )
 
         try:
             resp = self.http_client.post(
@@ -447,7 +485,9 @@ class ClientV2:
                 if session.request.message is None:
                     session.request.message = MessageV2()
                 session.request.message.content += request.message.content
-                session.request.use_stream = request.use_stream
+            session.request.use_stream = request.use_stream
+            if request.call_generate_on_optimize is not None:
+                session.request.call_generate_on_optimize = request.call_generate_on_optimize
         session.stream_send_len += len(request.message.content)
 
         # 3. 判断是否需要发送请求到后端
@@ -470,7 +510,9 @@ class ClientV2:
         headers = {
             # "Content-Type": "application/json",
         }
-        sign_header = request_sign(headers, self.ak, self.sk, self.region, self.url, path, action, request_body)
+        sign_header = request_sign(
+            headers, self.ak, self.sk, self.region, self.url, path, action, request_body, self.rewrite_url
+        )
         try:
             response = self.http_client.post(
                 url=self.url + path + "?Action=" + action + "&Version=" + Version,
@@ -513,7 +555,9 @@ class ClientV2:
             # "Content-Type": "application/json",
         }
         try:
-            sign_header = request_sign(headers, self.ak, self.sk, self.region, self.url, path, action, requestBody)
+            sign_header = request_sign(
+                headers, self.ak, self.sk, self.region, self.url, path, action, requestBody, self.rewrite_url
+            )
             # 发送 HTTP 请求
             resp = self.http_client.post(url=self.url + path + "?Action=" + action + "&Version=" + Version,
                                          data=requestBody, headers=sign_header, stream=True)
@@ -547,3 +591,7 @@ class CustomJSONEncoder(json.JSONEncoder):
             return obj.__dict__  # 返回对象的属性字典
         # 调用默认处理（会抛出TypeError）
         return super().default(obj)
+
+
+RiskMatchV2.model_rebuild()
+RiskV2.model_rebuild()

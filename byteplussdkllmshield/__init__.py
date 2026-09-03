@@ -17,6 +17,7 @@ from __future__ import absolute_import
 # 导入API模块
 from byteplussdkllmshield.api.llm_shield_sdk_v2 import ClientV2, SetServiceDev, GetServiceCode
 from byteplussdkllmshield.api.llm_shield_sdk_v2 import (
+    OPTION_REWRITE_URL,
     ContentTypeV2,
     DecisionTypeV2,
     UserAction,
@@ -27,9 +28,12 @@ from byteplussdkllmshield.api.llm_shield_sdk_v2 import (
     ToolCall,
     MessageV2,
     ModerateV2Request,
+    ImagePositionInfo,
+    PositionInfo,
     RiskMatchV2,
     PermitMatchV2,
     RiskV2,
+    SourceInfoV2,
     RiskInfoV2,
     PermitV2,
     PermitInfoV2,
@@ -56,6 +60,7 @@ from byteplussdkllmshield.api.llm_shield_sdk_v2 import (
 __all__ = [
     # API客户端
     'ClientV2',
+    'OPTION_REWRITE_URL',
     # 常量类
     'ContentTypeV2',
     'DecisionTypeV2',
@@ -68,9 +73,12 @@ __all__ = [
     'ToolCall',
     'MessageV2',
     'ModerateV2Request',
+    'ImagePositionInfo',
+    'PositionInfo',
     'RiskMatchV2',
     'PermitMatchV2',
     'RiskV2',
+    'SourceInfoV2',
     'RiskInfoV2',
     'PermitV2',
     'PermitInfoV2',
