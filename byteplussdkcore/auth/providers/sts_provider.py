@@ -77,8 +77,6 @@ class StsCredentialProvider(Provider):
         configuration.scheme = self.scheme
         configuration.read_timeout = self.timeout
 
-        import copy
-        configuration._Configuration__retryer = copy.deepcopy(configuration.retryer)
         configuration.num_max_retries = max(self.max_retries - 1, 0)
         delay_ms = int(self.retry_interval * 1000)
         configuration.min_retry_delay_ms = delay_ms

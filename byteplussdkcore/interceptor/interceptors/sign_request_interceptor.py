@@ -10,10 +10,23 @@ _DEFAULT_PROVIDER_INIT_LOCK = threading.Lock()
 
 class SignRequestInterceptor(RequestInterceptor):
 
+    run_on_retry = True
+
+    RETRY_INVOCATION_ID_HEADER = 'X-Sdk-Invocation-Id'
+    RETRY_ATTEMPT_HEADER = 'X-Sdk-Request'
+
     def name(self):
         return 'byteplus-sign-request-interceptor'
 
     def intercept(self, context):
+        if not context.request.is_presign:
+            max_attempts = context.request.retryer.num_max_retries + 1 \
+                if context.request.auto_retry and context.request.retryer is not None else 1
+            self._set_header(context.request.header_params, self.RETRY_INVOCATION_ID_HEADER,
+                             context.request.invocation_id)
+            self._set_header(context.request.header_params, self.RETRY_ATTEMPT_HEADER,
+                             'attempt={}; max={}'.format(context.request.retry_count + 1, max_attempts))
+
         # Auto-inject DefaultCredentialProvider when no credentials are configured
         if context.request.credential_provider is None and not context.request.ak and not context.request.sk:
             from byteplussdkcore.auth.providers.default_provider import DefaultCredentialProvider
@@ -59,6 +72,13 @@ class SignRequestInterceptor(RequestInterceptor):
                                         session_token=context.request.session_token,
                                         region=context.request.region)
         return context
+
+    @staticmethod
+    def _set_header(headers, name, value):
+        for key in list(headers):
+            if key.lower() == name.lower() and key != name:
+                del headers[key]
+        headers[name] = value
 
     @staticmethod
     def update_params_for_auth(host, path, method, headers, querys, auth_settings, body, post_params, service, ak,
