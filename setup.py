@@ -15,7 +15,9 @@ REQUIRES = [
     "certifi>=2017.4.17",
     "python-dateutil>=2.1",
     "six>=1.16",
-    "urllib3>=1.26.5"
+    "urllib3>=1.26.5",
+    "pydantic>=2.0.0,<3.0.0; python_version >= '3.8'",
+    "requests>=2.31.0,<3.0.0; python_version >= '3.8'",
 ]
 
 setup(
