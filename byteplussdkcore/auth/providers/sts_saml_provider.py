@@ -24,7 +24,8 @@ class StsSamlCredentialProvider(Provider):
     def __init__(self, role_name=None, account_id=None, provider_name=None, saml_resp=None,
                  duration_seconds=3600, scheme='https',
                  host='sts.ap-southeast-1.byteplusapi.com', region='ap-southeast-1', timeout=30, expired_buffer_seconds=60,
-                 policy=None, role_trn=None, saml_provider_trn=None, max_retries=3, retry_interval=1):
+                 policy=None, role_trn=None, saml_provider_trn=None, max_retries=3, retry_interval=1,
+                 proxy_url=None, ca_file=None, insecure_skip_verify=False):
         self.role_name = role_name
         self.account_id = account_id
         self.provider_name = provider_name
@@ -57,6 +58,13 @@ class StsSamlCredentialProvider(Provider):
         self.region = region
         self.scheme = scheme
         self.policy = policy
+
+        # Proxy / TLS customization for reaching the STS endpoint. All optional;
+        # empty by default so RESTClientObject keeps its normal behavior
+        # (including HTTP_PROXY / HTTPS_PROXY env-var fallback).
+        self.proxy_url = proxy_url or None
+        self.ca_file = ca_file or None
+        self.insecure_skip_verify = bool(insecure_skip_verify)
 
         self.expired_time = None
         if expired_buffer_seconds > 600:
@@ -129,6 +137,9 @@ class StsSamlCredentialProvider(Provider):
             max_retries=self.max_retries,
             retry_interval=self.retry_interval,
             provider_name=self.PROVIDER_NAME,
+            proxy_url=self.proxy_url,
+            ca_file=self.ca_file,
+            insecure_skip_verify=self.insecure_skip_verify,
         )
         if 'Credentials' not in resp_result:
             raise RuntimeError(

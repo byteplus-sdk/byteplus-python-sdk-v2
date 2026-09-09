@@ -20,7 +20,8 @@ class AssumeRoleCredentials:
 
 class StsCredentialProvider(Provider):
     def __init__(self, ak, sk, role_name, account_id, duration_seconds=3600, scheme='https',
-                 host='sts.ap-southeast-1.byteplusapi.com', region='ap-southeast-1', timeout=30, expired_buffer_seconds=60, policy=None, max_retries=3, retry_interval=1):
+                 host='sts.ap-southeast-1.byteplusapi.com', region='ap-southeast-1', timeout=30, expired_buffer_seconds=60, policy=None, max_retries=3, retry_interval=1,
+                 proxy_url=None, ca_file=None, insecure_skip_verify=False):
         self.ak = ak
         self.sk = sk
         self.role_name = role_name
@@ -35,6 +36,13 @@ class StsCredentialProvider(Provider):
         self.region = region
         self.scheme = scheme
         self.policy = policy
+
+        # Proxy / TLS customization for reaching the STS endpoint. All optional;
+        # empty by default so RESTClientObject keeps its normal behavior
+        # (including HTTP_PROXY / HTTPS_PROXY env-var fallback).
+        self.proxy_url = proxy_url or None
+        self.ca_file = ca_file or None
+        self.insecure_skip_verify = bool(insecure_skip_verify)
 
         self.expired_time = None
         if expired_buffer_seconds > 600:
@@ -81,6 +89,16 @@ class StsCredentialProvider(Provider):
         delay_ms = int(self.retry_interval * 1000)
         configuration.min_retry_delay_ms = delay_ms
         configuration.max_retry_delay_ms = delay_ms
+
+        # Proxy / TLS customization for reaching the STS endpoint. Only applied
+        # when the caller opted in; otherwise the configuration keeps its
+        # default proxy/TLS settings (including HTTP_PROXY / HTTPS_PROXY
+        # env-var fallback in RESTClientObject).
+        from byteplussdkcore.auth.sts_http_config import StsHttpConfig
+        StsHttpConfig(
+            self.proxy_url, self.ca_file, self.insecure_skip_verify
+        ).apply_to_configuration(configuration)
+
         c = UniversalApi(ApiClient(configuration))
         info = UniversalInfo(method='GET', service='sts', version='2018-01-01', action='AssumeRole',
                              content_type='text/plain')

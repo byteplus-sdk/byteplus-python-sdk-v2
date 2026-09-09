@@ -137,7 +137,10 @@ if __name__ == '__main__':
         region="ap-singapore-1",
         timeout=30,
         expired_buffer_seconds=60,
-        policy='{"Statement":[{"Effect":"Allow","Action":["vpc:CreateVpc"],"Resource":["*"],"Condition":{"StringEquals":{"byteplus:RequestedRegion":["ap-singapore-1"]}}}]}'
+        policy='{"Statement":[{"Effect":"Allow","Action":["vpc:CreateVpc"],"Resource":["*"],"Condition":{"StringEquals":{"byteplus:RequestedRegion":["ap-singapore-1"]}}}]}',
+        proxy_url="http://user:pass@10.0.0.1:8080",  # optional: forward proxy for reaching STS; empty falls back to HTTP_PROXY/HTTPS_PROXY
+        ca_file="/path/to/ca.pem",                   # optional: custom CA (PEM) to verify the STS cert; empty uses the default trust store
+        insecure_skip_verify=False,                  # optional: skip STS TLS verification; True for debugging only, never in production
     )
 
     byteplussdkcore.Configuration.set_default(configuration)
@@ -152,6 +155,8 @@ if __name__ == '__main__':
     except ApiException:
         pass
 ```
+
+> The proxy/TLS parameters (`proxy_url` / `ca_file` / `insecure_skip_verify`) are documented in full under [Proxy & TLS](4-Proxy.md).
 
 ### STS AssumeRoleWithOidc
 
@@ -199,6 +204,9 @@ if __name__ == '__main__':
         policy='{"Statement":[{"Effect":"Allow","Action":["vpc:CreateVpc"],"Resource":["*"],"Condition":{"StringEquals":{"byteplus:RequestedRegion":["ap-southeast-1"]}}}]}',
         max_retries=3,     # optional, HTTP retry attempts (min 1), defaults to 3
         retry_interval=1,  # optional, seconds between retries, defaults to 1
+        proxy_url="http://user:pass@10.0.0.1:8080",  # optional: forward proxy for reaching STS; empty falls back to HTTP_PROXY/HTTPS_PROXY
+        ca_file="/path/to/ca.pem",                   # optional: custom CA (PEM) to verify the STS cert; empty uses the default trust store
+        insecure_skip_verify=False,                  # optional: skip STS TLS verification; True for debugging only, never in production
     )
 
     byteplussdkcore.Configuration.set_default(configuration)
@@ -213,6 +221,8 @@ if __name__ == '__main__':
     except ApiException:
         pass
 ```
+
+> The proxy/TLS parameters (`proxy_url` / `ca_file` / `insecure_skip_verify`) are documented in full under [Proxy & TLS](4-Proxy.md).
 
 Env-aware example:
 
@@ -274,6 +284,9 @@ if __name__ == '__main__':
         policy='{"Statement":[{"Effect":"Allow","Action":["vpc:CreateVpc"],"Resource":["*"],"Condition":{"StringEquals":{"byteplus:RequestedRegion":["ap-southeast-1"]}}}]}',
         max_retries=3,     # optional, HTTP retry attempts (min 1), defaults to 3
         retry_interval=1,  # optional, seconds between retries, defaults to 1
+        proxy_url="http://user:pass@10.0.0.1:8080",  # optional: forward proxy for reaching STS; empty falls back to HTTP_PROXY/HTTPS_PROXY
+        ca_file="/path/to/ca.pem",                   # optional: custom CA (PEM) to verify the STS cert; empty uses the default trust store
+        insecure_skip_verify=False,                  # optional: skip STS TLS verification; True for debugging only, never in production
     )
 
     byteplussdkcore.Configuration.set_default(configuration)
@@ -288,6 +301,8 @@ if __name__ == '__main__':
     except ApiException:
         pass
 ```
+
+> The proxy/TLS parameters (`proxy_url` / `ca_file` / `insecure_skip_verify`) are documented in full under [Proxy & TLS](4-Proxy.md).
 
 ### Environment Variable Credential Provider
 
