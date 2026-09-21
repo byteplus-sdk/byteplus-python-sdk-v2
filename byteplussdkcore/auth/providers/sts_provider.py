@@ -93,6 +93,8 @@ class StsCredentialProvider(Provider):
         configuration.scheme = self.scheme
         configuration.read_timeout = self.timeout
 
+        # Provider max_retries controls total attempts independently of business retry.
+        configuration.auto_retry = True
         configuration.num_max_retries = max(self.max_retries - 1, 0)
         delay_ms = int(self.retry_interval * 1000)
         configuration.min_retry_delay_ms = delay_ms
