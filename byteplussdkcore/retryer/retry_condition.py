@@ -1,10 +1,13 @@
+import errno
 import json
 import logging
 import socket
+import ssl
 import traceback
 from abc import abstractmethod
 
 import urllib3
+from six.moves.http_client import BadStatusLine
 
 from byteplussdkcore.observability.debugger import sdk_core_logger
 from byteplussdkcore.rest import ApiException, RESTResponse
@@ -73,7 +76,7 @@ class DefaultRetryCondition(RetryCondition):
         Returns:
             bool: True if the request should be retried, False otherwise.
         """
-        if err is not None and isinstance(err, self.__retry_exceptions):
+        if err is not None and self._is_retryable_exception(err):
             sdk_core_logger.debug_retry("retry for retryable exception, err: %s", err)
             return True
 
@@ -104,6 +107,31 @@ class DefaultRetryCondition(RetryCondition):
 
         sdk_core_logger.debug_retry("no need to retry")
         return False
+
+    @classmethod
+    def _is_retryable_exception(cls, err):
+        # Retry the underlying connection failure, not every proxy failure.
+        # In particular, a CONNECT 407 or a TLS/configuration error must stop.
+        seen = set()
+        while isinstance(err, (urllib3.exceptions.ProxyError, urllib3.exceptions.MaxRetryError)):
+            if id(err) in seen:
+                return False
+            seen.add(id(err))
+            if isinstance(err, urllib3.exceptions.ProxyError):
+                err = err.original_error
+            else:
+                err = err.reason
+        if isinstance(err, (ssl.SSLError, urllib3.exceptions.SSLError)):
+            return False
+        if isinstance(err, cls.__retry_exceptions):
+            return True
+        # RemoteDisconnected on Python 3, empty BadStatusLine on Python 2.
+        if isinstance(err, BadStatusLine) and err.line in ("", "''"):
+            return True
+        return isinstance(err, socket.error) and err.errno in (
+            errno.ECONNRESET, errno.ECONNREFUSED, errno.ECONNABORTED,
+            errno.EPIPE, errno.ETIMEDOUT, errno.ENETUNREACH, errno.EHOSTUNREACH,
+        )
 
     @staticmethod
     def __json_loads(data):
