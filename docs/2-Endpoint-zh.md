@@ -88,7 +88,7 @@ except ApiException as e:
 
     当服务在内置映射中标记 `go_china_enabled=True`，并且请求 Region 属于中国大陆（`cn-*` 前缀且不属于 `cn-hongkong` 等非大陆港澳台 Region）时，在域名后追加 `.cn` 后缀。
 
-    是否 GoChina 由服务侧决定，不可修改。匹配前会先对 region 做 `strip().lower()` 归一化，因此 `CN-Beijing`、`  cn-beijing  ` 与 `cn-beijing` 等价。
+    是否 GoChina 由服务侧决定，不可修改。匹配前会先对 region 做 `strip().lower()` 归一化，因此 `CN-Beijing` 与 `cn-beijing` 等价。带首尾空白的 region（如 `  cn-beijing  `）在归一化之前就会被 [region / service 合法性校验](#region--service-合法性校验) 拒绝。
 
 4. **根据服务名和区域自动构造 Endpoint 地址**
 
@@ -143,6 +143,63 @@ except ServiceEndpointInfoMissingError as e:
 ```
 
 遇到该错误时，建议先升级 SDK 版本；若确认 SDK 尚未内置该服务的寻址元数据，可通过 `configuration.host = ...` 或自定义 Endpoint Provider 显式指定。
+
+注意：服务名本身不是合法标签时（如 `ecs/x`），会先抛出下文的 `EndpointValidationError`（`InvalidService`），而不是 `ServiceEndpointInfoMissingError`。
+
+##### region / service 合法性校验
+
+region 和 service 会被拼接进 Endpoint 域名（如 `{service}.{region}.byteplusapi.com`），同时参与签名。为防止 `ap-southeast-1@127.0.0.1`、`evil.com#` 这类值改变请求实际发往的主机（SSRF），SDK 会在寻址、签名和发送请求之前，校验 region 和 service 是否为合法的单个主机名标签：
+
+- 只能包含 ASCII 字母、数字、`-` 和 `_`；
+- 必须以字母开头；
+- 不能以 `-` 或 `_` 结尾。
+
+规则等价于正则 `^[A-Za-z]([A-Za-z0-9_-]*[A-Za-z0-9])?$`。空字符串 `''` 和 `None` 不会在这里报错，交由调用方原有的空值处理；非字符串值（如 `42`、`b'ap-southeast-1'`）一律视为非法。service 先于 region 校验。
+
+**校验入口：**
+
+- 普通 API 调用：`ResolveEndpointInterceptor` 在调用任何 endpoint provider 之前校验 service 和 region（region 为 `RuntimeOption` 覆盖后的最终值）；
+- 通用调用 `UniversalApi.do_call`：在拼接内部请求路径之前校验 `UniversalInfo.service`；
+- 默认寻址 `DefaultEndpointProvider`（`endpoint_for`、`get_default_endpoint`）、`ServiceEndpointInfo.get_endpoint_for` 和标准寻址 `StandardEndpointResolver.endpoint_for`：直接调用时同样校验；
+- RDS 鉴权 Token `build_auth_token`：未设置 `configuration.host` 时，在生成预签名 Token 之前校验 region；
+- CLI 配置文件中的 SSO 凭证（`SsoCredentialProvider`）：在构造 OAuth 刷新地址和 Portal 地址并发起请求之前校验 SSO region。
+
+**跳过校验：** 普通 API 调用和通用调用在以下情况不校验：
+
+- 设置了 `configuration.host`（请求级 `RuntimeOption.endpoint_provider` 会清空 host，此时仍会校验）；
+- endpoint provider 的类型**恰好是** `HostEndpointProvider`。代码使用 `type(provider) is not HostEndpointProvider` 判断，因此 `HostEndpointProvider` 的**子类不会跳过**，仍会校验。
+
+**错误类型：**
+
+校验失败抛出 `byteplussdkcore.endpoint.validation.EndpointValidationError`，它继承自 `ValueError`：
+
+- `e.code`：错误码，`InvalidRegion`（常量 `ERR_CODE_INVALID_REGION`）或 `InvalidService`（常量 `ERR_CODE_INVALID_SERVICE`）；
+- `e.message`：错误描述；
+- `str(e)` 格式为 `Code: Message`，例如 `InvalidRegion: invalid region "ap-southeast-1 ": illegal character at index 14, region must start with a letter, end with a letter or digit, and contain only letters, digits, '-' and '_'`。
+
+非字符串值抛出其子类 `EndpointValidationTypeError`（同时继承 `TypeError`），`code` 含义相同。
+
+API 调用时该异常在请求发出之前原样抛出，**不会**被包装成 `ApiException`。通过默认凭证链 `DefaultCredentialProvider` 获取 SSO 凭证时，该异常会被凭证链捕获并继续尝试后续 provider，全部失败时抛出 `RuntimeError`（消息中包含该错误）。
+
+```python
+from byteplussdkcore.endpoint.validation import EndpointValidationError
+from byteplussdkcore.rest import ApiException
+
+try:
+    api_instance.create_command(create_command_request)
+except EndpointValidationError as e:
+    # e.code 为 "InvalidRegion" 或 "InvalidService"
+    print(e.code, e.message)
+except ApiException as e:
+    pass
+```
+
+**与旧版本不同：**
+
+- 带首尾空白的 region（如 `"ap-southeast-1 "`、`"ap-southeast-1\n"`）不再被接受，直接抛出 `InvalidRegion`。此前默认寻址会先 `strip()` 再拼接域名，但签名使用的是原值，请求本就会被服务端以 `InvalidAuthorization` 拒绝。请在设置 `configuration.region` 或 `RuntimeOption.region` 之前自行 `strip()`。CLI 配置文件中的 region（RamRoleArn / OIDC profile 的 `region`、`sso-session` 的 `region`）在使用前已做 `strip()`，不受影响。
+- `HostEndpointProvider` 的子类也会被校验（见上）。
+- `StandardEndpointResolver` 收到非法标签（如 `"ap southeast-1"`）时，抛出 `EndpointValidationError`，不再是 `StandProviderError`；标签合法但不在支持范围内的 region 仍抛出 `StandProviderError`（`InvalidRegion`）。
+- 新增公开校验函数 `validate_region`、`validate_service`、`validate_service_and_region`，导入路径为 `byteplussdkcore.endpoint.validation`。校验通过时无返回值，失败时抛出 `EndpointValidationError`，空值（`''`、`None`）视为通过。
 
 #### Endpoint 标准寻址
 
