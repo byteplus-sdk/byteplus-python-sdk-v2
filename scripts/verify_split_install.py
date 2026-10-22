@@ -20,6 +20,9 @@ META_DISTRIBUTION = "byteplus-python-sdk-v2"
 def distribution_name(module, manifest):
     if module == "byteplussdkcore":
         return "byteplussdk-core"
+    overrides = manifest.get("distribution_name_overrides", {})
+    if module in overrides:
+        return overrides[module]
     return manifest["distribution_prefix"] + module[len(MODULE_PREFIX):]
 
 
