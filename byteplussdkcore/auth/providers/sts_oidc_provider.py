@@ -27,7 +27,8 @@ class StsOidcCredentialProvider(Provider):
                  host='sts.ap-southeast-1.byteplusapi.com', region='ap-southeast-1', timeout=30,
                  expired_buffer_seconds=60, policy=None,
                  role_trn=None, oidc_token_file=None, session_name=None,
-                 max_retries=3, retry_interval=1):
+                 max_retries=3, retry_interval=1,
+                 proxy_url=None, ca_file=None, insecure_skip_verify=False):
 
         self._legacy_mode = oidc_token is not None
 
@@ -77,6 +78,13 @@ class StsOidcCredentialProvider(Provider):
         self.duration_seconds = duration_seconds
         self.region = region
         self.scheme = scheme
+
+        # Proxy / TLS customization for reaching the STS endpoint. All optional;
+        # empty by default so RESTClientObject keeps its normal behavior
+        # (including HTTP_PROXY / HTTPS_PROXY env-var fallback).
+        self.proxy_url = proxy_url or None
+        self.ca_file = ca_file or None
+        self.insecure_skip_verify = bool(insecure_skip_verify)
 
         if expired_buffer_seconds > 600:
             raise ValueError('expired_buffer_seconds must be less than or equal to 600')
@@ -157,8 +165,17 @@ class StsOidcCredentialProvider(Provider):
 
         # Late imports to avoid circular deps (auth.providers is imported
         # indirectly by byteplussdkcore/__init__.py).
-        from byteplussdkcore import ApiClient, Configuration
-        resp_result = ApiClient(Configuration())._sts_call(
+        from byteplussdkcore import ApiClient
+        from byteplussdkcore.auth.provider_binding import new_sts_configuration
+        from byteplussdkcore.auth.sts_http_config import StsHttpConfig
+        configuration = new_sts_configuration(self)
+        configuration.scheme = self.scheme
+        # Apply overrides before ApiClient constructs its REST transport.
+        StsHttpConfig(
+            self.proxy_url or getattr(self, '_proxy_fallback', None),
+            self.ca_file, self.insecure_skip_verify
+        ).apply_to_configuration(configuration)
+        resp_result = ApiClient(configuration)._sts_call(
             action='AssumeRoleWithOIDC',
             version='2018-01-01',
             params=params,
@@ -169,6 +186,9 @@ class StsOidcCredentialProvider(Provider):
             max_retries=self.max_retries,
             retry_interval=self.retry_interval,
             provider_name=self.PROVIDER_NAME,
+            proxy_url=self.proxy_url or getattr(self, '_proxy_fallback', None),
+            ca_file=self.ca_file,
+            insecure_skip_verify=self.insecure_skip_verify,
         )
         if 'Credentials' not in resp_result:
             raise RuntimeError(
