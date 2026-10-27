@@ -73,7 +73,7 @@ class ApiClient(object):
             self.default_headers[header_name] = header_value
         self.cookie = cookie
         # Set default User-Agent.
-        self.user_agent = 'byteplus-python-sdk-v2/3.0.63'
+        self.user_agent = 'byteplus-python-sdk-v2/3.0.64'
         self.client_side_validation = configuration.client_side_validation
 
         self.interceptor_chain = InterceptorChain()
