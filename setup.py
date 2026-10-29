@@ -82,7 +82,7 @@ setup(
     long_description=open(os.path.join(ROOT, "README.md"), encoding="utf-8").read(),
     long_description_content_type="text/markdown",
     author="byteplus-sdk",
-    author_email="volc-sdk-team@bytedance.com",
+    author_email="sdk@byteplus.com",
     license="Apache License 2.0",
     platforms="any",
     url="https://github.com/byteplus-sdk/byteplus-python-sdk-v2",

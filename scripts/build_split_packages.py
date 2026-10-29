@@ -294,7 +294,7 @@ setup(
     long_description=open("README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
     author="byteplus-sdk",
-    author_email="volc-sdk-team@bytedance.com",
+    author_email="sdk@byteplus.com",
     url="https://github.com/byteplus-sdk/byteplus-python-sdk-v2",
     license="Apache License 2.0",
     license_files=("LICENSE.txt",),
