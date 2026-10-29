@@ -1,0 +1,8 @@
+{
+  "internal_dependencies": [],
+  "external_dependencies": [
+    "pydantic>=2,<3",
+    "requests>=2,<3"
+  ],
+  "python_requires": ">=3.8"
+}

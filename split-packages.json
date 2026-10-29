@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "version": "3.0.64",
+  "distribution_prefix": "byteplussdk-",
+  "excluded_modules": {
+    "byteplussdkexamples": "Examples are source documentation, not an installable runtime package."
+  },
+  "default_internal_dependencies": [
+    "byteplussdkcore"
+  ],
+  "default_product_dependencies": [
+    "six>=1.16"
+  ],
+  "default_python_requires": ">=2.7"
+}
