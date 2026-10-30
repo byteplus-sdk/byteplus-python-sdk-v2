@@ -1,0 +1,9 @@
+{
+  "external_dependencies": [
+    "six>=1.16"
+  ],
+  "internal_dependencies": [
+    "byteplussdkcore"
+  ],
+  "python_requires": ">=2.7"
+}
