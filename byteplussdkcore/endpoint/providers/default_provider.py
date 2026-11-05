@@ -165,6 +165,7 @@ default_endpoint = {
     'vod': ServiceEndpointInfo('vod', False, False),
     'vs': ServiceEndpointInfo('vs', True, False),
     'aidap': ServiceEndpointInfo('aidap', False, False),
+    'mse': ServiceEndpointInfo('mse', False, False),
 }
 
 
