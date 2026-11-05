@@ -1,5 +1,12 @@
 {
-  "description": "BILLING: modified GetDropShippingOrder",
+  "actions": [
+    "QueryBalanceAcct",
+    "SetRenewalType",
+    "ListElement",
+    "ListProduct",
+    "ListProductStructure"
+  ],
+  "description": "BILLING: added ListElement, ListProduct, ListProductStructure；modified QueryBalanceAcct, SetRenewalType",
   "modules": "service/billing",
   "type": "breaking-change"
 }
