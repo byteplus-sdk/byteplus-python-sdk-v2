@@ -3,6 +3,8 @@
 import six
 
 from byteplussdkcore import ApiClient
+from byteplussdkcore.endpoint.providers.default_provider import HostEndpointProvider
+from byteplussdkcore.endpoint.validation import validate_service
 
 
 class UniversalInfo(object):
@@ -83,6 +85,10 @@ class UniversalApi(object):
         # Authentication setting
         auth_settings = ['byteplusSign']  # noqa: E501
 
+        # 在拼接内部路径前校验，让通用调用直接报出完整的 service 错误信息。
+        configuration = self.api_client.configuration
+        if not configuration.host and type(configuration.endpoint_provider) is not HostEndpointProvider:
+            validate_service(info.service)
         path = '/' + info.action + '/' + info.version + '/' + info.service + '/' + info.method.lower() + '/'
         return self.api_client.call_api(
             path, info.method.upper(),

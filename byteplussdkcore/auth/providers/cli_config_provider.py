@@ -842,6 +842,8 @@ class SsoCredentialProvider(Provider):
         )
 
     def _refresh_access_token(self, token_path):
+        from byteplussdkcore.endpoint.validation import validate_region
+        validate_region(self._region)
         token_cache = self._cache
         raw_refresh_token = token_cache.get("refresh_token")
         refresh_token = raw_refresh_token.strip() if isinstance(raw_refresh_token, six.string_types) else ""
@@ -972,6 +974,8 @@ class SsoCredentialProvider(Provider):
         return new_access_token
 
     def _fetch_role_credentials(self, access_token):
+        from byteplussdkcore.endpoint.validation import validate_region
+        validate_region(self._region)
         try:
             from urllib.parse import urlencode
         except ImportError:
