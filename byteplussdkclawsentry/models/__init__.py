@@ -18,3 +18,4 @@ from __future__ import absolute_import
 from byteplussdkclawsentry.models.base_for_create_claw_input import BaseForCreateClawInput
 from byteplussdkclawsentry.models.create_claw_request import CreateClawRequest
 from byteplussdkclawsentry.models.create_claw_response import CreateClawResponse
+from byteplussdkclawsentry.models.personal_claw_for_create_claw_input import PersonalClawForCreateClawInput

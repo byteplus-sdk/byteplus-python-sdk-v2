@@ -1,5 +1,5 @@
 {
-  "description": "CLAWSENTRY: modified CreateClaw",
+  "description": "CLAWSENTRY: chore changes",
   "modules": "service/clawsentry",
-  "type": "breaking-change"
+  "type": "bugfix"
 }
