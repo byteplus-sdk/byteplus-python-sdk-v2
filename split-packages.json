@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "version": "3.0.65",
+  "version": "3.0.66",
   "distribution_prefix": "byteplussdk-",
   "excluded_modules": {
     "byteplussdkexamples": "Examples are source documentation, not an installable runtime package."
