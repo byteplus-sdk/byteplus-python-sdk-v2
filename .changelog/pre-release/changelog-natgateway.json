@@ -1,20 +1,13 @@
 {
   "actions": [
-    "DeleteSessionLog",
-    "DescribeNatGateways",
-    "DescribeNatIpLimitRules",
-    "DescribeNatIps",
-    "ModifyNatIpLimitRuleAttributes",
-    "DisableSessionLog",
-    "ModifySessionLog",
-    "CreateSessionLog",
-    "CreateNatGateway",
-    "DescribeNatGatewayAttributes",
-    "EnableSessionLog",
-    "DescribeSessionLogs",
-    "CreateNatIpLimitRule"
+    "EnableNatProxy",
+    "ModifyNatProxyRuleAttributes",
+    "BatchDeleteNatProxyRules",
+    "CreateNatProxyRule",
+    "DescribeNatProxyRules",
+    "DisableNatProxy"
   ],
-  "description": "NATGATEWAY: added DisableSessionLog, EnableSessionLog, ModifySessionLog, CreateSessionLog, DeleteSessionLog, DescribeSessionLogs；modified CreateNatIpLimitRule, DescribeNatGatewayAttributes, DescribeNatGateways, DescribeNatIpLimitRules, DescribeNatIps, ModifyNatIpLimitRuleAttributes, CreateNatGateway",
+  "description": "NATGATEWAY: added DisableNatProxy, EnableNatProxy, ModifyNatProxyRuleAttributes, BatchDeleteNatProxyRules, CreateNatProxyRule, DescribeNatProxyRules",
   "modules": "service/natgateway",
   "type": "feature"
 }
