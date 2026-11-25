@@ -1,0 +1,9 @@
+{
+  "actions": [
+    "SwitchActiveInstance",
+    "DescribeDBInstances"
+  ],
+  "description": "HBASE: added SwitchActiveInstance；modified DescribeDBInstances",
+  "modules": "service/hbase",
+  "type": "feature"
+}
